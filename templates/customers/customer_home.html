@@ -1,11 +1,11 @@
-{% extends 'css-js-links.html' %} 
+{% extends 'css-js-links.html' %}
 {% load crispy_forms_tags %}
 {% load custom_filters %}
 
 {% block title %}
-Customers {% endblock title %} 
+Customers {% endblock title %}
 {% block context %}
-{% include 'accounts/navbar.html' %} 
+{% include 'accounts/navbar.html' %}
 {% endblock context %}
 
 {% block body %}
@@ -14,80 +14,80 @@ Customers {% endblock title %}
     <div class="main-body">
       <div class="page-wrapper">
         <div class="page-body">
-<div class="row">
+          <div class="row">
 
-  <div class="col-12">
-    <h2 class="text-center alert alert-info">Customers List</h2>
-    <div class="card py">
-      {% if perms.home.add_customer %}
-      <a href="{% url 'addcustomer' %}" class=" fs-6 btn btn-primary col-2 m-3">Add Customer</a>
-      {% endif %}
-      
-      <div class="table-responsive py-2">
-        {% if customers%}
-        <table class="table table-flush" id="datatable">
-          <thead class="thead-light">
-            <tr>
-              <th class="border-bottom fw-bolder text-center fs-6" scope="col">
-                Sr#
-              </th>
-              <th class="border-bottom fw-bolder text-center fs-6" scope="col">
-                Company Name
-              </th>
-              <th class="border-bottom fw-bolder text-center fs-6" scope="col">
-                Owner Name
-              </th>
-              <th class="border-bottom fw-bolder text-center fs-6" scope="col">
-                Adress
-              </th>
-              <th class="border-bottom fw-bolder text-center fs-6" scope="col">
-                Contact
-              </th>
-             
-              <th class="border-bottom fw-bolder text-center fs-6" scope="col">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for customer in customers %}
-            <tr id="customer-{{ customer.id }}">
-              <td class="text-center fs-6">{{ forloop.counter }}</td>
-              <td class="text-center fs-6">{{ customer.coname|capitalize_after_space }}</td>
-              <td class="text-center fs-6">{{ customer.name|capitalize_after_space }}</td>
-              <td class="text-center fs-6">{{ customer.adress|capitalize_after_space }}</td>
-              <td class="text-center fs-6">{{ customer.contact }}</td>  
-              <td class="text-center">
-               
-            
-                {% if perms.home.change_customer %}
-                <a class="btn btn-warning fs-6" href="{% url 'editcustomer' customer.id %}">Edit</a>
-                {% else %}
-                <p>No edit permission </p>
-                {% endif%}
-                {% if perms.home.delete_customer %}
-                <button class="btn btn-danger delete-customer fs-6" data-customer-id="{{ customer.id }}">
-                  Delete
-                </button>
-                {% else %}
-                <p>No delete permission </p>
-                {% endif%}
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-        {% else %}
-        <h4 class="text-center alert alert-warning">No Record Found</h4>
-        {% endif %}
+            <div class="col-12">
+              <h2 class="text-center alert alert-info">Customers List</h2>
+              <div class="card py">
+                {% if perms.home.add_customer %}
+                <a href="{% url 'addcustomer' %}" class=" fs-6 btn btn-primary col-2 m-3">Add Customer</a>
+                {% endif %}
+
+                <div class="table-responsive py-2">
+                  {% if customers%}
+                  <table class="table table-flush" id="datatable">
+                    <thead class="thead-light">
+                      <tr>
+                        <th class="border-bottom fw-bolder text-center fs-6" scope="col">
+                          Sr#
+                        </th>
+                        <th class="border-bottom fw-bolder text-center fs-6" scope="col">
+                          Company Name
+                        </th>
+                        <th class="border-bottom fw-bolder text-center fs-6" scope="col">
+                          Owner Name
+                        </th>
+                        <th class="border-bottom fw-bolder text-center fs-6" scope="col">
+                          Adress
+                        </th>
+                        <th class="border-bottom fw-bolder text-center fs-6" scope="col">
+                          Contact
+                        </th>
+
+                        <th class="border-bottom fw-bolder text-center fs-6" scope="col">
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for customer in customers %}
+                      <tr id="customer-{{ customer.id }}">
+                        <td class="text-center fs-6">{{ forloop.counter }}</td>
+                        <td class="text-center fs-6">{{ customer.coname|capitalize_after_space }}</td>
+                        <td class="text-center fs-6">{{ customer.name|capitalize_after_space }}</td>
+                        <td class="text-center fs-6">{{ customer.adress|capitalize_after_space }}</td>
+                        <td class="text-center fs-6">{{ customer.contact }}</td>
+                        <td class="text-center">
+
+
+                          {% if perms.home.change_customer %}
+                          <a class="btn btn-warning fs-6" href="{% url 'editcustomer' customer.id %}">Edit</a>
+                          {% else %}
+                          <p>No edit permission </p>
+                          {% endif%}
+                          {% if perms.home.delete_customer %}
+                          <button class="btn btn-danger delete-customer fs-6" data-customer-id="{{ customer.id }}">
+                            Delete
+                          </button>
+                          {% else %}
+                          <p>No delete permission </p>
+                          {% endif%}
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                  {% else %}
+                  <h4 class="text-center alert alert-warning">No Record Found</h4>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
-</div>
-</div>
-</div>
-</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
@@ -97,7 +97,7 @@ Customers {% endblock title %}
       event.preventDefault();
 
       var customerId = $(this).data("customer-id");
-      var url = "{% url 'deletecustomer' 0 %}".replace("0",customerId);
+      var url = "{% url 'deletecustomer' 0 %}".replace("0", customerId);
 
       if (confirm("Are you sure you want to delete this customer?")) {
         $.ajax({

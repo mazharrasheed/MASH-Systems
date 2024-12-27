@@ -1,7 +1,20 @@
-{% extends 'base.html' %}
+{% extends 'css-js-links.html' %}
 {% load crispy_forms_tags %}
-{% block content %}
-<div class="container-fluid">
+{% load custom_filters %}
+
+{% block title %}
+Users {% endblock title %}
+
+{% block context %}
+{% include 'navbar.html' %}
+{% endblock context %}
+
+{% block body %}
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <div class="main-body">
+            <div class="page-wrapper">
+                <div class="page-body">
 <div class="row justify-content-center">
   <div class="col-3  justify-content-center alert alert-info">
     <h3 class='m-2' class="">Profile</h3>
@@ -21,7 +34,7 @@
     <div class="col-12 alert alert-success">
       <h1 class="text-center">Welcome {{request.user|title}} Your All Blogs Post </h1>
       {% if perms.home.add_blog %}
-      <a class="btn btn-info mb-5 mt-5" href="/postblog/">Add Post</a>
+      <a class="btn btn-warning text-light mb-5 mt-5" href="/postblog/">Add Post</a>
       {% else %}
       <h3 class="m-3">No Add Blog Permission</h3>
       {% endif %}
@@ -76,4 +89,4 @@
 </div>
 
 
-{% endblock content %}
+{% endblock body %}

@@ -32,7 +32,6 @@ def edit_project(request,id):
   if request.user.is_authenticated:
     data={}
     if request.method == 'POST':
-     
       mydata=Project.objects.get(id=id)
       form = ProjectForm(request.POST,instance=mydata)
       if form.is_valid():
@@ -41,7 +40,6 @@ def edit_project(request,id):
         return redirect('project')
     else:
       mydata=Project.objects.get(id=id)
-   
       form = ProjectForm(instance=mydata)
   else:
     return redirect('signin')

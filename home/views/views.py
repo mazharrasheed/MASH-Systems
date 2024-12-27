@@ -13,6 +13,8 @@ from django.core.exceptions import PermissionDenied
 
 @login_required
 def index(request):
+    
+    users=User.objects.all().count()
     # Check if the user has the required permission
     if not request.user.has_perm('home.view_dashboard'):
         # Custom redirect logic for users without permission
@@ -24,7 +26,8 @@ def index(request):
             return redirect('/store/')
         else:
             raise PermissionDenied  # Show 403 Forbidden page
-    return render(request, 'index.html')
+    data={'users':users}
+    return render(request, 'index.html',data)
 
 @login_required
 def detail(request,id):

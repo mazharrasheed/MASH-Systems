@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import  path
 from home.views import category,product
-from home.views import views,accounts,store_issue,store_purchase,finished_product,finished_pro_category
+from home.views import users,views,accounts,store_issue,store_purchase,finished_product,finished_pro_category
 from home.views import gatepass,sales,suppliers,customers,cheques,employees,prices,project
 from home.models import Category
 from django.conf.urls.static import static
@@ -17,6 +17,9 @@ urlpatterns = [
     path('signup/', views.sign_up,name="signup"),
     path('signin/', views.sign_in,name="signin"),
     path('login/', views.sign_in,name="signin"),
+    # Users
+    path('list_users/', users.list_users,name="listusers"),
+    path('create_user/', users.create_user,name="createuser"),
     # path('accounts/login/', views.sign_in,name="signin"),@login requried hit this url
     path('logout/', views.log_out,name="logout"),
     path('detail/<int:id>', views.detail,name="detail"),

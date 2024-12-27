@@ -102,9 +102,7 @@
                 <!-- Prevent collapse when there are no messages -->
                 {% endif %}
               </div>
-
-          </nav>
-          
+          </nav>      
     </nav>
     <div class="pcoded-main-container">
       <div class="pcoded-wrapper">
@@ -132,7 +130,6 @@
                 </ul>
               </div>
             </div>
-
 
             <!-- left User manu end -->
 
@@ -192,7 +189,7 @@
               {% if perms.home.view_employee %}
                   <li class=" {% if request.path == '/employees/' %} color-info {% endif %} ">
                     <a href="/employees/">
-                      <span class="pcoded-micon"><i class="ti-layout"></i><b>D</b></span>
+                      <span class="pcoded-micon"><i class="ti-user"></i><b>D</b></span>
                       <span class="pcoded-mtext fs-5" data-i18n="nav.dash.main">
                         <h5>Employees</h5>
                       </span>
@@ -204,7 +201,7 @@
               {% if perms.home.view_customer %}
                   <li class=" {% if request.path == '/customers/' %} color-info {% endif %} ">
                     <a href="/customers/">
-                      <span class="pcoded-micon"><i class="ti-id-badge"></i><b>D</b></span>
+                      <span class="pcoded-micon"><i class="ti-user"></i><b>D</b></span>
                       <span class="pcoded-mtext fs-5" data-i18n="nav.dash.main">
                         <h5>Customers</h5>
                       </span>
@@ -216,7 +213,7 @@
               {% if perms.home.view_suppliers %}
                   <li class=" {% if request.path == '/suppliers/' %} color-info {% endif %} ">
                     <a href="/suppliers/">
-                      <span class="pcoded-micon"><i class="ti-id-badge"></i><b>D</b></span>
+                      <span class="pcoded-micon"><i class="ti-user"></i><b>D</b></span>
                       <span class="pcoded-mtext fs-5" data-i18n="nav.dash.main">
                         <h5>Suppliers</h5>
                       </span>

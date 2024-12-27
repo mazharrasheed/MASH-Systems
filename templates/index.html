@@ -10,8 +10,30 @@
     <div class="pcoded-inner-content">
         <div class="main-body">
             <div class="page-wrapper">
-
                 <div class="page-body">
+                    <div class="row">
+                        <div class="col-md-6 col-xl-3">
+                            <div class="card widget-card-1">
+                                <div class="card-block-small">
+                                    <i class="icofont icofont-users-alt-6 bg-c-blue card1-icon"></i>
+                                    <span class="text-c-green f-w-600">Users Count</span>
+                                    <h4>
+                                        {% if users %}
+                                        {{users}}
+                                        {% else %}
+                                        No record found
+                                        {% endif %}
+                                    </h4>
+                                    <div>
+                                        <a class="f-left btn btn-success text-light " href="/list_users/">
+                                            <i class="icofont icofont-users-alt-4"></i>
+                                            All Users
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <!-- card1 start -->
                         <div class="col-md-6 col-xl-3">
