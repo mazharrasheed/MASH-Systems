@@ -173,60 +173,34 @@ def delete_salereceipt_item(request,id):
 
 @login_required
 @permission_required('home.add_sales_receipt', login_url='/login/')
-def create_cash_salereceipt(request, salereceipt_id=None):
-   
-    if salereceipt_id:
-        salereceipt = get_object_or_404(Sales_Receipt, id=salereceipt_id)
+def create_cash_salereceipt(request):
+    if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        if 'finalize' in request.POST:  # Finalize the purchase note
+            form_salereceipt = Sales_Cash_ReceiptForm(request.POST)
+            products = request.POST.getlist('products[]')
+            if form_salereceipt.is_valid() and products:
+                salercpt = form_salereceipt.save(commit=False)
+                salercpt.created_by = request.user
+                salercpt.is_cash = True
+                salercpt.save()
+                for product_data in products:
+                    product_id, quantity , unit_price, amount= product_data.split(':')
+                    Sales_Receipt_Product.objects.create(
+                        salereceipt=salercpt,
+                        product_id=product_id,
+                        quantity=quantity,
+                        unit_price=unit_price,
+                        amount=amount
+                    )
+                return JsonResponse({'success': True, 'redirect_url': '/list-sales/'})
+            else:
+                return JsonResponse({'success': False, 'errors': 'Invalid form data or no products selected.'})
     else:
-        salereceipt = Sales_Receipt.objects.create()
-        return redirect('create_cash_salereceipt', salereceipt_id=salereceipt.id)
-    if request.method == 'POST':
-        print("cash")
-        form = Sales_Cash_Receipt_ProductForm(request.POST, salereceipt=salereceipt)
-        form_salereceipt = Sales_Cash_ReceiptForm(request.POST, instance=salereceipt)
-        if form.is_valid() and form_salereceipt.is_valid():
-            salercpt=form_salereceipt.save(commit=False)
-            salercpt.created_by=request.user
-            salercpt.is_cash=True
-            salercpt.save()
-            qty = form.cleaned_data.get('quantity')
-            unit_price = form.cleaned_data.get('unit_price')
-            print(qty,unit_price)
-            amount=unit_price*qty
-            salereceipt_product = form.save(commit=False)
-            salereceipt_product.salereceipt = salereceipt
-            salereceipt_product.amount = amount
-            salereceipt_product.save()
-            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-                salereceipt_products = Sales_Receipt_Product.objects.filter(salereceipt=salereceipt)
-                rendered_products = render_to_string('sale/salereceipt_product_list.html', {
-                    'salereceipt_products': salereceipt_products,
-                    'salereceipt_id': salereceipt.id,
-                })
-                return JsonResponse({
-                    'success': True,
-                    'rendered_products': rendered_products,
-                    'salereceipt_id': salereceipt.id,
-                })
-            return redirect('create_cash_salereceipt', salereceipt_id=salereceipt.id)
-        
-        else:
-            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-                return JsonResponse({
-                    'success': False,
-                    'errors': form.errors,
-                })
-    else:
-        form = Sales_Cash_Receipt_ProductForm(salereceipt=salereceipt)
-        form_salereceipt = Sales_Cash_ReceiptForm(instance=salereceipt)
-        print("cash reciept")
-
-    salereceipt_products = Sales_Receipt_Product.objects.filter(salereceipt=salereceipt)
+        form = Sales_Cash_Receipt_ProductForm()
+        form_salereceipt = Sales_Cash_ReceiptForm()
     return render(request, 'sale/create_cash_salereceipt.html', {
         'form': form,
-        'salereceipt_products': salereceipt_products,
         'form_salereceipt': form_salereceipt,
-        'salereceipt': salereceipt,
     })
 
 @login_required

@@ -100,7 +100,6 @@ Print Sale Receipt
             <p><strong>Receipt No. :</strong>ZU-0{{salereceipt.id}}</p>
             <p><strong>Date:</strong>{{ salereceipt.date_created|date:"d-m-Y" }}</p>
             <p><strong>Customer Name : {% if salereceipt.customer_name %}
-                
            {{salereceipt.customer_name}} {% else %} {{salereceipt.customer}} {% endif %}</strong></p>
             <p><strong>Phone. No :{{salereceipt.phone_number}}</strong></p>
         </div>

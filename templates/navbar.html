@@ -170,9 +170,24 @@
                       aria-expanded="false">
                       Accounts <i class="ti-angle-down"></i>
                     </a>
-
                     <ul class="dropdown-menu">
 
+                      {% if perms.home.view_sales_receipt %}
+                      <li class="  dropdown-item {% if request.path == '/list-sales/' %} active {% endif %} ">
+                        <a href="/list-sales?cash=True">
+                          <span class="pcoded-mtext fs-5 " data-i18n="nav.basic-components.alert">Cash Sales</span>
+                        </a>
+                      </li>
+                      {% endif %}
+
+                      <!-- {% if perms.home.view_sales_receipt %}
+                      <li class="  dropdown-item {% if request.path == '/list-sales/' %} active {% endif %} ">
+                        <a href="/list-sales?customer=True">
+                          <span class="pcoded-mtext fs-5 " data-i18n="nav.basic-components.alert">Customer Sales</span>
+                        </a>
+                      </li>
+                      {% endif %} -->
+                      
                       {% if perms.home.view_account %}
                       <li class="  dropdown-item {% if request.path == '/accounts/' %} active {% endif %} ">
                         <a href="/accounts/">
@@ -480,6 +495,26 @@
                   <span class="pcoded-mcaret"></span>
                 </a>
                 <ul class="pcoded-submenu">
+                  {% if perms.home.view_sales_receipt %}
+                  <li class="{% if request.path == '/list-sales/' %} active {% endif %} ">
+                    <a href="/list-sales?cash=True">
+                      <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                      <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.alert">Cash Sales</span>
+                      <span class="pcoded-mcaret"></span>
+                    </a>
+                  </li>
+                  {% endif %}
+
+                  <!-- {% if perms.home.view_sales_receipt %}
+                  <li class="{% if request.path == '/list-sales/' %} active {% endif %} ">
+                    <a href="/list-sales?customer=True">
+                      <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                      <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.alert">Customer Sales</span>
+                      <span class="pcoded-mcaret"></span>
+                    </a>
+                  </li>
+                  {% endif %} -->
+
                   {% if perms.home.view_account %}
                   <li class="{% if request.path == '/accounts/' %} active {% endif %} ">
                     <a href="/accounts/">

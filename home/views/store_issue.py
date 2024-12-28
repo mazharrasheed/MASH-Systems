@@ -64,7 +64,7 @@ def create_store_issue_note(request):
     else:
         form = Store_Issue_ProductForm()
         form_store_issue = Store_issue_Form()
-    return render(request, 'store_issue/create_issue_note1.html', {
+    return render(request, 'store_issue/create_issue_note.html', {
         'form': form,
         'form_store_issue': form_store_issue,
     })
@@ -114,7 +114,7 @@ def edit_store_issue_note(request, issue_note_id):
         'form': Store_issue_Form(instance=grn),
         'product_form': Store_Issue_ProductForm(),
     }
-    return render(request, 'store_issue/edit_issue_note1.html', context)
+    return render(request, 'store_issue/edit_issue_note.html', context)
 
 @login_required
 @permission_required('home.view_store_issue_note', login_url='/login/')

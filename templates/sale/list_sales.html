@@ -90,26 +90,24 @@
                 <td class="text-center">
 
                   {% if customer %}
-
                   {% if perms.home.add_transaction %}
-
                   {% if salereceipt.make_transaction %}
                   <button class="btn alert-success" href="#" disabled>
                     Transacton Added
                   </button>
                   {% else %}
                   <a class="btn btn-info" href="{% url 'maketransaction' salereceipt.id %}">Make Transacton</a>
-
                   {% endif %}
-
                   {% endif %}
-
                   {% endif %}
-
 
                   <a class="btn btn-success" href="{% url 'print_salereceipt' salereceipt.id %}">Print</a>
                   {% if perms.home.change_sale_receipt %}
-                  <a class="btn btn-warning" href="{% url 'edit_salereceipt' salereceipt.id %}">Edit</a>
+                  <a class="btn btn-warning" href="{% if cash %}
+                  {% url 'edit_cashsale_receipt' salereceipt.id %}">Edit</a>
+                  {% else %}
+                  {% url 'edit_salereceipt' salereceipt.id %}">Edit</a>
+                  {% endif %}
                   {% endif %}
                   <button class="btn btn-danger delete-salereceipt" data-salereceipt-id="{{ salereceipt.id }}">
                     Delete
@@ -127,7 +125,7 @@
     </div>
   </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   $(document).ready(function () {
     // Handle the delete button click
