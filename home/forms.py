@@ -349,7 +349,7 @@ class Sales_Cash_ReceiptForm(forms.ModelForm):
             self.fields['customer'].initial = self.instance.customer
 
 class Sales_Cash_Receipt_ProductForm(forms.ModelForm):
-    product = forms.ModelChoiceField(queryset=Product.objects.filter(is_deleted=False), empty_label="Select Product")
+    product = forms.ModelChoiceField(queryset=Product.objects.filter(is_deleted=False,product_status=True), empty_label="Select Product")
     quantity = forms.IntegerField(min_value=1, initial=1, label='Quantity')
     unit_price = forms.FloatField( label='Unit Price',required=True)
     

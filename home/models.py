@@ -139,14 +139,13 @@ class Product(models.Model):
         """Calculate the current stock of this product."""
         grn_total = Store_Purchase_Product.objects.filter(product_id=self.id).aggregate(total=Sum('quantity'))['total'] or 0
         issue_total = Store_Issue_Product.objects.filter(product_id=self.id).aggregate(total=Sum('quantity'))['total'] or 0
-        current_stock = grn_total - issue_total
+        sale_total = Sales_Receipt_Product.objects.filter(product_id=self.id).aggregate(total=Sum('quantity'))['total'] or 0
+        current_stock = grn_total - issue_total - sale_total
         return current_stock
     
     def change_status(self):
         """Calculate the current stock of this product."""
-        grn_total = Store_Purchase_Product.objects.filter(product_id=self.id).aggregate(total=Sum('quantity'))['total'] or 0
-        issue_total = Store_Issue_Product.objects.filter(product_id=self.id).aggregate(total=Sum('quantity'))['total'] or 0
-        current_stock = grn_total - issue_total
+        current_stock = self.get_current_stock()
         if current_stock <= 0:
             product=Product.objects.get(id=self.id)
             product.product_status=False
@@ -156,6 +155,7 @@ class Product(models.Model):
             product.product_status=True
             product.save()
         print(self.product_status)
+
 
 class Inventory(models.Model):
     product = models.OneToOneField(Product, on_delete=models.RESTRICT)
@@ -228,11 +228,9 @@ class Sales_Receipt_Product(models.Model):
     quantity = models.PositiveIntegerField()
     unit_price = models.FloatField()
     amount = models.FloatField()
-    
     def __str__(self):
         return f"{self.product.productname} (Qty: {self.quantity})"
     
-
 class Store_Issue_Note(models.Model):
     products = models.ManyToManyField(Product, through='Store_Issue_Product')
     date_created = models.DateTimeField(auto_now_add=True)

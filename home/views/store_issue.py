@@ -140,11 +140,16 @@ def get_stock(request,id):
 @login_required
 @permission_required('home.delete_store_issue_note', login_url='/login/')
 def delete_store_issue(request, id):
+    product_list=[]
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest' and request.method == 'POST':
         store_issue = get_object_or_404(Store_Issue_Note, id=id)
         store_issue_products = Store_Issue_Product.objects.filter(store_issue_note=store_issue)
         if store_issue_products:
+            for pro in store_issue_products:
+                product_list.append(pro.product)
             store_issue_products.delete()  # Bulk delete all related products
+            for i in product_list:
+                i.change_status()
         store_issue.delete()
         return JsonResponse({'success': True, 'message': 'Store issue note deleted successfully!'})
     

@@ -4,11 +4,11 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-  Create Store Purchase Note
+  Create Cash Receipt
 {% endblock title %}
 
 {% block context %}
-{% include 'store/navbar.html' %}
+{% include 'accounts/navbar.html' %}
 {% endblock context %}
 
 
@@ -78,7 +78,7 @@
         <div class="page-body">
           <div class="table-container">
             <h3 class="text-center bg-dark text-light p-3">Cash Sale Receipt</h3>
-            <form id="issue_note-form" method="POST">
+            <form id="salereceipt-form" method="POST">
               {% csrf_token %}
               <div class="header-section">
                 <div>
@@ -97,6 +97,7 @@
                 <thead>
                   <tr>
                     <td>{{ form.product|as_crispy_field }}</td>
+                    <td id="in_stock">In Stock</td>
                     <td>{{ form.quantity|as_crispy_field }}</td>
                     <td >{{ form.unit_price|as_crispy_field }}</td>
                     <td id="amount">Auto</td>
@@ -107,7 +108,7 @@
                   </tr>
                   <tr>
                     <th>Product</th>
-                   
+                    <th>In_Stock</th>
                     <th>Quantity</th>
                     <th>Unit Price</th>
                     <th>Amount</th>
@@ -116,8 +117,8 @@
                 </thead>
                 <tbody id="product-list"></tbody>
               </table>
-                <button id="finalize-issue_note" class="btn btn-success">Finalize Issue Note</button>
-                <a href="/list-store-issue/" class="btn btn-warning">Cancel Issue Note</a>
+                <button id="finalize-cash-receipt" class="btn btn-success">Finalize Cash Receipt</button>
+                <a href="/list-sales?cash=True" class="btn btn-warning">Cancel Cash Receipt</a>
             
             </form>          
           </div>
@@ -131,25 +132,25 @@
 <script>
   $(document).ready(function () {
 
-//   $('#id_product').on('change',(e)=>{
-//     console.log(e.target.value)
-//     $.ajax({
-//       url: `/get-stock/${e.target.value}`,
-//       method: 'get',
-//       success: function (data) {
-//         if (data.success) {
-//           console.log("response data",data)
-//           $('#in_stock').text(`${data.stock}`)
-//         } 
-//         else {
-//           alert('Failed to get stock.');
-//         }
-//       },
-//       error: function (error) {
-//         console.error('Error:', error);
-//       }
-//     });
-//   })
+  $('#id_product').on('change',(e)=>{
+    console.log(e.target.value)
+    $.ajax({
+      url: `/get-stock/${e.target.value}`,
+      method: 'get',
+      success: function (data) {
+        if (data.success) {
+          console.log("response data",data)
+          $('#in_stock').text(`${data.stock}`)
+        } 
+        else {
+          alert('Failed to get stock.');
+        }
+      },
+      error: function (error) {
+        console.error('Error:', error);
+      }
+    });
+  })
 
     let productList = [];
   
@@ -169,6 +170,11 @@
         alert('Please enter a valid quantity.');
         return;
       }
+
+      if (!unit_price || unit_price <= 0) {
+        alert('Please enter a valid unit_price.');
+        return;
+      }
   
       // Check if product is already in the list
       const existingProduct = productList.find(item => item.product === product);
@@ -176,6 +182,8 @@
         alert('This product has already been added.');
         return;
       }
+
+      // Check if product stock and requested qty
 
       const in_stock = parseInt($('#in_stock').text(), 10); // Parse text to an integer
       const qty = parseInt($('input[name="quantity"]').val(), 10); // Assuming you're getting quantity from an input field
@@ -189,6 +197,7 @@
   
       const row = `<tr>
                     <td>${$('select[name="product"] option:selected').text()}</td>
+                    <td id="in_stcok">-</td>
                     <td>${quantity}</td>
                     <td>${unit_price}</td>
                     <td>${amount}</td>
@@ -213,7 +222,7 @@
       });
     });
   
-    $('#finalize-issue_note').on('click', function (event) {
+    $('#finalize-cash-receipt').on('click', function (event) {
       event.preventDefault();
     
       if (productList.length === 0) {
@@ -221,7 +230,7 @@
         return;
       }
     
-      const form = $('#issue_note-form')[0];
+      const form = $('#salereceipt-form')[0];
       const formData = new FormData(form);
     
       // Add products to the form data
@@ -242,10 +251,9 @@
         },
         success: function (data) {
           if (data.success) {
-            console.log("data addee")
             window.location.href = data.redirect_url;
           } else {
-            alert('Failed to finalize purchase note.');
+            alert('Failed to finalize cash sale receipt.');
           }
         },
         error: function (error) {
