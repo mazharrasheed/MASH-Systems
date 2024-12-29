@@ -134,90 +134,42 @@
             <hr>
 
             <ul class="pcoded-item pcoded-left-item">
-              {% if perms.home.view_account %}
-              <li class=" {% if request.path == '/accounts/' %} color-info {% endif %}">
-                <a href="/accounts/">
+              {% if perms.home.view_sales_receipt %}
+              <li class=" {% if request.path == '/list-sales/' %} color-info {% endif %}">
+                <a href="/list-sales/">
                   <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
                   <span class="pcoded-mtext fs-5" data-i18n="nav.dash.main">
-                    <h4>Accounts</h4>
+                    <h4>Sales</h4>
                   </span>
                   <span class="pcoded-mcaret"></span>
                 </a>
               </li>
               {% endif %}
 
-              {% if perms.home.add_account %}
-              <li class=" {% if request.path == '/create_accounts/' %} color-info {% endif %}">
-                <a href="/create_accounts">
+              {% if perms.home.view_sales_receipt %}
+              <li class=" {% if request.path == '#' %} color-info {% endif %}">
+                <a href="/list-sales?cash=true">
                   <span class="pcoded-micon"><i class="ti-layout"></i><b>D</b></span>
                   <span class="pcoded-mtext fs-5" data-i18n="nav.dash.main">
-                    <h5>Create Accounts</h5>
+                    <h5>Cash Sales</h5>
                   </span>
                   <span class="pcoded-mcaret"></span>
                 </a>
               </li>
               {% endif %}
 
-              {% if perms.home.view_transaction %}
-              <li class=" {% if request.path == '/list_transactions/' %} color-info {% endif %}">
-                <a href="/list_transactions/">
+              {% if perms.home.view_sales_receipt %}
+              <li class=" {% if request.path == '#' %} color-info {% endif %}">
+                <a href="/list-sales?customer=Ture">
                   <span class="pcoded-micon"><i class="ti-view-list-alt"></i><b>D</b></span>
                   <span class="pcoded-mtext fs-5" data-i18n="nav.dash.main">
-                    <h5>Transactions</h5>
+                    <h5>Customer Sales</h5>
                   </span>
                   <span class="pcoded-mcaret"></span>
                 </a>
               </li>
               {% endif %}
 
-              {% if perms.home.view_balance_sheet %}
-                  <li class=" {% if request.path == '/balance_sheet/' %} color-info {% endif %} ">
-
-                    <a href="/balance_sheet/">
-                      <span class="pcoded-micon"><i class="ti-layout-accordion-list"></i><b>D</b></span>
-                      <span class="pcoded-mtext fs-5" data-i18n="nav.dash.main">
-                        <h5>Balance Sheet</h5>
-                      </span>
-                      <span class="pcoded-mcaret"></span>
-                    </a>
-                  </li>
-                  {% endif %}
-
-              {% if perms.home.view_employee %}
-                  <li class=" {% if request.path == '/employees/' %} color-info {% endif %} ">
-                    <a href="/employees/">
-                      <span class="pcoded-micon"><i class="ti-user"></i><b>D</b></span>
-                      <span class="pcoded-mtext fs-5" data-i18n="nav.dash.main">
-                        <h5>Employees</h5>
-                      </span>
-                      <span class="pcoded-mcaret"></span>
-                    </a>
-                  </li>
-                  {% endif %}
-
-              {% if perms.home.view_customer %}
-                  <li class=" {% if request.path == '/customers/' %} color-info {% endif %} ">
-                    <a href="/customers/">
-                      <span class="pcoded-micon"><i class="ti-user"></i><b>D</b></span>
-                      <span class="pcoded-mtext fs-5" data-i18n="nav.dash.main">
-                        <h5>Customers</h5>
-                      </span>
-                      <span class="pcoded-mcaret"></span>
-                    </a>
-                  </li>
-                  {% endif %}
-
-              {% if perms.home.view_suppliers %}
-                  <li class=" {% if request.path == '/suppliers/' %} color-info {% endif %} ">
-                    <a href="/suppliers/">
-                      <span class="pcoded-micon"><i class="ti-user"></i><b>D</b></span>
-                      <span class="pcoded-mtext fs-5" data-i18n="nav.dash.main">
-                        <h5>Suppliers</h5>
-                      </span>
-                      <span class="pcoded-mcaret"></span>
-                    </a>
-                  </li>
-                  {% endif %}
             </ul>
           </div>
         </nav>

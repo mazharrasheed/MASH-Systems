@@ -156,7 +156,6 @@ class Product(models.Model):
             product.save()
         print(self.product_status)
 
-
 class Inventory(models.Model):
     product = models.OneToOneField(Product, on_delete=models.RESTRICT)
     quantity = models.PositiveIntegerField(default=0)  # Total quantity of the product in stock

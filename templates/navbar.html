@@ -75,6 +75,7 @@
               </a>
             </li>
           </ul>
+          {% if perms.home.view_dashboard %}
           <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
               {% if perms.home.view_dashboard %}
@@ -141,17 +142,21 @@
                       </li>
                       {% endif %}
 
+                      {% if perms.home.view_store_purchase_note %}
                       <li class=" dropdown-item {% if request.path == '/purchase-note/' %} active {% endif %}">
                         <a href="/list-store-purchase/">
                           <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.alert">Goods Receipt
                             Note</span>
                         </a>
                       </li>
+                      {% endif %}
+                      {% if perms.home.view_store_issue_note %}  
                       <li class=" dropdown-item {% if request.path == '/list-store_issue/' %} active {% endif %} ">
                         <a href="/list-store-issue/">
                           <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.alert">Issue Note</span>
                         </a>
                       </li>
+                      {% endif %}
 
                       {% if perms.home.view_gatepass %}
                       <li class="  dropdown-item {% if request.path == '/list-gatepasses/' %} active {% endif %} ">
@@ -303,11 +308,14 @@
             </div>
 
           </nav>
+          {% endif %}
 
     </nav>
     <div class="pcoded-main-container">
       <div class="pcoded-wrapper">
+        
         <nav class="pcoded-navbar">
+          
           <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
           <div class="pcoded-inner-navbar main-menu">
             <div class="">
@@ -336,7 +344,7 @@
 
             <!-- Side nav start  -->
             <hr>
-
+            {% if perms.home.view_dashboard %}
             <ul class="pcoded-item pcoded-left-item">
               {% if perms.home.view_account %}
               <li class=" {% if request.path == '/' %} color-info {% endif %}">
@@ -486,11 +494,11 @@
 
 
               <li
-                class="pcoded-hasmenu {% if request.path == '/accounts/' or  request.path == '/cheques/' or request.path == '/suppliers/' or request.path == '/customers/' or request.path == '/employees/' or request.path == '/create_accounts/' or request.path == '/balance_sheet/' or request.path == '/transaction/' or request.path == '/list_transactions/'  %} color-info {% endif %} ">
+                class="pcoded-hasmenu {% if request.path == '/list-sales/'  %} color-info {% endif %} ">
                 <a href="javascript:void(0)">
                   <span class="pcoded-micon"><i class="ti-view-list-alt"></i></span>
                   <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.main">
-                    <h5>Accounts</h5>
+                    <h5>Sales</h5>
                   </span>
                   <span class="pcoded-mcaret"></span>
                 </a>
@@ -504,6 +512,19 @@
                     </a>
                   </li>
                   {% endif %}
+
+                  </ul>
+                  </li>
+              <li
+                class="pcoded-hasmenu {% if request.path == '/accounts/' or  request.path == '/cheques/' or request.path == '/suppliers/' or request.path == '/customers/' or request.path == '/employees/' or request.path == '/create_accounts/' or request.path == '/balance_sheet/' or request.path == '/transaction/' or request.path == '/list_transactions/'  %} color-info {% endif %} ">
+                <a href="javascript:void(0)">
+                  <span class="pcoded-micon"><i class="ti-view-list-alt"></i></span>
+                  <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.main">
+                    <h5>Accounts</h5>
+                  </span>
+                  <span class="pcoded-mcaret"></span>
+                </a>
+                <ul class="pcoded-submenu">
 
                   <!-- {% if perms.home.view_sales_receipt %}
                   <li class="{% if request.path == '/list-sales/' %} active {% endif %} ">
@@ -627,5 +648,8 @@
 
 
             </ul>
+            {% endif %}
           </div>
+          
         </nav>
+        

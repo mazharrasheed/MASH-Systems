@@ -13,17 +13,21 @@ from django.core.exceptions import PermissionDenied
 
 @login_required
 def index(request):
-    
     users=User.objects.all().count()
+    print(request.user)
     # Check if the user has the required permission
     if not request.user.has_perm('home.view_dashboard'):
         # Custom redirect logic for users without permission
         if request.user.is_superuser:
             return redirect('/')
+        elif request.user.groups.filter(name='author').exists():
+            return redirect('/dashboard/')
         elif request.user.groups.filter(name='accountant').exists():
             return redirect('/accounts/')
         elif request.user.groups.filter(name='storekeeper').exists():
             return redirect('/store/')
+        elif request.user.groups.filter(name='salesman').exists():
+            return redirect('/list-sales/')
         else:
             raise PermissionDenied  # Show 403 Forbidden page
     data={'users':users}
@@ -99,7 +103,7 @@ def post_blog(request):
   return render(request,'postblog.html',data)
   
 @login_required
-@permission_required('home.view_dashboard',login_url='/login/')
+@permission_required('home.view_blog',login_url='/login/')
 def dashboard(request):
   
   if request.user.is_superuser==True:
@@ -149,20 +153,27 @@ def sign_in(request):
         if user is not None:
           login(request, user)
           messages.success(request, "You are successfuly Signin")
-          
-          if user.is_superuser:
-            return HttpResponseRedirect("/")
-          elif user.groups == "accountant":
-            return HttpResponseRedirect("/accounts/")
-          elif user.groups=="storekeeper":
-            return HttpResponseRedirect("/store/")
+
+          # if user.is_superuser:
+          #   return HttpResponseRedirect("/")
+          # elif user.groups == "author":
+          #   return HttpResponseRedirect("/dashboard/")
+          # elif user.groups == "accountant":
+          #   return HttpResponseRedirect("/accounts/")
+          # elif user.groups=="storekeeper":
+          #   return HttpResponseRedirect("/store/")
+          # elif user.groups=="salesman":
+          #   return HttpResponseRedirect("/list-sales/")
           if user.is_superuser:
               return redirect("/")
+          elif user.groups.filter(name="author").exists():
+            return redirect("/dashboard/")
           elif user.groups.filter(name="accountant").exists():
             return redirect("/accounts/")
           elif user.groups.filter(name="storekeeper").exists():
             return redirect("/store/")
-          
+          elif user.groups.filter(name="salesman").exists():
+            return redirect("/list-sales/")
     else:
       login_form = AuthenticationForm()
     mydata = {'form': login_form}

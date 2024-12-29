@@ -148,8 +148,8 @@ def delete_store_issue(request, id):
             for pro in store_issue_products:
                 product_list.append(pro.product)
             store_issue_products.delete()  # Bulk delete all related products
-            for i in product_list:
-                i.change_status()
+            for pro in product_list:
+                pro.change_status()
         store_issue.delete()
         return JsonResponse({'success': True, 'message': 'Store issue note deleted successfully!'})
     
@@ -157,7 +157,11 @@ def delete_store_issue(request, id):
     store_issue = get_object_or_404(Store_Issue_Note, id=id)
     store_issue_products = Store_Issue_Product.objects.filter(store_isuue_note=store_issue)
     if store_issue_products:
+        for pro in store_issue_products:
+            product_list.append(pro.product)
         store_issue_products.delete()  # Bulk delete all related products
+        for pro in product_list:
+            pro.change_status()
     store_issue.delete()
     messages.success(request, "Store issue note deleted successfully!")
     return redirect('list_store_issue')

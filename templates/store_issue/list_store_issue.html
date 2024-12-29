@@ -70,9 +70,10 @@
                   {{ issuereceipts_items_pro|get_item:issuereceipt.id }}
                 </td>
                 <td class="text-center">
+                  {% if perms.home.view_sales_receipt %}
                   <a class="btn btn-info" href="{% url 'print_store_issue' issuereceipt.id %}">Details</a>
-                  <a class="btn btn-success" href="{% url 'print_store_issue' issuereceipt.id %}">Print</a>
-                  {% if perms.home.change_sale_receipt %}
+                  {% endif %}
+                  {% if perms.home.change_sales_receipt %}
                   <a class="btn btn-warning" href="{% url 'edit_store_issue' issuereceipt.id %}">Edit</a>
                   {% endif %}
                   <button class="btn btn-danger delete-salereceipt" data-salereceipt-id="{{ issuereceipt.id }}">
