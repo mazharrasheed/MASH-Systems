@@ -1,13 +1,24 @@
-{% extends 'base.html' %}
-{% load crispy_forms_tags %}
+{% extends 'css-js-links.html' %}
 {% load custom_filters %}
+{% load crispy_forms_tags %}
 {% block title %}
-Add Product Price
-{% endblock title %}
-{% block content %}
-<!-- add_stock.html -->
+Add Product Prices {% endblock title %}
 
-<div class="container-fluid mb-5 ">
+{% block context %}
+
+{% include 'store/navbar.html' %}
+
+{% endblock context %}
+
+
+
+{% block body %}
+
+<div class="pcoded-content">
+  <div class="pcoded-inner-content">
+    <div class="main-body">
+      <div class="page-wrapper">
+        <div class="page-body">
   <div class="row">
 
     {% include 'stock/product_menu.html' %}
@@ -105,4 +116,4 @@ Add Product Price
 
 </script>
 
-{% endblock content %}
+{% endblock body %}
