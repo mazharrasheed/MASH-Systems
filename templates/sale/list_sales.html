@@ -31,12 +31,12 @@ Sales-List
 
               {% if customer %}
 
-              {% if perms.home.add_sale_receipt %}
+              {% if perms.home.add_sales_receipt %}
               <a class="btn btn-primary mb-2" href="{% url 'create_salereceipt' %}">Create Customer Sale Receipt</a>
               {% endif %}
 
-              {% else %}
-              {% if perms.home.add_sale_receipt %}
+              {% elif cash %}
+              {% if perms.home.add_sales_receipt %}
               <a class="btn btn-primary mb-2" href="{% url 'create_cash_salereceipt' %}">Create Cash Sale Receipt</a>
 
               {% endif %}

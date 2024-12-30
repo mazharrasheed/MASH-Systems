@@ -26,7 +26,7 @@
        
       </h2>
 
-      {% if perms.home.add_sale_receipt %}
+      {% if perms.home.add_store_issue_note %}
       <a class="btn btn-primary mb-2" href="{% url 'create_store_issue' %}">Create Store Issue Note</a>
       {% endif %}
 
@@ -70,14 +70,17 @@
                   {{ issuereceipts_items_pro|get_item:issuereceipt.id }}
                 </td>
                 <td class="text-center">
+                  {% if perms.home.view_store_issue_note %}
                   <a class="btn btn-info" href="{% url 'print_store_issue' issuereceipt.id %}">Details</a>
-                  <a class="btn btn-success" href="{% url 'print_store_issue' issuereceipt.id %}">Print</a>
-                  {% if perms.home.change_sale_receipt %}
+                  {% endif %}
+                  {% if perms.home.change_store_issue_note %}
                   <a class="btn btn-warning" href="{% url 'edit_store_issue' issuereceipt.id %}">Edit</a>
                   {% endif %}
+                  {% if perms.home.delete_store_issue_note %}
                   <button class="btn btn-danger delete-salereceipt" data-salereceipt-id="{{ issuereceipt.id }}">
                     Delete
                   </button>
+                  {% endif %}
                 </td>
               </tr>
               {% endfor %}

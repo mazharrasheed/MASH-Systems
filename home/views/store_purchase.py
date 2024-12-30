@@ -27,9 +27,8 @@ def list_store_purchase(request):
     })
 
 
-
 @login_required
-@permission_required('home.add_sales_receipt', login_url='/login/')
+@permission_required('home.add_store_purchase_note', login_url='/login/')
 def create_store_purchase(request):
     if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         if 'finalize' in request.POST:  # Finalize the purchase note
@@ -67,7 +66,7 @@ def create_store_purchase(request):
 
 
 @login_required
-@permission_required('home.add_sales_receipt', login_url='/login/')
+@permission_required('home.add_store_purchase_note', login_url='/login/')
 def create_store_purchaseold(request, salereceipt_id=None):
     if salereceipt_id:
         salereceipt = get_object_or_404(Store_Purchase_Note, id=salereceipt_id)
@@ -170,7 +169,7 @@ def edit_store_purchase(request, salereceipt_id):
     return render(request, 'store_Purchase/edit_Purchase_note.html', context)
 
 @login_required
-@permission_required('home.add_sales_receipt', login_url='/login/')
+@permission_required('home.change_store_purchase_note', login_url='/login/')
 def edit_store_purchase_old(request, salereceipt_id=None):
     update=True
     if salereceipt_id:
@@ -264,7 +263,7 @@ def print_store_purchase(request, salereceipt_id):
     })
 
 @login_required
-@permission_required('home.delete_sales_receipt', login_url='/login/')
+@permission_required('home.delete_store_purchase_note', login_url='/login/')
 def delete_store_purchase(request, id):
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest' and request.method == 'POST':
         salereceipt = get_object_or_404(Store_Purchase_Note, id=id)

@@ -22,6 +22,7 @@ class CustomPermissions(models.Model):
             ('view_dashboard', 'Can view dashboard'),
             ("view_balance_sheet", "Can view balance sheet"),
             ("view_store", "Can view store"),
+            ("view_reports", "Can view reports"),
             ("view_inventory", "Can view inventory"),
             # Add more custom permissions here
         ]
@@ -155,7 +156,6 @@ class Product(models.Model):
             product.product_status=True
             product.save()
         print(self.product_status)
-
 
 class Inventory(models.Model):
     product = models.OneToOneField(Product, on_delete=models.RESTRICT)

@@ -1,13 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'css-js-links.html' %}
+{% load static %}
 {% load custom_filters %}
 {% load crispy_forms_tags %}
-{% load static %}
+
 {% block title %}
-Edit Sale Receipt
+  Edit Customer Sale Receipt
 {% endblock title %}
 
-{% block content %}
+{% block context %}
+{% include 'navbar.html' %}
+{% endblock context %}
 
+{% block body %}
 
 <style>
     body {

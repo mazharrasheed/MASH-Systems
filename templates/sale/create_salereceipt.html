@@ -1,13 +1,18 @@
-{% extends 'base.html' %}
+{% extends 'css-js-links.html' %}
+{% load static %}
 {% load custom_filters %}
 {% load crispy_forms_tags %}
-{% load static %}
+
 {% block title %}
-Create Sale Receipt
+  Create Customer Sale Receipt
 {% endblock title %}
 
+{% block context %}
+{% include 'navbar.html' %}
+{% endblock context %}
 
-{% block content %}
+
+{% block body %}
 
 <style>
     body {
@@ -244,4 +249,4 @@ Create Sale Receipt
     </script>
     
 
-    {% endblock content %}
+    {% endblock body %}

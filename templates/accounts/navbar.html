@@ -1,7 +1,5 @@
 {% load static %}
 
-
-
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
   integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
@@ -124,7 +122,6 @@
                 <ul>
                   <li class="more-details">
                     <a href="#"><i class="ti-user"></i>View Profile</a>
-                    <a href="#!"><i class="ti-settings"></i>Settings</a>
                     <a href="/logout/"><i class="ti-layout-sidebar-left"></i>Logout</a>
                   </li>
                 </ul>
@@ -186,6 +183,18 @@
                   </li>
                   {% endif %}
 
+              {% if perms.home.view_project %}
+                  <li class=" {% if request.path == '/project/' %} color-info {% endif %} ">
+                    <a href="/project/">
+                      <span class="pcoded-micon"><i class="ti-layout-grid2"></i><b>D</b></span>
+                      <span class="pcoded-mtext fs-5" data-i18n="nav.dash.main">
+                        <h5>Projects</h5>
+                      </span>
+                      <span class="pcoded-mcaret"></span>
+                    </a>
+                  </li>
+                  {% endif %}
+
               {% if perms.home.view_employee %}
                   <li class=" {% if request.path == '/employees/' %} color-info {% endif %} ">
                     <a href="/employees/">
@@ -216,6 +225,18 @@
                       <span class="pcoded-micon"><i class="ti-user"></i><b>D</b></span>
                       <span class="pcoded-mtext fs-5" data-i18n="nav.dash.main">
                         <h5>Suppliers</h5>
+                      </span>
+                      <span class="pcoded-mcaret"></span>
+                    </a>
+                  </li>
+                  {% endif %}
+
+              {% if perms.home.view_cheque %}
+                  <li class=" {% if request.path == '/cheques/' %} color-info {% endif %} ">
+                    <a href="/cheques/">
+                      <span class="pcoded-micon"><i class="ti-layout-grid3"></i><b>D</b></span>
+                      <span class="pcoded-mtext fs-5" data-i18n="nav.dash.main">
+                        <h5>Cheques</h5>
                       </span>
                       <span class="pcoded-mcaret"></span>
                     </a>

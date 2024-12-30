@@ -75,6 +75,7 @@
               </a>
             </li>
           </ul>
+
           <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
               {% if perms.home.view_dashboard %}
@@ -87,6 +88,7 @@
               {% endif %}
               <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
+                  {% if perms.home.view_user %}
                   <li class="nav-item dropdown {% if request.path == '/list_users/' %} color-info {% endif %}  ">
                     <a class="nav-link dropdown-toggle  fs-5" href="#" role="button" data-bs-toggle="dropdown"
                       aria-expanded="false">
@@ -94,14 +96,14 @@
                       <i class="ti-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu">
-                      {% if perms.home.view_user %}
+
                       <li class=" dropdown-item  {% if request.path == '/create_user/' %} active {% endif %}">
                         <a href="/list_users/">
                           <span class="pcoded-mtext fs-5 " data-i18n="nav.basic-components.alert">List Users</span>
                         </a>
                       </li>
-                      {% endif %}
-                      {% if perms.home.add_usert %}
+
+                      {% if perms.home.add_user %}
                       <li class=" dropdown-item  {% if request.path == '/create_user/' %} active {% endif %}">
                         <a href="/create_user/">
                           <span class="pcoded-mtext fs-5 " data-i18n="nav.basic-components.alert">Create User</span>
@@ -111,6 +113,9 @@
 
                     </ul>
                   </li>
+                  {% endif %}
+
+                  {% if perms.home.view_store %}
                   <li
                     class="nav-item dropdown {% if request.path == '/product/' or request.path == '/list-store_issue/' or request.path == '/purchase-note/' or  request.path == '/list-gatepasses/' or request.path == '/purchase-note/' or request.path == '/inventory/' %} color-info {% endif %}  ">
                     <a class="nav-link dropdown-toggle  fs-5" href="#" role="button" data-bs-toggle="dropdown"
@@ -141,17 +146,21 @@
                       </li>
                       {% endif %}
 
+                      {% if perms.home.view_store_purchase_note %}
                       <li class=" dropdown-item {% if request.path == '/purchase-note/' %} active {% endif %}">
                         <a href="/list-store-purchase/">
                           <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.alert">Goods Receipt
                             Note</span>
                         </a>
                       </li>
+                      {% endif %}
+                      {% if perms.home.view_store_issue_note %}
                       <li class=" dropdown-item {% if request.path == '/list-store_issue/' %} active {% endif %} ">
                         <a href="/list-store-issue/">
                           <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.alert">Issue Note</span>
                         </a>
                       </li>
+                      {% endif %}
 
                       {% if perms.home.view_gatepass %}
                       <li class="  dropdown-item {% if request.path == '/list-gatepasses/' %} active {% endif %} ">
@@ -162,133 +171,158 @@
                       {% endif %}
                     </ul>
                   </li>
+                  {% endif %}
 
 
-                  <li
-                    class="nav-item dropdown {% if request.path == '/accounts/' or  request.path == '/cheques/' or request.path == '/suppliers/' or request.path == '/customers/' or request.path == '/employees/' or request.path == '/create_accounts/' or request.path == '/balance_sheet/' or request.path == '/transaction/' or request.path == '/list_transactions/'  %} color-info {% endif %}">
+                  {% if perms.home.view_sales_receipt %}
+                  <li class="nav-item dropdown {% if request.path == '/list-sales/' %} color-info {% endif %}">
                     <a class="nav-link dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown"
                       aria-expanded="false">
-                      Accounts <i class="ti-angle-down"></i>
+                      sales <i class="ti-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu">
 
                       {% if perms.home.view_sales_receipt %}
                       <li class="  dropdown-item {% if request.path == '/list-sales/' %} active {% endif %} ">
+                        <a href="/list-sales/">
+                          <span class="pcoded-mtext fs-5 " data-i18n="nav.basic-components.alert">List Sales</span>
+                        </a>
+                      </li>
+                      {% endif %}
+
+                      {% if perms.home.view_sales_receipt %}
+                      <li
+                        class="  dropdown-item {% if request.path == '/list-sales/?customer=True' %} active {% endif %} ">
                         <a href="/list-sales?cash=True">
                           <span class="pcoded-mtext fs-5 " data-i18n="nav.basic-components.alert">Cash Sales</span>
                         </a>
                       </li>
                       {% endif %}
-
-                      <!-- {% if perms.home.view_sales_receipt %}
-                      <li class="  dropdown-item {% if request.path == '/list-sales/' %} active {% endif %} ">
+                      {% if perms.home.view_sales_receipt %}
+                      <li
+                        class="  dropdown-item {% if request.path == '/list-sales?customer=True' %} active {% endif %} ">
                         <a href="/list-sales?customer=True">
                           <span class="pcoded-mtext fs-5 " data-i18n="nav.basic-components.alert">Customer Sales</span>
                         </a>
                       </li>
-                      {% endif %} -->
-                      
+                      {% endif %}
+                      {% endif %}
+
                       {% if perms.home.view_account %}
-                      <li class="  dropdown-item {% if request.path == '/accounts/' %} active {% endif %} ">
-                        <a href="/accounts/">
-                          <span class="pcoded-mtext fs-5 " data-i18n="nav.basic-components.alert">Accounts List</span>
-                        </a>
-                      </li>
-                      {% endif %}
-
-                      {% if perms.home.add_account %}
-                      <li class="  dropdown-item {% if request.path == '/create_accounts/' %} active {% endif %} ">
-                        <a href="/create_accounts/">
-                          <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.alert">Creat Accounts</span>
-                        </a>
-                      </li>
-                      {% endif %}
-
-                      {% if perms.home.view_transaction %}
                       <li
-                        class="  dropdown-item {% if request.path == '/transaction/' or request.path == '/list_transactions/' %} active {% endif %} ">
-                        <a href="/list_transactions/">
-                          <span class="pcoded-mtext fs-5"
-                            data-i18n="nav.basic-components.breadcrumbs">Transactions</span>
+                        class="nav-item dropdown {% if request.path == '/accounts/' or  request.path == '/cheques/' or request.path == '/suppliers/' or request.path == '/customers/' or request.path == '/employees/' or request.path == '/create_accounts/' or request.path == '/balance_sheet/' or request.path == '/transaction/' or request.path == '/list_transactions/'  %} color-info {% endif %}">
+                        <a class="nav-link dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown"
+                          aria-expanded="false">
+                          Accounts <i class="ti-angle-down"></i>
                         </a>
+                        <ul class="dropdown-menu">
+                          {% if perms.home.view_account %}
+                          <li class="  dropdown-item {% if request.path == '/accounts/' %} active {% endif %} ">
+                            <a href="/accounts/">
+                              <span class="pcoded-mtext fs-5 " data-i18n="nav.basic-components.alert">Accounts
+                                List</span>
+                            </a>
+                          </li>
+                          {% endif %}
+
+                          {% if perms.home.add_account %}
+                          <li class="  dropdown-item {% if request.path == '/create_accounts/' %} active {% endif %} ">
+                            <a href="/create_accounts/">
+                              <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.alert">Creat
+                                Accounts</span>
+                            </a>
+                          </li>
+                          {% endif %}
+
+                          {% if perms.home.view_transaction %}
+                          <li
+                            class="  dropdown-item {% if request.path == '/transaction/' or request.path == '/list_transactions/' %} active {% endif %} ">
+                            <a href="/list_transactions/">
+                              <span class="pcoded-mtext fs-5"
+                                data-i18n="nav.basic-components.breadcrumbs">Transactions</span>
+                            </a>
+                          </li>
+                          {% endif %}
+
+                          {% if perms.home.view_balance_sheet %}
+                          <li class="  dropdown-item {% if request.path == '/balance_sheet/' %} active {% endif %} ">
+                            <a href="/balance_sheet/">
+                              <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.breadcrumbs">Balance
+                                Sheet</span>
+                            </a>
+                          </li>
+                          {% endif %}
+
+                          {% if perms.home.view_employee %}
+                          <li class="  dropdown-item {% if request.path == '/employees/' %} active {% endif %} ">
+                            <a href="/employees/">
+                              <span class="pcoded-mtext fs-5"
+                                data-i18n="nav.basic-components.breadcrumbs">Employees</span>
+                            </a>
+                          </li>
+                          {% endif %}
+
+                          {% if perms.home.view_customer %}
+                          <li class="  dropdown-item  {% if request.path == '/customers/' %} active {% endif %}">
+                            <a href="/customers/">
+                              <span class="pcoded-mtext fs-5"
+                                data-i18n="nav.basic-components.breadcrumbs">Customers</span>
+                            </a>
+                          </li>
+                          {% endif %}
+
+                          {% if perms.home.view_suppliers %}
+                          <li class="  dropdown-item {% if request.path == '/suppliers/' %} active {% endif %}">
+                            <a href="/suppliers/">
+                              <span class="pcoded-mtext fs-5"
+                                data-i18n="nav.basic-components.breadcrumbs">Suppliers</span>
+                            </a>
+                          </li>
+                          {% endif %}
+
+                          {% if perms.home.view_cheque %}
+                          <li class=" dropdown-item  {% if request.path == '/cheques/' %} active {% endif %}">
+                            <a href="/cheques/">
+                              <span class="pcoded-mtext fs-5"
+                                data-i18n="nav.basic-components.breadcrumbs">Cheques</span>
+                            </a>
+                          </li>
+                          {% endif %}
+                        </ul>
                       </li>
                       {% endif %}
 
-                      {% if perms.home.view_balance_sheet %}
-                      <li class="  dropdown-item {% if request.path == '/balance_sheet/' %} active {% endif %} ">
-                        <a href="/balance_sheet/">
-                          <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.breadcrumbs">Balance
-                            Sheet</span>
+                      {% if perms.home.view_reports %}
+                      <li class="nav-item dropdown {% if request.path == '#' %} color-info {% endif %}  ">
+                        <a class="nav-link dropdown-toggle  fs-5" href="#" role="button" data-bs-toggle="dropdown"
+                          aria-expanded="false">
+                          Reports
+                          <i class="ti-angle-down"></i>
                         </a>
-                      </li>
-                      {% endif %}
+                        <ul class="dropdown-menu">
+                          {% if perms.home.view_user %}
+                          <li class=" dropdown-item  {% if request.path == '#' %} active {% endif %}">
+                            <a href="#">
+                              <span class="pcoded-mtext fs-5 " data-i18n="nav.basic-components.alert">Product Purchase
+                                Report</span>
+                            </a>
+                          </li>
+                          {% endif %}
+                          {% if perms.home.add_usert %}
+                          <li class=" dropdown-item  {% if request.path == '#' %} active {% endif %}">
+                            <a href="#">
+                              <span class="pcoded-mtext fs-5 " data-i18n="nav.basic-components.alert">Product Issue
+                                Report</span>
+                            </a>
+                          </li>
+                          {% endif %}
+                          {% endif %}
 
-                      {% if perms.home.view_employee %}
-                      <li class="  dropdown-item {% if request.path == '/employees/' %} active {% endif %} ">
-                        <a href="/employees/">
-                          <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.breadcrumbs">Employees</span>
-                        </a>
+                        </ul>
                       </li>
-                      {% endif %}
 
-                      {% if perms.home.view_customer %}
-                      <li class="  dropdown-item  {% if request.path == '/customers/' %} active {% endif %}">
-                        <a href="/customers/">
-                          <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.breadcrumbs">Customers</span>
-                        </a>
-                      </li>
-                      {% endif %}
-
-                      {% if perms.home.view_suppliers %}
-                      <li class="  dropdown-item {% if request.path == '/suppliers/' %} active {% endif %}">
-                        <a href="/suppliers/">
-                          <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.breadcrumbs">Suppliers</span>
-                        </a>
-                      </li>
-                      {% endif %}
-
-                      {% if perms.home.view_cheque %}
-                      <li class=" dropdown-item  {% if request.path == '/cheques/' %} active {% endif %}">
-                        <a href="/cheques/">
-                          <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.breadcrumbs">Cheques</span>
-                        </a>
-                      </li>
-                      {% endif %}
                     </ul>
-                  </li>
-
-                  <li class="nav-item dropdown {% if request.path == '#' %} color-info {% endif %}  ">
-                    <a class="nav-link dropdown-toggle  fs-5" href="#" role="button" data-bs-toggle="dropdown"
-                      aria-expanded="false">
-                      Reports
-                      <i class="ti-angle-down"></i>
-                    </a>
-                    <ul class="dropdown-menu">
-                      {% if perms.home.view_user %}
-                      <li class=" dropdown-item  {% if request.path == '#' %} active {% endif %}">
-                        <a href="#">
-                          <span class="pcoded-mtext fs-5 " data-i18n="nav.basic-components.alert">Product Purchase
-                            Report</span>
-                        </a>
-                      </li>
-                      {% endif %}
-                      {% if perms.home.add_usert %}
-                      <li class=" dropdown-item  {% if request.path == '#' %} active {% endif %}">
-                        <a href="#">
-                          <span class="pcoded-mtext fs-5 " data-i18n="nav.basic-components.alert">Product Issue
-                            Report</span>
-                        </a>
-                      </li>
-                      {% endif %}
-
-                    </ul>
-                  </li>
-
-
-
-                </ul>
               </div>
-
               <div id="display-msg" class="text-center" style="min-height: 70px">
                 {% if messages %} {% for message in messages %}
                 <small id="msg" {% if message.tags %} class="{{message.tags}}" {% endif %}>
@@ -301,13 +335,14 @@
                 {% endif %}
               </div>
             </div>
-
           </nav>
 
     </nav>
     <div class="pcoded-main-container">
       <div class="pcoded-wrapper">
+
         <nav class="pcoded-navbar">
+
           <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
           <div class="pcoded-inner-navbar main-menu">
             <div class="">
@@ -338,7 +373,8 @@
             <hr>
 
             <ul class="pcoded-item pcoded-left-item">
-              {% if perms.home.view_account %}
+
+              {% if perms.home.view_dashboard %}
               <li class=" {% if request.path == '/' %} color-info {% endif %}">
                 <a href="/">
                   <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
@@ -350,6 +386,7 @@
               </li>
               {% endif %}
 
+              {% if perms.home.view_user %}
               <li
                 class="pcoded-hasmenu  {% if request.path == '/users/' or request.path == '/create_user/' %} color-info {% endif %} ">
                 <a href="javascript:void(0)">
@@ -377,6 +414,11 @@
 
                 </ul>
               </li>
+              {% endif %}
+
+              <!-- start store  -->
+
+              {% if perms.home.view_store %}
               <li
                 class="pcoded-hasmenu  {% if request.path == '/product/' or request.path == '/list-store_issue/' or request.path == '/purchase-note/' or  request.path == '/list-gatepasses/' or request.path == '/purchase-note/' or request.path == '/inventory/' %} color-info {% endif %} ">
                 <a href="javascript:void(0)">
@@ -386,19 +428,12 @@
                   </span>
                   <span class="pcoded-mcaret"></span>
                 </a>
+                
                 <ul class="pcoded-submenu">
                   {% if perms.home.view_store %}
                   <li class=" dropdown-item  {% if request.path == '/store/' %} active {% endif %}">
                     <a href="/store/">
                       <span class="pcoded-mtext fs-5 " data-i18n="nav.basic-components.alert">Store Dashboard</span>
-                    </a>
-                  </li>
-                  {% endif %}
-
-                  {% if perms.home.view_project %}
-                  <li class=" dropdown-item  {% if request.path == '/project/' %} active {% endif %}">
-                    <a href="/project/">
-                      <span class="pcoded-mtext fs-5 " data-i18n="nav.basic-components.alert">Projects</span>
                     </a>
                   </li>
                   {% endif %}
@@ -454,6 +489,7 @@
                   {% endif %}
 
                 </ul>
+
                 <!-- <li class="pcoded-hasmenu">
                   <a href="javascript:void(0)">
                     <span class="pcoded-micon"><i class="ti-layout"></i></span>
@@ -483,18 +519,32 @@
                   </a>
                 </li>
                 </ul> -->
+              </li>
+              {% endif %}
 
+              <!-- end store -->
 
-              <li
-                class="pcoded-hasmenu {% if request.path == '/accounts/' or  request.path == '/cheques/' or request.path == '/suppliers/' or request.path == '/customers/' or request.path == '/employees/' or request.path == '/create_accounts/' or request.path == '/balance_sheet/' or request.path == '/transaction/' or request.path == '/list_transactions/'  %} color-info {% endif %} ">
+              <!-- start Sales -->
+              {% if perms.home.view_sales_receipt %}
+              <li class="pcoded-hasmenu {% if request.path == '/list-sales/'  %} color-info {% endif %} ">
                 <a href="javascript:void(0)">
                   <span class="pcoded-micon"><i class="ti-view-list-alt"></i></span>
                   <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.main">
-                    <h5>Accounts</h5>
+                    <h5>Sales</h5>
                   </span>
                   <span class="pcoded-mcaret"></span>
                 </a>
                 <ul class="pcoded-submenu">
+                  {% if perms.home.view_sales_receipt %}
+                  <li class="{% if request.path == '/list-sales/' %} active {% endif %} ">
+                    <a href="/list-sales/">
+                      <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                      <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.alert">List Sales</span>
+                      <span class="pcoded-mcaret"></span>
+                    </a>
+                  </li>
+                  {% endif %}
+
                   {% if perms.home.view_sales_receipt %}
                   <li class="{% if request.path == '/list-sales/' %} active {% endif %} ">
                     <a href="/list-sales?cash=True">
@@ -505,7 +555,7 @@
                   </li>
                   {% endif %}
 
-                  <!-- {% if perms.home.view_sales_receipt %}
+                  {% if perms.home.view_sales_receipt %}
                   <li class="{% if request.path == '/list-sales/' %} active {% endif %} ">
                     <a href="/list-sales?customer=True">
                       <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
@@ -513,7 +563,25 @@
                       <span class="pcoded-mcaret"></span>
                     </a>
                   </li>
-                  {% endif %} -->
+                  {% endif %}
+                </ul>
+              </li>
+              {% endif %}
+              <!-- end sales -->
+
+              <!-- start Accounts -->
+
+              {% if perms.home.view_account %}
+              <li
+                class="pcoded-hasmenu {% if request.path == '/accounts/' or  request.path == '/cheques/' or request.path == '/suppliers/' or request.path == '/customers/' or request.path == '/employees/' or request.path == '/create_accounts/' or request.path == '/balance_sheet/' or request.path == '/transaction/' or request.path == '/list_transactions/'  %} color-info {% endif %} ">
+                <a href="javascript:void(0)">
+                  <span class="pcoded-micon"><i class="ti-view-list-alt"></i></span>
+                  <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.main">
+                    <h5>Accounts</h5>
+                  </span>
+                  <span class="pcoded-mcaret"></span>
+                </a>
+                <ul class="pcoded-submenu">
 
                   {% if perms.home.view_account %}
                   <li class="{% if request.path == '/accounts/' %} active {% endif %} ">
@@ -564,6 +632,14 @@
                   </li>
                   {% endif %}
 
+                  {% if perms.home.view_project %}
+                  <li class=" dropdown-item  {% if request.path == '/project/' %} active {% endif %}">
+                    <a href="/project/">
+                      <span class="pcoded-mtext fs-5 " data-i18n="nav.basic-components.alert">Projects</span>
+                    </a>
+                  </li>
+                  {% endif %}
+
                   {% if perms.home.view_customer %}
                   <li class="  {% if request.path == '/customers/' %} active {% endif %}">
                     <a href="/customers/">
@@ -592,6 +668,15 @@
                   </li>
                   {% endif %}
                 </ul>
+              </li>
+              {% endif %}
+
+              <!-- end Accounts  -->
+
+
+              <!-- Starts Reports  -->
+
+              {% if perms.home.view_reports %}
 
               <li
                 class="pcoded-hasmenu  {% if request.path == '/users/' or request.path == '/create_user/' %} color-info {% endif %} ">
@@ -622,10 +707,8 @@
 
                 </ul>
               </li>
-              </li>
-
-
-
+              {% endif %}
+              
             </ul>
           </div>
         </nav>

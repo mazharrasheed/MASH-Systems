@@ -21,8 +21,9 @@ def list_sales(request):
     cash = request.GET.get('cash')
 
     # Filter based on customer or cash
-    if customer == "True":
-        salereceipts = Sales_Receipt.objects.filter(customer_name=True)
+    if customer:
+        print("custemer")
+        salereceipts = Sales_Receipt.objects.filter(is_cash=False)
     elif cash == "True":
         salereceipts = Sales_Receipt.objects.filter(is_cash=True)
     else:

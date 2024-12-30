@@ -10,6 +10,7 @@ Print Store Issue
 {% include 'store/navbar.html' %}
 {% endblock context %}
 
+
 {% block body %}
 <style>
     body {
@@ -20,7 +21,7 @@ Print Store Issue
         margin-bottom: 0rem;
     }
     .table-container {
-        width: 60%;
+        width: 80%;
         margin: 0 auto;
         border: 1px solid #000;
         padding: 20px;
@@ -78,7 +79,7 @@ Print Store Issue
 <div class="table-container printableArea"  id="printableArea">
     <div class="text-center">
         <h3 class="text-center p-3" style="background-color:#ffe3c2">      
-            Store Issue Note
+            Store Purchase Note
         </h3>
     </div>
 
@@ -87,12 +88,12 @@ Print Store Issue
             <h4 class="">
                  MASH Systems
             </h4>
-            <h6 class="d-flex">Gujranwala.</h6>
+            <h6 class="d-flex">Gujranwala</h6>
             <h6 class="d-flex">Phone Number:0300-0000000</h6>
         </div>
 
-        <div style="margin-left:80px;width:400px">
-            <p><strong>Issue Note No. :</strong>MASH-0{{issue_note.id}}</p>
+        <div style="margin-left:130px;width:350px">
+            <p><strong>Store issue Note No. :</strong> MASH-0{{ issue_note.id }}</p>
             <p><strong>Date:</strong>{{ issue_note.date_created|date:"d-m-Y" }}</p>
             <p><strong>Project : 
 
@@ -135,8 +136,155 @@ Print Store Issue
 </div>
 
 <div class="container mt-5 mb-5 text-center">
-    <a href="#" onclick="window.print()" class="btn btn-success m-3">Print</a>
-    <a href="{% url 'list_store_issue' %}" class="btn btn-success m-3">Cancel</a>
+        <!-- Trigger button for the modal -->
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#storePurchaseModal">
+            Print
+        </button>
+    <!-- <a href="#" onclick="window.print()" class="btn btn-success m-3">Print</a> -->
+    <a href="{% url 'list_store_issue' %}" class="btn btn-warning m-3">Cancel</a>
+
+    
 </div>
+
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="storePurchaseModal" tabindex="-1" aria-labelledby="storePurchaseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="storePurchaseModalLabel">Store Issue Note</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-container printableArea" id="printableArea">
+                    <div class="text-center">
+                        <h3 class="text-center p-3" style="background-color:#ffe3c2">
+                            Store Issue Note
+                        </h3>
+                    </div>
+
+                    <div class="header-section">
+                        <div>
+                            <h4>MASH Systems</h4>
+                            <h6>Gujranwala.</h6>
+                            <h6>Phone Number: 0300-0000000</h6>
+                        </div>
+
+                        <div style="margin-left:130px;width:300px">
+                            <p><strong>Store issue Note No. :</strong> MASH-0{{ issue_note.id }}</p>
+                            <p><strong>Date:</strong> {{ issue_note.date_created|date:"d-m-Y" }}</p>
+                            <p><strong>Project:</strong> {{ issue_note.project }}</p>
+                        </div>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="col-1 text-center">Sr.#</th>
+                                <th class="col-7 text-center">Description</th>
+                                <th class="tbcol-2 text-center">Qty.</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="product-list">
+                            {% if issue_note_products %}
+                            {% for product in issue_note_products %}
+                            <tr>
+                                <td class="text-center">{{ forloop.counter }}</td>
+                                <td>{{ product.product.productname }}</td>
+                                <td class="text-center">{{ product.quantity }}</td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+
+                    <div class="footer-section">
+                        <div>
+                            <p>Prepared By</p>
+                            <p>Name: {{ request.user }}</p>
+                            <p>Sign: ___________________</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" onclick="printReceipt()">Print</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Bootstrap JS (for modal) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    function printReceipt() {
+        // Get the printable area contents
+        var printContents = document.getElementById('printableArea').innerHTML;
+        
+        // Create a new window for printing
+        var printWindow = window.open('', '_blank', 'width=900,height=700');
+
+        // Add the styles
+        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Print Receipt</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                        }
+                        p {
+                            margin-top: 0;
+                            margin-bottom: 0rem;
+                        }
+                        .table-container {
+                            width: 100%;
+                            border: 1px solid #000;
+                            padding: 20px;
+                            background-color: #fff;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 10px;
+                        }
+                        th, td {
+                            border: 1px solid #000;
+                            padding: 8px;
+                            text-align: left;
+                        }
+                        .header-section {
+                            display: flex;
+                            justify-content: space-between;
+                            margin-bottom: 10px;
+                        }
+                        .footer-section {
+                            display: flex;
+                            justify-content: space-between;
+                            margin-top: 20px;
+                            margin-left: 20px;
+                        }
+                        .text-center {
+                            text-align: center;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="printableArea">${printContents}</div>
+                </body>
+            </html>
+        `);
+
+        // Wait for content to load, then print and close the window
+        printWindow.document.close();
+        printWindow.focus();
+        printWindow.print();
+        printWindow.close();
+    }
+</script>
 
 {% endblock body %}
