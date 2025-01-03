@@ -44,7 +44,7 @@ class Create_User_Form(UserCreationForm):
                 'Create User',   
             ),
             Field('username','group','password1','password2', css_class="mb-3", css_id="custom_field_id",),
-            Submit('submit', 'Submit', css_class='btn btn-info mt-3'), 
+            Submit('submit', 'Create User', css_class='btn btn-info mt-3'), 
         )
 
 
@@ -300,11 +300,11 @@ class Store_Purchase_ProductForm(forms.ModelForm):
 class Sales_ReceiptForm(forms.ModelForm):
     customer_name = forms.ModelChoiceField(
         queryset=Customer.objects.filter(is_deleted=False),
-        empty_label="Select Customer"
+        empty_label="Select Customer",required=True
     )
     class Meta:
         model = Sales_Receipt
-        fields = ['customer_name', 'phone_number']
+        fields = ['customer_name',]
     def __init__(self, *args, **kwargs):
         super(Sales_ReceiptForm, self).__init__(*args, **kwargs)
         # Check if an instance is passed
