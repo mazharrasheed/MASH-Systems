@@ -1,7 +1,14 @@
 {% extends 'css-js-links.html' %} {% load static %} {% load custom_filters %}
 {% load crispy_forms_tags %}
-{% block title %} Create Customer Receipt {% endblock title %} {% block context %}
-{% include 'navbar.html' %} {% endblock context %}
+{% block title %} Create Customer Receipt {% endblock title %} 
+
+{% block context %}
+{% if request.user.is_superuser %}
+{% include 'navbar.html' %} 
+{% else %}
+{% include 'sale/navbar.html' %} 
+{% endif %}
+{% endblock context %}
 
 
 {% block body %}

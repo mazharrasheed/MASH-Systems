@@ -7,7 +7,11 @@ Sales-List
 {% endblock title %}
 
 {% block context %}
-{% include 'navbar.html' %}
+{% if request.user.is_superuser %}
+{% include 'navbar.html' %} 
+{% else %}
+{% include 'sale/navbar.html' %} 
+{% endif %}
 {% endblock context %}
 
 {% block body %}

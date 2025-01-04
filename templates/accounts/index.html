@@ -2,7 +2,11 @@
 {% load static %}
 
 {% block context %}
-{% include 'accounts/navbar.html' %}
+{% if request.user.is_superuser %}
+{% include 'navbar.html' %} 
+{% else %}
+{% include 'accounts/navbar.html' %} 
+{% endif %}
 {% endblock context %}
 
 {% block body %}

@@ -2,7 +2,11 @@
 {% load static %}
 
 {% block context %}
-{% include 'store/navbar.html' %}
+{% if request.user.is_superuser %}
+{% include 'navbar.html' %} 
+{% else %}
+{% include 'store/navbar.html' %} 
+{% endif %}
 {% endblock context %}
 
 {% block body %}

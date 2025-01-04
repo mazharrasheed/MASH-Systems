@@ -2,11 +2,15 @@
 {% load crispy_forms_tags %} 
 
 {% block title %}
-Edit GRN 
+Edit Store Issue Note
 {% endblock title %} 
 
-{% block context %} 
-{% include 'store/navbar.html'%}
+{% block context %}
+{% if request.user.is_superuser %}
+{% include 'navbar.html' %} 
+{% else %}
+{% include 'store/navbar.html' %} 
+{% endif %}
 {% endblock context %}
 
 {% block body %}
