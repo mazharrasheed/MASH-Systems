@@ -28,7 +28,7 @@ Add Account {% endblock title %}
       <form method="post">
         {% csrf_token %}
         {{form|crispy}}
-        <input type="submit" class="btn btn-info" {% if update %} value="Update Account" {% else %} value="Add Account"
+        <input type="submit" class="btn btn-info" {% if update %} value="Update Account" {% else %} value="Create Account"
           {% endif %}>
         <a class="btn btn-warning" href="/accounts/">Accounts</a>
       </form>

@@ -1,9 +1,12 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render,get_object_or_404
-from home.forms import  AccountForm,Employee_AccountForm,Customer_AccountForm,Supplier_AccountForm,Cheque_AccountForm,TransactionForm
+from home.forms import  AccountForm,Employee_AccountForm,Customer_AccountForm,Supplier_AccountForm,Cheque_AccountForm,TransactionForm,AccountStatementForm
 from home.models import Account,Transaction
 from django.contrib.auth.decorators import login_required,permission_required
+from django.db.models import Sum
 # Create your views here.
+
+
 
 @login_required
 @permission_required('home.view_account', login_url='/login/')
@@ -376,3 +379,61 @@ def balance_sheet(request):
 
     return render(request, 'accounts/balance_sheet.html', mydata)
     
+def account_statement_view(request):
+    form = AccountStatementForm(request.GET or None)
+    transactions = []
+    opening_balance = 0
+    total_debit = 0
+    total_credit = 0
+    closing_balance = 0
+    running_balances = []
+
+    if form.is_valid():
+        account = form.cleaned_data['account']
+        from_date = form.cleaned_data['from_date']
+        to_date = form.cleaned_data['to_date']
+
+        # Calculate opening balance
+        opening_debits = Transaction.objects.filter(
+            debit_account=account, date__lt=from_date
+        ).aggregate(Sum('amount'))['amount__sum'] or 0
+
+        opening_credits = Transaction.objects.filter(
+            credit_account=account, date__lt=from_date
+        ).aggregate(Sum('amount'))['amount__sum'] or 0
+
+        opening_balance = account.balance + opening_credits - opening_debits
+
+        # Filter transactions within the date range
+        transactions = Transaction.objects.filter(
+            date__gte=from_date, date__lte=to_date
+        ).filter(
+            debit_account=account
+        ) | Transaction.objects.filter(
+            date__gte=from_date, date__lte=to_date, credit_account=account
+        ).order_by('date')
+
+        # Calculate running balance
+        current_balance = opening_balance
+        for transaction in transactions:
+            if transaction.debit_account == account:
+                current_balance -= transaction.amount
+            elif transaction.credit_account == account:
+                current_balance += transaction.amount
+            running_balances.append((transaction, current_balance))
+
+        # Calculate total debit and credit within the date range
+        total_debit = transactions.filter(debit_account=account).aggregate(Sum('amount'))['amount__sum'] or 0
+        total_credit = transactions.filter(credit_account=account).aggregate(Sum('amount'))['amount__sum'] or 0
+
+        # Calculate closing balance
+        closing_balance = current_balance
+
+    return render(request, 'accounts/account_statement.html', {
+        'form': form,
+        'running_balances': running_balances,
+        'opening_balance': opening_balance,
+        'total_debit': total_debit,
+        'total_credit': total_credit,
+        'closing_balance': closing_balance,
+    })

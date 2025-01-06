@@ -130,6 +130,7 @@ urlpatterns = [
     path('editaccount/<int:id>', accounts.edit_account , name="editaccount"),
     path('deleteaccount/<int:id>', accounts.delete_account , name="deleteaccount"),
     path('accountreport/<int:id>', accounts.account_report , name="accountreport"),
+    path('account-statement/', accounts.account_statement_view, name='account_statement'),
 
     path('list_transactions/', accounts.list_transaction , name="listtransactions"),
     path('transaction/', accounts.add_transaction , name="transaction"),
