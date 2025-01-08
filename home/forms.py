@@ -604,3 +604,22 @@ class TransactionForm(forms.ModelForm):
         return amount
 
   
+
+class AccountStatementForm(forms.Form):
+    account = forms.ModelChoiceField(
+        queryset=Account.objects.all(),
+        required=True,
+        label="Account",
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        empty_label="Select Account"
+    )
+    from_date = forms.DateField(
+        required=True,
+        label="From Date",
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'})
+    )
+    to_date = forms.DateField(
+        required=True,
+        label="To Date",
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'})
+    )

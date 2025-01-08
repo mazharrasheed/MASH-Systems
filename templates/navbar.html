@@ -224,8 +224,18 @@
                           {% if perms.home.add_account %}
                           <li class="  dropdown-item {% if request.path == '/create_accounts/' %} active {% endif %} ">
                             <a href="/create_accounts/">
-                              <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.alert">Creat
+                              <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.alert">Create
                                 Accounts</span>
+                            </a>
+                          </li>
+                          {% endif %}
+
+                          {% if perms.home.view_account %}
+                          <li
+                            class="  dropdown-item {% if request.path == '/account-statement/' %} active {% endif %} ">
+                            <a href="/account-statement/">
+                              <span class="pcoded-mtext fs-5"
+                                data-i18n="nav.basic-components.breadcrumbs">Account Statement</span>
                             </a>
                           </li>
                           {% endif %}
@@ -600,7 +610,18 @@
                   <li class=" {% if request.path == 'create_accounts/' %} active {% endif %} ">
                     <a href="/create_accounts/">
                       <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                      <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.alert">Creat Accounts</span>
+                      <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.alert">Create Accounts</span>
+                      <span class="pcoded-mcaret"></span>
+                    </a>
+                  </li>
+                  {% endif %}
+
+                  {% if perms.home.view_account %}
+                  <li
+                    class=" {% if request.path == '/account-statement/'  %} active {% endif %} ">
+                    <a href="/account-statement/">
+                      <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
+                      <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.breadcrumbs">Account Statment</span>
                       <span class="pcoded-mcaret"></span>
                     </a>
                   </li>
@@ -645,7 +666,6 @@
                   </li>
                   {% endif %}
 
-               
 
                   {% if perms.home.view_customer %}
                   <li class="  {% if request.path == '/customers/' %} active {% endif %}">

@@ -159,6 +159,18 @@
               {% endif %}
 
               {% if perms.home.view_transaction %}
+              <li class=" {% if request.path == '/account-statement/' %} color-info {% endif %}">
+                <a href="/account-statement/">
+                  <span class="pcoded-micon"><i class="ti-layout-accordion-list"></i><b>D</b></span>
+                  <span class="pcoded-mtext fs-5" data-i18n="nav.dash.main">
+                    <h5>Account Statement</h5>
+                  </span>
+                  <span class="pcoded-mcaret"></span>
+                </a>
+              </li>
+              {% endif %}
+
+              {% if perms.home.view_transaction %}
               <li class=" {% if request.path == '/list_transactions/' %} color-info {% endif %}">
                 <a href="/list_transactions/">
                   <span class="pcoded-micon"><i class="ti-view-list-alt"></i><b>D</b></span>
