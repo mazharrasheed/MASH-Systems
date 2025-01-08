@@ -224,8 +224,11 @@ def edit_cash_salereceipt(request,id):
                     return JsonResponse({'success': False, 'message': 'Invalid product data.'})
 
             for product_id, total_quantity in product_quantities.items():
+        
                 try:
+                    product_id, quantity,unit_price,amount = product_info.split(':')
                     product_instance = Product.objects.get(id=product_id)
+                    print("product id :",product_id, "qty:",total_quantity,unit_price,amount)
                     product, created = Sales_Receipt_Product.objects.update_or_create(
                         salereceipt=salercpt, 
                         product=product_instance, 
