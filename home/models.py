@@ -356,3 +356,13 @@ class Transaction(models.Model):
     is_deleted=models.BooleanField(default=False)
     def __str__(self):
         return f"{self.date} - {self.description}"
+    
+
+class UnderConstruction(models.Model):
+    is_under_construction=models.BooleanField(null=True ,blank=True,help_text="Note for Under Costruction")
+    uc_note=models.TextField(null=True, blank=True ,help_text="Note for under construction")
+    uc_duration=models.DateTimeField(null=True, blank=True, help_text="End date and time for under construction mode")
+    updated_at=models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"under construction:{self.is_under_construction}"
