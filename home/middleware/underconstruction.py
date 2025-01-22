@@ -2,7 +2,8 @@
 
 from django.shortcuts import render
 from home.models import UnderConstruction
-# from decouple import config
+from decouple import config
+
 
 class UnderConstructionMiddleWare():
 
@@ -13,8 +14,12 @@ class UnderConstructionMiddleWare():
 
         if request.user.is_superuser:
             print("under construction super user")
-            return self.get_respose(request)     
-        uc_key="123"
+            key=config("MAINTENANCE_BYPASS_KEY")
+            print("Key",key)
+            return self.get_respose(request)
+        #  imported from .env file to hide our secret key using decouple config
+        uc_key=config("MAINTENANCE_BYPASS_KEY")
+
         if "u" in request.GET and request.GET["u"]==uc_key:
             request.session['bypass_maintenance']=True
             request.session.set_expiry(0)
