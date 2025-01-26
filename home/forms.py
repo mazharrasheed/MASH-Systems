@@ -398,7 +398,7 @@ class Sign_Up(UserCreationForm):
             ),
             Field('username','password1','password2', css_class="mb-3", css_id="custom_field_id",),
         
-            Submit('submit', 'Submit', css_class='btn btn-info mt-3'), 
+            Submit('submit', 'SignUp', css_class='btn btn-info mt-3'), 
         )
 
 class Add_Blog(forms.ModelForm):

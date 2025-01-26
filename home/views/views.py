@@ -133,8 +133,8 @@ def sign_up(request):
   else:
     form=Sign_Up()
   data={'form':form}
-  return render(request,'auth-sign-up.html',data)
-  # return render(request,'signup.html',data)
+  # return render(request,'auth-sign-up.html',data)
+  return render(request,'signup.html',data)
 
 def log_out(request):
 

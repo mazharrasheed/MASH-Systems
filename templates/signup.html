@@ -1,33 +1,38 @@
-{% extends 'base.html' %}
+{% extends 'css-js-links.html' %}
 {% load crispy_forms_tags %}
+{% block body %}
 
-{% block content %}
-
-<div class="container">
-
-    <div style="border-radius: 2rem;" class="container border col-5 m-5 p-4">
-       
-        {% crispy form %}
-  
-    {% if messages %} {% for message in messages %}
-    <p id="pid" {% if message.tags %} class="{{message.tags}} mt-3" {% endif %}>
-      {{message}}
-    </p>
-    {% endfor %} {% endif %}
-
-    
-</div>
+<div class="fix-menu">
+  <section class="common-img-bg">
+    <!-- Container-fluid starts -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">
+          <!-- Authentication card start -->
+          <div class="signup-card card-block auth-body mr-auto ml-auto mt-3 ">
+            <div style="border-radius: 2rem;" class="container border col-7 m-5 offset-md-3 p-4">
+              {% crispy form %}
+              {% if messages %} {% for message in messages %}
+              <p id="pid" {% if message.tags %} class="{{message.tags}} mt-3" {% endif %}>
+                {{message}}
+              </p>
+              {% endfor %} {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 
 <script>
-  $(document).ready(function(){
+  $(document).ready(function () {
 
     // Wait for 10 seconds and then hide the element with id "myElement"
-    setTimeout(function(){
-        $("#pid").hide();
+    setTimeout(function () {
+      $("#pid").hide();
     }, 4000); // 10000 milliseconds = 10 seconds
-});
-   
+  });
 </script>
 
-  {% endblock content %}
+{% endblock body %}
