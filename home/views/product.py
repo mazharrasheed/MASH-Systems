@@ -116,5 +116,6 @@ def inventory(request):
     product_stock = []
     for product in products:
         current_stock = product.get_current_stock()
+        product.change_status()
         product_stock.append({'product': product, 'current_stock': current_stock})
     return render(request, 'stock/inventory.html', {'mydata': product_stock})
