@@ -57,23 +57,23 @@ Create Account {% endblock title %}
               <table class="table table-striped">
                 <thead>
                   <tr>
-                    <th>Date</th>
-                    <th>Description</th>
-                    <th>Debit Account</th>
-                    <th>Credit Account</th>
-                    <th>Amount</th>
-                    <th>Running Balance</th>
+                    <th >Date</th>
+                    <th class="text-center">Description</th>
+                    <th class="text-center">Debit Account</th>
+                    <th class="text-center">Credit Account</th>
+                    <th class="text-center">Amount</th>
+                    <th class="text-center">Running Balance</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for transaction, balance in running_balances %}
                   <tr>
                     <td>{{ transaction.date }}</td>
-                    <td>{{ transaction.description }}</td>
-                    <td>{{ transaction.debit_account }}</td>
-                    <td>{{ transaction.credit_account }}</td>
-                    <td>{{ transaction.amount }}</td>
-                    <td>{{ balance }}</td>
+                    <td class="text-center">{{ transaction.description }}</td>
+                    <td class="text-center">{{ transaction.debit_account }}</td>
+                    <td class="text-center">{{ transaction.credit_account }}</td>
+                    <td class="text-center">{{ transaction.amount }}</td>
+                    <td class="text-center">{{ balance }}</td>
                   </tr>
                   {% endfor %}
                 </tbody>
