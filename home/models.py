@@ -354,8 +354,16 @@ class Transaction(models.Model):
     credit_account = models.ForeignKey(Account, related_name='credit_transactions', on_delete=models.RESTRICT)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     is_deleted=models.BooleanField(default=False)
+    made_by=models.ForeignKey(User,on_delete=models.RESTRICT)
     def __str__(self):
         return f"{self.date} - {self.description}"
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['debit_account']),
+            models.Index(fields=['credit_account']),
+            models.Index(fields=['date']),
+        ]
     
 
 class UnderConstruction(models.Model):

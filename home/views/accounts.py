@@ -4,6 +4,9 @@ from home.forms import  AccountForm,Employee_AccountForm,Customer_AccountForm,Su
 from home.models import Account,Transaction
 from django.contrib.auth.decorators import login_required,permission_required
 from django.db.models import Sum
+from datetime import datetime, timedelta
+from django.utils import timezone
+
 # Create your views here.
 
 
@@ -132,7 +135,9 @@ def add_transaction(request):
     if request.method == 'POST':
         form = TransactionForm(request.POST)
         if form.is_valid():
-            form.save()
+            transaction=form.save(commit=False)
+            transaction.made_by=request.user
+            transaction.save()
             return redirect('transaction')
     else:
         form = TransactionForm()
@@ -199,7 +204,9 @@ def edit_transaction(request,id):
         transaction = Transaction.objects.get(id=id)
         form = TransactionForm(request.POST,instance=transaction)
         if form.is_valid():
-            form.save()
+            transaction=form.save(commit=False)
+            transaction.made_by=request.user
+            transaction.save()
             messages.success(request,"Transaction Updated successfully !!")
             return redirect('transaction')
     else:
@@ -378,7 +385,14 @@ def balance_sheet(request):
     }
 
     return render(request, 'accounts/balance_sheet.html', mydata)
-    
+
+from django.utils import timezone
+from datetime import datetime
+
+@login_required
+@permission_required('home.view_account', login_url='/login/')
+
+
 def account_statement(request):
     form = AccountStatementForm(request.GET or None)
     transactions = []
@@ -392,26 +406,43 @@ def account_statement(request):
         account = form.cleaned_data['account']
         from_date = form.cleaned_data['from_date']
         to_date = form.cleaned_data['to_date']
+        print(to_date)
+
+        # Convert from_date and to_date to datetime objects at midnight
+        from_datetime = datetime.combine(from_date, datetime.min.time())
+        to_datetime = datetime.combine(to_date, datetime.min.time())+ timedelta(days=1)
+        print(to_datetime)
+        # Ensure from_datetime and to_datetime are timezone-aware
+        if timezone.is_naive(from_datetime):
+            from_datetime = timezone.make_aware(from_datetime)
+        if timezone.is_naive(to_datetime):
+            to_datetime = timezone.make_aware(to_datetime)
 
         # Calculate opening balance
         opening_debits = Transaction.objects.filter(
-            debit_account=account, date__lt=from_date
+            debit_account=account, date__lt=from_datetime
         ).aggregate(Sum('amount'))['amount__sum'] or 0
 
         opening_credits = Transaction.objects.filter(
-            credit_account=account, date__lt=from_date
+            credit_account=account, date__lt=from_datetime
         ).aggregate(Sum('amount'))['amount__sum'] or 0
 
         opening_balance = account.balance + opening_credits - opening_debits
 
         # Filter transactions within the date range
         transactions = Transaction.objects.filter(
-            date__gte=from_date, date__lte=to_date
-        ).filter(
-            debit_account=account
-        ) | Transaction.objects.filter(
-            date__gte=from_date, date__lte=to_date, credit_account=account
+        Q(debit_account=account) | Q(credit_account=account),
+        date__gte=from_datetime,
+        date__lt=to_datetime
         ).order_by('date')
+        
+        # transactions = Transaction.objects.filter(
+        #     date__gte=from_datetime, date__lte=to_datetime
+        # ).filter(
+        #     debit_account=account
+        # ) | Transaction.objects.filter(
+        #     date__gte=from_datetime, date__lte=to_datetime, credit_account=account
+        # ).order_by('date')
 
         # Calculate running balance
         current_balance = opening_balance

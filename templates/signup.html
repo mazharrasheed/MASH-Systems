@@ -9,14 +9,19 @@
       <div class="row">
         <div class="col-sm-12">
           <!-- Authentication card start -->
-          <div class="signup-card card-block auth-body mr-auto ml-auto mt-3 ">
-            <div style="border-radius: 2rem;" class="container border col-7 m-5 offset-md-3 p-4">
+          <div class="signup-card card-block auth-body mr-auto ml-auto mt-3">
+            <div class="mt-5 pt-2">
+            <div style="border-radius: 2rem;" class="container border bg-light col-9 m-5 offset-md-3 p-5">
+
               {% crispy form %}
+              
               {% if messages %} {% for message in messages %}
               <p id="pid" {% if message.tags %} class="{{message.tags}} mt-3" {% endif %}>
                 {{message}}
               </p>
               {% endfor %} {% endif %}
+              
+            </div>
             </div>
           </div>
         </div>
