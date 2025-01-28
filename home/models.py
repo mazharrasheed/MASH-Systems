@@ -104,7 +104,7 @@ class Product(models.Model):
     unit=models.CharField(max_length=255,default="Nos")
     weight=models.FloatField(max_length=255,default=0,null=True,blank=True)
     # product_status=models.CharField(max_length=50,choices=STATUS_TYPE_CHOICES)
-    product_status=models.BooleanField(default=True)
+    product_status=models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
     pro_img=models.ImageField(upload_to="uploaded/products/",null=True,blank=True)
     # product_slug=AutoSlugField(populate_from=lambda instance: f"{instance.productname}-{instance.category}-{instance.id}",unique=True,null=True,default=None)
