@@ -263,7 +263,6 @@ Edit Slae Receipt
 
 		const form = document.getElementById('salereceipt-form');
 		const formData = new FormData(form);
-
 		// Append all product information to the form
 		productList.forEach(product => {
 			formData.append('products[]', `${product.product}:${product.quantity}:${product.unit_price}:${product.amount}`);
