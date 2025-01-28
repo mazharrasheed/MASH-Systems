@@ -379,7 +379,7 @@ def balance_sheet(request):
 
     return render(request, 'accounts/balance_sheet.html', mydata)
     
-def account_statement_view(request):
+def account_statement(request):
     form = AccountStatementForm(request.GET or None)
     transactions = []
     opening_balance = 0
