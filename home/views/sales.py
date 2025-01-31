@@ -340,6 +340,7 @@ def make_transaction(request,id):
     print(amt)
     amount=amt['amount__sum']
     transaction=Transaction(description=f' sales receipt id = {salereceipt.id}',debit_account=debit_account,credit_account=credit_account,amount=amount)
+    transaction.made_by=request.user
     transaction.save()
     salereceipt.make_transaction=True
     salereceipt.save()

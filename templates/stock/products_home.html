@@ -12,8 +12,6 @@ Products {% endblock title %}
 {% endif %}
 {% endblock context %}
 
-
-
 {% block body %}
 
 <div class="pcoded-content">
@@ -27,12 +25,8 @@ Products {% endblock title %}
               <h3 class="text-center alert alert-info">Products List</h3>
               <div class="row">
                 {% if products %}
-
-
-
-                
                 {% for product in products %}
-                <div class="col-lg-4 col-md-4 mb-3">
+                <div class="col-lg-6 col-md-6 mb-3">
                   <div class="card mx-auto p-3" id="{{product.id}}" style="width: 25rem">
                     {% if product.pro_img %}
                     <img src="{{product.pro_img.url}}" class="card-img-top mt-2" alt="Product Image">

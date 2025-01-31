@@ -231,11 +231,30 @@ class Sales_Receipt_Product(models.Model):
     def __str__(self):
         return f"{self.product.productname} (Qty: {self.quantity})"
     
+class Store_Issue_Request(models.Model):
+    products = models.ManyToManyField(Product, through='Store_Issue_Request_Product')
+    date_created = models.DateTimeField(auto_now_add=True)
+    project =  models.ForeignKey(Project,on_delete=models.PROTECT,null=True)
+    created_by = models.ForeignKey(User, on_delete=models.RESTRICT,null=True)
+    issue= models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Store Issue {self.id} - {self.date_created.strftime('%Y-%m-%d')}"
+
+class Store_Issue_Request_Product(models.Model):
+    store_issue_request = models.ForeignKey(Store_Issue_Request, on_delete=models.RESTRICT)
+    product = models.ForeignKey(Product, on_delete=models.RESTRICT)
+    quantity = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.product.productname} (Qty: {self.quantity})"
+    
 class Store_Issue_Note(models.Model):
     products = models.ManyToManyField(Product, through='Store_Issue_Product')
     date_created = models.DateTimeField(auto_now_add=True)
     project =  models.ForeignKey(Project,on_delete=models.PROTECT,null=True)
     created_by = models.ForeignKey(User, on_delete=models.RESTRICT,null=True)
+    request= models.ForeignKey(Store_Issue_Request,on_delete=models.RESTRICT,null=True)
 
     def __str__(self):
         return f"Store Issue {self.id} - {self.date_created.strftime('%Y-%m-%d')}"
@@ -354,9 +373,17 @@ class Transaction(models.Model):
     credit_account = models.ForeignKey(Account, related_name='credit_transactions', on_delete=models.RESTRICT)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     is_deleted=models.BooleanField(default=False)
+    made_by=models.ForeignKey(User,on_delete=models.RESTRICT)
     def __str__(self):
         return f"{self.date} - {self.description}"
     
+    class Meta:
+        indexes = [
+            models.Index(fields=['debit_account']),
+            models.Index(fields=['credit_account']),
+            models.Index(fields=['date']),
+        ]
+
 
 class UnderConstruction(models.Model):
     is_under_construction=models.BooleanField(null=True ,blank=True,help_text="Note for Under Costruction")

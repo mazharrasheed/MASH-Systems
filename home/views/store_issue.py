@@ -74,6 +74,7 @@ def create_store_issue_note(request):
 @permission_required('home.change_store_issue_note', login_url='/login/')
 
 def edit_store_issue_note(request, issue_note_id):
+    print("i m called")
     grn = get_object_or_404(Store_Issue_Note, id=issue_note_id)
     products = Store_Issue_Product.objects.filter(store_issue_note=grn.id)
     if request.method == 'POST':

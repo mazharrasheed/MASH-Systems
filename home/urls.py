@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import  path
 from home.views import category,product
 from home.views import users,views,accounts,store_issue,store_purchase,finished_product,finished_pro_category
-from home.views import gatepass,sales,suppliers,customers,cheques,employees,prices,project
+from home.views import gatepass,sales,suppliers,customers,cheques,employees,prices,project,store_issue_request
 from home.models import Category
 from django.conf.urls.static import static
 
@@ -103,6 +103,15 @@ urlpatterns = [
     path('delete_salereceipt_item/<int:id>/', sales.delete_salereceipt_item, name='delete_salereceipt_item'),
     path('print-salereceipt/<int:salereceipt_id>/', sales.print_salereceipt, name='print_salereceipt'),
     path('make_transaction/<int:id>/', sales.make_transaction, name='maketransaction'),
+
+# Store Issue request
+    path('get-stock/<int:id>/', store_issue_request.get_stock, name='get-stock'),
+    path('list-store-issue_request/', store_issue_request.list_store_issue_request, name='list_store_issue_request'),
+    path('create-store-issue_request/', store_issue_request.create_store_issue_request, name='create_store_issue_request'),
+    path('edit-store-issue-request/<int:issue_request_id>/', store_issue_request.edit_store_issue_request, name='edit_store_issue_request'),
+    path('store-issuerequest-issuenote/<int:issue_request_id>/', store_issue_request.store_issuerequest_issuenote, name='store_issuerequest_issuenote'),
+    path('print-store-issue_request/<int:issue_request_id>/', store_issue_request.print_store_issue, name='print_store_issue_request'),
+    path('delete-store-issue_request/<int:id>/', store_issue_request.delete_store_issue_request, name='delete_store_issue_request'),
 
 # Store Issue
     path('get-stock/<int:id>/', store_issue.get_stock, name='get-stock'),
