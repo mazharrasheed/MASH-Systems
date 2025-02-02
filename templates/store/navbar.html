@@ -188,6 +188,18 @@
                   </li>
                   {% endif %}
 
+              {% if perms.home.view_store_issue_request %}
+                  <li class=" {% if request.path == '/list-store-issue-request/' %} color-info {% endif %} ">
+                    <a href="/list-store-issue-request/">
+                      <span class="pcoded-micon"><i class="ti-layout-accordion-list"></i><b>D</b></span>
+                      <span class="pcoded-mtext fs-5" data-i18n="nav.dash.main">
+                        <h5>Issue Request</h5>
+                      </span>
+                      <span class="pcoded-mcaret"></span>
+                    </a>
+                  </li>
+                  {% endif %}
+
               {% if perms.home.view_store_issue_note %}
                   <li class=" {% if request.path == '/list-store-issue/' %} color-info {% endif %} ">
                     <a href="/list-store-issue/">
