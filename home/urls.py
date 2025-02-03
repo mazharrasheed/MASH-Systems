@@ -105,9 +105,9 @@ urlpatterns = [
     path('make_transaction/<int:id>/', sales.make_transaction, name='maketransaction'),
 
 # Store Issue request
-    path('get-stock/<int:id>/', store_issue_request.get_stock, name='get-stock'),
-    path('list-store-issue_request/', store_issue_request.list_store_issue_request, name='list_store_issue_request'),
-    path('create-store-issue_request/', store_issue_request.create_store_issue_request, name='create_store_issue_request'),
+
+    path('list-store-issue-request/', store_issue_request.list_store_issue_request, name='list_store_issue_request'),
+    path('create-store-issue-request/', store_issue_request.create_store_issue_request, name='create_store_issue_request'),
     path('edit-store-issue-request/<int:issue_request_id>/', store_issue_request.edit_store_issue_request, name='edit_store_issue_request'),
     path('store-issuerequest-issuenote/<int:issue_request_id>/', store_issue_request.store_issuerequest_issuenote, name='store_issuerequest_issuenote'),
     path('print-store-issue_request/<int:issue_request_id>/', store_issue_request.print_store_issue, name='print_store_issue_request'),

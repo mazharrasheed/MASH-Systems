@@ -149,14 +149,14 @@
                       {% endif %}
                       {% if perms.home.view_store_issue_request %}
                       <li class=" dropdown-item {% if request.path == '/list-store_issue_request/' %} active {% endif %} ">
-                        <a href="/list-store-issue_request/">
+                        <a href="/list-store-issue-request/">
                           <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.alert">Issue Request</span>
                         </a>
                       </li>
                       {% endif %}
 
                       {% if perms.home.view_store_issue_note %}
-                      <li class=" dropdown-item {% if request.path == '/list-store_issue/' %} active {% endif %} ">
+                      <li class=" dropdown-item {% if request.path == '/list-store-issue/' %} active {% endif %} ">
                         <a href="/list-store-issue/">
                           <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.alert">Issue Note</span>
                         </a>
@@ -491,8 +491,8 @@
                   {% endif %}
 
                   {% if perms.home.view_store_issue_note %}
-                  <li class=" {% if request.path == '/list-store_issue_request/' %} active {% endif %} ">
-                    <a href="/list-store-issue_request/">
+                  <li class=" {% if request.path == '/list-store-issue-request/' %} active {% endif %} ">
+                    <a href="/list-store-issue-request/">
                       <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                       <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.alert">Issue Request</span>
                       <span class="pcoded-mcaret"></span>
@@ -501,7 +501,7 @@
                   {% endif %}
                   
                   {% if perms.home.view_store_issue_note %}
-                  <li class=" {% if request.path == '/list-store_issue/' %} active {% endif %} ">
+                  <li class=" {% if request.path == '/list-store-issue/' %} active {% endif %} ">
                     <a href="/list-store-issue/">
                       <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
                       <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.alert">Issue Note</span>
