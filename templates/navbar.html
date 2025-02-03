@@ -48,7 +48,7 @@
   <div class="pcoded-container navbar-wrapper">
     <nav style="padding: 0 ; margin: 0 ;" class="navbar header-navbar pcoded-header">
       <div class="navbar-wrapper">
-        <div style="height: 120px" class="navbar-logo  ">
+        <div style="height: 100px" class="navbar-logo  ">
           <a class="mobile-menu mt-3" id="mobile-collapse" href="#!">
             <i class="ti-menu"></i>
           </a>
@@ -74,7 +74,7 @@
               </a>
             </li>
           </ul>
-
+          {% if perm %}
           <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
               {% if perms.home.view_dashboard %}
@@ -358,8 +358,10 @@
               </div>
             </div>
           </nav>
-
+          {% endif %}
     </nav>
+
+
     <div class="pcoded-main-container">
       <div class="pcoded-wrapper">
 
