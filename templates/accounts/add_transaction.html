@@ -21,17 +21,38 @@ Add Transaction {% endblock title %}
         <div class="page-body">
   {{update}}
   <div class="row">
-
-    <div class="col-4"></div>
-    <div class="col-4 ">
+    <div class="col-md-6 offset-md-3  ">
       <h2 class="text-center alert alert-info">Add Transaction</h2>
       <form method="post" id="transactionForm">
         {% csrf_token %}
-        {{form|crispy}}
-        <button type="button" class="btn btn-success" id="reviewTransaction">
-          {% if update %} Update Transaction {% else %} Add Transaction {% endif %}
-        </button> 
-        <a  class ="btn btn-warning"href="/accounts/">Accounts</a>
+
+        <div class="row">
+          <div class="col-md-9">
+            <div class="row">
+          <div class="row">
+            {{ form.debit_account|as_crispy_field }}
+          </div>
+          <div class="row">
+            {{ form.credit_account|as_crispy_field }}
+          </div>
+          <div class="row">
+            {{ form.amount|as_crispy_field }}
+          </div>
+        </div>
+        </div>
+
+          <div class="col-md-3">
+            {{ form.description|as_crispy_field }}
+          </div>
+
+          <div class="col-md-4 mt-3">
+            <button type="button" class="btn btn-success" id="reviewTransaction">
+              {% if update %} Update Transaction {% else %} Add Transaction {% endif %}
+            </button> 
+            <a  class ="btn btn-warning"href="/accounts/">Accounts</a>
+          </div>
+        </div>
+
       </form>
 
     </div>

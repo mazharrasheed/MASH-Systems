@@ -56,7 +56,7 @@ def create_store_issue_request(request):
                         product_id=product_id,
                         quantity=quantity
                     )
-                return JsonResponse({'success': True, 'redirect_url': '/list-store-issue_request/'})
+                return JsonResponse({'success': True, 'redirect_url': '/list-store-issue-request/'})
             else:
                 return JsonResponse({'success': False, 'errors': 'Invalid form data or no products selected.'})
     else:
@@ -101,7 +101,7 @@ def edit_store_issue_request(request, issue_request_id):
                 except Product.DoesNotExist:
                     return JsonResponse({'success': False, 'message': f'Product with ID {product_id} does not exist.'})
 
-            return JsonResponse({'success': True, 'redirect_url': '/list-store-issue_request/'})
+            return JsonResponse({'success': True, 'redirect_url': '/list-store-issue-request/'})
 
         return JsonResponse({'success': False, 'message': 'Invalid form submission.'})
     print(sir.date_created)

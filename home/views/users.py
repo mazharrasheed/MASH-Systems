@@ -21,7 +21,7 @@ def create_user(request):
     if form.is_valid():
       form.save()
       user = form.save(commit=False)
-      user.is_staff=True
+      user.is_staff=False
       user.save()
       # adding user in to a group on user creation
       group = form.cleaned_data['group']

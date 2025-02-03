@@ -25,9 +25,9 @@
   <div class="row">
     <div class="col-12">
       <h2 class="text-center alert alert-info">
-        
+      
         Store Issue Request List 
-       
+      
       </h2>
 
       {% if perms.home.add_store_issue_request %}
@@ -58,7 +58,6 @@
                 <th class="border-bottom fw-bolder text-center" scope="col">
                   Requested By
                 </th>
-               
                 <th class="border-bottom fw-bolder text-center" scope="col">
                   Action
                 </th>
@@ -81,11 +80,12 @@
                 </td>
                 <td class="text-center">
 
-                  {% if perms.home.view_store_issue_note %}
+                  {% if perms.home.view_store_issue_request %}
                   <a class="btn btn-info" href="{% url 'print_store_issue_request' issuerequest.id %}">Details</a>
                   {% endif %}
 
                   {% if not issuerequest.issue  %}
+
                   {% if perms.home.add_store_issue_note %}
                   <a class="btn btn-info" href="{% url 'store_issuerequest_issuenote' issuerequest.id %}">Issue</a>
                   {% endif %}
@@ -97,6 +97,7 @@
                     Delete
                   </button>
                   {% endif %}
+
                   {% endif %}
                 </td>
               </tr>

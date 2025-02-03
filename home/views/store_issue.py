@@ -130,7 +130,7 @@ def print_store_issue(request, issue_note_id):
     })
 
 @login_required
-@permission_required('home.add_store_issue_note', login_url='/login/')
+# @permission_required('home.add_store_issue_note' , login_url='/login/')
 def get_stock(request,id):
     product=Product.objects.get(id=id)
     stock_qty=product.get_current_stock()
