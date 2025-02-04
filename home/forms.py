@@ -112,7 +112,7 @@ class ProductForm(forms.ModelForm):
     category = forms.ModelChoiceField(queryset=Category.objects.filter(is_deleted=False), empty_label="Select Category")
     class Meta:
         model = Product
-        fields = ['category', 'productname','product_size','product_status','pro_img','unit']
+        fields = ['category', 'productname','product_size','pro_img','unit']
         labels={'productname':'Product Name','product_size':'Product Size',
                 'product_status':'Product_Status','pro_img':'Product Image'}
         

@@ -21,7 +21,7 @@ Edit GRN
   }
 
   .table-container {
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #000;
@@ -90,11 +90,12 @@ Edit GRN
                   <h6>Phone: 0301-8742840</h6>
                 </div>
                 <div style="margin-right: 50px; width: 550px">
-                  <p>{{ form.project|as_crispy_field }}</p>
+                  <!-- <p>{{ form.project|as_crispy_field }}</p> -->
                   <p><strong>Date:</strong> {{ grn.date }}</p>
                 </div>
               </div>
-
+              <div class="card py">
+                <div class="table-responsive py-2">
               <table>
                 <thead>
                   <tr>
@@ -103,10 +104,10 @@ Edit GRN
                     <td>
                       <button
                         id="add-product"
-                        class="btn btn-primary"
+                        class="btn btn-primary btn-sm"
                         type="button"
                       >
-                        Add Product
+                        Add Prpduct
                       </button>
                     </td>
                   </tr>
@@ -133,10 +134,12 @@ Edit GRN
                   {% endfor %}
                 </tbody>
               </table>
-
+            </div>
+          </div>
               <button id="update-grn" class="btn btn-success">
                 Update GRN
               </button>
+              <a href="/list-store-purchase/" class="btn btn-warning">Cancel Update</a>
             </form>
           </div>
         </div>

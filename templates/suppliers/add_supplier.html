@@ -19,27 +19,20 @@ Add supplier {% endblock title %}
     <div class="main-body">
       <div class="page-wrapper">
         <div class="page-body">
-
           <div class="row">
-            <div class="col-4"></div>
-
-            <div class="col-4 ms-5">
+            <div class="col-md-4 offset-md-4">
               <h2 class="text-center alert alert-info">Add Supplier</h2>
               <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{form|crispy}}
-
                 <input type="submit" class="btn btn-success" {% if update %} value="Update Supplier" {% else %}
                   value="Add Supplier" {%endif %}>
                 <a href="/suppliers/" class="btn btn-warning">Supplier</a>
               </form>
-
             </div>
-
           </div>
           <div class="col-12 mt-3 ">
             <h2 class="text-center alert alert-info">Suppliers List</h2>
-
             {% if mydata %}
             <table class="table table-stripped table-bordered" id="petrol-table">
               <colgroup>
@@ -49,7 +42,6 @@ Add supplier {% endblock title %}
                 <col width="15%">
                 <col width="15%">
                 <col width="15%">
-
                 {% if update %} {% else %}
                 <col width="25%"> {% endif %}
               </colgroup>

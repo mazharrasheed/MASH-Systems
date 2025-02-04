@@ -21,7 +21,7 @@ Add Transaction {% endblock title %}
         <div class="page-body">
   {{update}}
   <div class="row">
-    <div class="col-md-6 offset-md-3  ">
+    <div class="col-md-8 offset-md-2  ">
       <h2 class="text-center alert alert-info">Add Transaction</h2>
       <form method="post" id="transactionForm">
         {% csrf_token %}
@@ -45,7 +45,7 @@ Add Transaction {% endblock title %}
             {{ form.description|as_crispy_field }}
           </div>
 
-          <div class="col-md-4 mt-3">
+          <div class="col-md-5 mt-3">
             <button type="button" class="btn btn-success" id="reviewTransaction">
               {% if update %} Update Transaction {% else %} Add Transaction {% endif %}
             </button> 
@@ -62,6 +62,8 @@ Add Transaction {% endblock title %}
    
     <div class="col-12 mt-5">
       <h2 class="text-center alert alert-info">Transaction Data</h2>
+      <div class="card py">
+        <div class="table-responsive py-2">
       {% if mydata %}
       <table class="table table-stripped table-bordered" id="petrol-table">
         <colgroup>
@@ -122,6 +124,8 @@ Add Transaction {% endblock title %}
           {% endif %}
         </tbody>
       </table>
+      </div>
+      </div>
       {% else %}
       <h4 class="text-center alert alert-warning">No Record Found</h4>
 

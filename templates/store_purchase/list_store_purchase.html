@@ -8,8 +8,14 @@
 {% endblock title %}
 
 {% block context %}
-{% include 'store/navbar.html' %}
+{% if request.user.is_superuser %}
+{% include 'navbar.html' %} 
+{% else %}
+{% include 'store/navbar.html' %} 
+{% endif %}
 {% endblock context %}
+
+
 
 {% block body %}
 
@@ -19,7 +25,7 @@
       <div class="page-wrapper">
         <div class="page-body">
   <div class="row">
-    <div class="col-12">
+    <div class="col-md-12">
       <h2 class="text-center alert alert-info">
         
         Goods Receipt Note List 

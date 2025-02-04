@@ -7,13 +7,17 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render,get_object_or_404
 from django.contrib.auth.decorators import login_required,permission_required
 from ..forms import Add_Blog, AdminUserPrifoleForm, EditUserPrifoleForm, GatePassProductForm,Sign_Up
-from ..models import Blog,GatePass, GatePassProduct
+from ..models import Blog,GatePass, GatePassProduct,Employee,Customer,Suppliers,Account
 from django.core.exceptions import PermissionDenied
 # Create your views here.
 
 @login_required
 def index(request):
     users=User.objects.all().count()
+    customers=Customer.objects.all().count()
+    suppliers=Suppliers.objects.all().count()
+    employees=Employee.objects.all().count()
+    accounts=Account.objects.all().count()
     # Check if the user has the required permission
     if not request.user.has_perm('home.view_dashboard'):
         # Custom redirect logic for users without permission
@@ -31,7 +35,11 @@ def index(request):
             return redirect("/list-store-issue-request/")
         else:
             raise PermissionDenied  # Show 403 Forbidden page
-    data={'users':users}
+    data={'users':users,
+          'employees':employees,
+          'customers':customers,
+          'suppliers':suppliers,
+          'accounts':accounts}
     return render(request, 'index.html',data)
 
 @login_required

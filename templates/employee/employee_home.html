@@ -23,9 +23,9 @@ Employees {% endblock title %}
 <div class="row">
   <div class="col-12">
     <h2 class="text-center alert alert-info">Employees List</h2>
-    <div class="card py">
+    <div class="">
       {% if perms.home.add_employee %}
-      <a href="{% url 'addemployee' %}" class=" fs-6 btn btn-primary col-2 m-3">Add Employee</a>
+      <a href="{% url 'addemployee' %}" class=" fs-6 btn btn-primary col-md-2 ">Add Employee</a>
       {% endif %}
       
       <div class="table-responsive py-2">
