@@ -23,6 +23,7 @@ urlpatterns = [
 # Users
     path('list_users/', users.list_users,name="listusers"),
     path('create_user/', users.create_user,name="createuser"),
+    path('user_detail/<int:id>', users.user_details,name="userdetail"),
 # path('accounts/login/', views.sign_in,name="signin"),@login requried hit this url
     path('detail/<int:id>', views.detail,name="detail"),
     path('delete/<int:id>', views.delete_data , name="deletedata"),

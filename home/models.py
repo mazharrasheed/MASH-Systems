@@ -231,41 +231,46 @@ class Sales_Receipt_Product(models.Model):
     def __str__(self):
         return f"{self.product.productname} (Qty: {self.quantity})"
     
+# revised 
 class Store_Issue_Request(models.Model):
     products = models.ManyToManyField(Product, through='Store_Issue_Request_Product')
     date_created = models.DateTimeField(auto_now_add=True)
-    project =  models.ForeignKey(Project,on_delete=models.PROTECT,null=True)
-    created_by = models.ForeignKey(User, on_delete=models.RESTRICT,null=True)
+    project = models.ForeignKey(Project, on_delete=models.PROTECT, null=True, related_name="issue_requests")
+    created_by = models.ForeignKey(User, on_delete=models.RESTRICT, null=True, related_name="requests_created")
+    issued_by = models.ForeignKey(User, on_delete=models.RESTRICT, null=True, related_name="requests_issued")
     issue= models.BooleanField(default=False)
 
     def __str__(self):
         return f"Store Issue {self.id} - {self.date_created.strftime('%Y-%m-%d')}"
 
 class Store_Issue_Request_Product(models.Model):
-    store_issue_request = models.ForeignKey(Store_Issue_Request, on_delete=models.RESTRICT)
+    store_issue_request = models.ForeignKey(Store_Issue_Request, on_delete=models.RESTRICT,related_name='store_issue_request_products')
     product = models.ForeignKey(Product, on_delete=models.RESTRICT)
     quantity = models.PositiveIntegerField()
+
+    class Meta:
+        unique_together = ('store_issue_request', 'product')
 
     def __str__(self):
         return f"{self.product.productname} (Qty: {self.quantity})"
     
+
 class Store_Issue_Note(models.Model):
     products = models.ManyToManyField(Product, through='Store_Issue_Product')
     date_created = models.DateTimeField(auto_now_add=True)
-    project =  models.ForeignKey(Project,on_delete=models.PROTECT,null=True)
-    created_by = models.ForeignKey(User, on_delete=models.RESTRICT,null=True)
-    request= models.ForeignKey(Store_Issue_Request,on_delete=models.RESTRICT,null=True)
-
-    def __str__(self):
-        return f"Store Issue {self.id} - {self.date_created.strftime('%Y-%m-%d')}"
+    project = models.ForeignKey(Project, on_delete=models.PROTECT, null=True, related_name="store_issue_notes")
+    created_by = models.ForeignKey(User, on_delete=models.RESTRICT, null=True, related_name="created_issue_notes")
+    request = models.ForeignKey(Store_Issue_Request, on_delete=models.RESTRICT, null=True, related_name="requested_issue_notes")
 
 class Store_Issue_Product(models.Model):
-    store_issue_note = models.ForeignKey(Store_Issue_Note, on_delete=models.RESTRICT)
-    product = models.ForeignKey(Product, on_delete=models.RESTRICT)
+    store_issue_note = models.ForeignKey(Store_Issue_Note, on_delete=models.RESTRICT, related_name='store_issue_products')
+    product = models.ForeignKey(Product, on_delete=models.RESTRICT, related_name="issued_in_notes")
     quantity = models.PositiveIntegerField()
 
-    def __str__(self):
-        return f"{self.product.productname} (Qty: {self.quantity})"
+    class Meta:
+        unique_together = ('store_issue_note', 'product')
+    
+# end revised
     
 class Store_Purchase_Note(models.Model):
     products = models.ManyToManyField(Product, through='Store_Purchase_Product')
