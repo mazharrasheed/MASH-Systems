@@ -17,19 +17,17 @@ Users {% endblock title %}
                 <div class="page-body">
                     <div class="row">
                         <div class="col-12">
-                            <h2 class="text-center alert alert-info">User Details</h2>
-                            <div class="card py">
-                                <div class="table-responsive py-2">
-                                    <h4 class="text-center alert alert-info">
-                                        User 
+                            <h2 class="text-center alert alert-info">
+                               User 
                                     {% if issued %}
                                         Issued Requests
                                     {% else %}
                                         Requests                                    
                                     {% endif %} Details
-                                    
-                                    </h4>
-
+                            
+                            </h2>
+                            <div class="card py">
+                                <div class="table-responsive py-2">
                                 {% if request_data %}
                                     <table class="table table-flush" id="datatable">
                                         <thead class="thead-light">
