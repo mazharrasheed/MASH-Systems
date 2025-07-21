@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -50,9 +51,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'home.middleware.underconstruction.UnderConstructionMiddleWare',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
 ]
 
 ROOT_URLCONF = 'Inventry_management_System.urls'
@@ -123,6 +122,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# Add this for production
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -163,8 +165,7 @@ LOGIN_URL = '/login/'
 
 LOGIN_REDIRECT_URL="/"
 
-MEDIA_URL='/images/uploaded/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-MEDIA_ROOT=BASE_DIR
-
-ALLOWED_HOSTS = ['192.168.2.13','192.168.0.105', 'localhost', '127.0.0.1','192.168.2.12','192.168.43.12']
+ALLOWED_HOSTS = ['mashsystems.pythonanywhere.com']
