@@ -29,6 +29,16 @@ Users {% endblock title %}
     <h5 class="m-2">Last Name : {{request.user.last_name|title}}</h5>
     <h5 class="m-2">Email : {{request.user.email}}</h5>
     <a class="btn btn-info m-2" href={% url 'editprofile' request.user.id %}>Edit Profile</a>
+
+    <div id="display-msg" class="text-center" style="min-height: 70px">
+                {% if messages %} {% for message in messages %}
+                <small id="msg" {% if message.tags %} class="{{message.tags}}" {% endif %}>
+                  <h6 class="alert {% if message.tags == 'error' %} alert-warning {% else %} alert-{{message.tags}} {% endif %} ">{{message}}</h6>
+                </small>
+                {% endfor %} {% else %} &nbsp;
+                <!-- Prevent collapse when there are no messages -->
+                {% endif %}
+    </div>
   </div>
   <div class="col-md-9    justify-content-center">
     <div class="col-md-12 alert alert-success">
