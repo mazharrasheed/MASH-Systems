@@ -8,9 +8,9 @@ Sales-List
 
 {% block context %}
 {% if request.user.is_superuser %}
-{% include 'navbar.html' %} 
+{% include 'navbar.html' %}
 {% else %}
-{% include 'sale/navbar.html' %} 
+{% include 'sale/navbar.html' %}
 {% endif %}
 {% endblock context %}
 
@@ -108,21 +108,21 @@ Sales-List
                           {% endif %}
                           {% endif %}
 
-                          {% if perms.home.view_sale_receipt %}
+                          {% if perms.home.view_sales_receipt %}
                           <a class="btn btn-success" href="{% url 'print_salereceipt' salereceipt.id %}">Print</a>
                           {% endif %}
 
-                          {% if perms.home.change_sale_receipt %}
+                          {% if perms.home.change_sales_receipt %}
 
-                          {% if salereceipt.make_transaction %}  
-                          
+                          {% if salereceipt.make_transaction %}
+
 
                           <button class="btn btn-warning me-1" disabled="true" href="{% if cash %}
                           {% url 'edit_cashsale_receipt' salereceipt.id %}">Edit</button>
                           {% else %}
-                         
+
                           {% url 'edit_salereceipt' salereceipt.id %}">Edit</a>
-                         
+
                           {% endif %}
 
 
@@ -131,18 +131,18 @@ Sales-List
                           <a class="btn btn-warning" href="{% if cash %}
                           {% url 'edit_cashsale_receipt' salereceipt.id %}">Edit</a>
                           {% else %}
-                         
+
                           {% url 'edit_salereceipt' salereceipt.id %}">Edit</a>
-                         
+
                           {% endif %}
                           {% endif %}
                           {% endif %}
 
-                          {% if perms.home.delete_sale_receipt %}
-                          {% if salereceipt.make_transaction %}  
+                          {% if perms.home.delete_sales_receipt %}
+                          {% if salereceipt.make_transaction %}
                           <button class="btn btn-danger"  disabled   data-salereceipt-id="{{ salereceipt.id }}">
                             Delete
-                          </button>        
+                          </button>
                           {% else %}
                           <button class="btn btn-danger delete-salereceipt" data-salereceipt-id="{{ salereceipt.id }}">
                             Delete

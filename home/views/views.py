@@ -115,16 +115,10 @@ def post_blog(request):
 @permission_required('home.view_blog',login_url='/login/')
 def dashboard(request):
 
-  if request.user.is_superuser==True:
     myblog=Blog.objects.all()
-    data={'myblog':myblog}
-    pass
-  else:
-    user=request.user
-    myblog=Blog.objects.filter(user=user)
-    gps=user.groups.all()
-    data={'myblog':myblog,'groups':gps}
-  return render(request,'dashboard.html',data)
+    data={'myblog':myblog,'dashboard':True}
+
+    return render(request,'dashboard.html',data)
 
 
 def sign_up(request):
@@ -191,6 +185,22 @@ def sign_in(request):
     return render(request, "auth-normal-sign-in.html", mydata)
   else:
     return redirect("index")
+
+@login_required
+@permission_required('home.view_blog',login_url='/login/')
+def profile(request):
+
+  if request.user.is_superuser==True:
+    myblog=Blog.objects.all()
+    data={'myblog':myblog}
+    pass
+  else:
+    user=request.user
+    myblog=Blog.objects.filter(user=user)
+    gps=user.groups.all()
+    data={'myblog':myblog,'groups':gps}
+  return render(request,'dashboard.html',data)
+
 
 @login_required
 # @permission_required('auth.change_user',login_url='/login/')

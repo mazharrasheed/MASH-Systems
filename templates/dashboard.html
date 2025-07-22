@@ -16,6 +16,10 @@ Users {% endblock title %}
             <div class="page-wrapper">
                 <div class="page-body">
 <div class="row justify-content-center">
+
+
+    {% if not dashboard %}
+
   <div class="col-md-3  justify-content-center alert alert-info">
     <h3 class='m-2' class="">Profile</h3>
 
@@ -30,6 +34,8 @@ Users {% endblock title %}
     <h5 class="m-2">Email : {{request.user.email}}</h5>
     <a class="btn btn-info m-2" href={% url 'editprofile' request.user.id %}>Edit Profile</a>
 
+    <a class="btn btn-info m-3" href="/dashboard/">All Blogs</a>
+
     <div id="display-msg" class="text-center" style="min-height: 70px">
                 {% if messages %} {% for message in messages %}
                 <small id="msg" {% if message.tags %} class="{{message.tags}}" {% endif %}>
@@ -40,9 +46,11 @@ Users {% endblock title %}
                 {% endif %}
     </div>
   </div>
-  <div class="col-md-9    justify-content-center">
+  {% endif %}
+
+  <div class="col-md-9 {% if dashboard %} col-md-12  {% endif %} justify-content-center">
     <div class="col-md-12 alert alert-success">
-      <h1 class="text-center">Welcome {{request.user|title}} Your All Blogs Post </h1>
+      <h1 class="text-center">Welcome {{request.user|title}}   {% if not dashboard  %}  Your {% endif %}  All Blogs Post </h1>
       {% if perms.home.add_blog %}
       <a class="btn btn-warning text-light mb-5 mt-5" href="/postblog/">Add Post</a>
       {% else %}
@@ -69,6 +77,7 @@ Users {% endblock title %}
             <td class=" text-center fs-5 text-wrap">{{blog.description}}</td>
             <td class="text-center fs-5">{{blog.user}}</td>
 
+            {% if blog.user_id == request.user.id %}
             <td class="text-center fs-5">
               {% if perms.home.change_blog %}
               <a class="btn btn-warning" href={% url 'editdata' id=blog.id %}>Edit</a>
@@ -76,7 +85,11 @@ Users {% endblock title %}
               <p>No Edit Permission </p>
               {% endif%}
             </td>
+
+             {% endif%}
+
             <td class="text-center fs-5">
+            {% if blog.user_id == request.user.id %}
               {% if perms.home.delete_blog %}
               <!-- <a class="btn btn-danger"  href={% url 'deletedata' id=blog.id %} method="POST" >Delete</a> -->
 
@@ -87,6 +100,8 @@ Users {% endblock title %}
               {% else %}
               <p>No Delete Permission </p>
               {% endif%}
+              {% endif%}
+
             </td>
           </tr>
           {% endfor %}

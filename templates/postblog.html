@@ -21,7 +21,17 @@ Users {% endblock title %}
               <form action="" method="POST">
                 {% csrf_token %} {{form|crispy}}
                 <input type="submit" class="btn btn-success" value="Post Blog" />
+
+                {% if dashboard %}
+
                 <a class="btn btn-info m-3" href="/dashboard/">Back to Dashboard Page</a>
+
+                {% else %}
+
+                <a class="btn btn-info m-3" href="/profile/">Back to Dashboard Page</a>
+
+                {% endif %}
+
               </form>
               {% if messages %} {% for message in messages %}
               <small id='msg' {% if message.tags %} class="{{message.tags}}" {% endif %}>

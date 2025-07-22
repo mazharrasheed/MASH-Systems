@@ -1,14 +1,14 @@
-{% extends 'css-js-links.html' %} 
+{% extends 'css-js-links.html' %}
 {% load custom_filters %}
 
 {% block title %}
-Gatepas {% endblock title %} 
+Gatepas {% endblock title %}
 
 {% block context %}
 {% if request.user.is_superuser %}
-{% include 'navbar.html' %} 
+{% include 'navbar.html' %}
 {% else %}
-{% include 'store/navbar.html' %} 
+{% include 'store/navbar.html' %}
 {% endif %}
 {% endblock context %}
 
@@ -68,7 +68,7 @@ Gatepas {% endblock title %}
                         <td class="text-center">{{ gatepass.id }}</td>
                         <td class="">
                           {% if gatepass.returnable %}Returnable{% else %}Non-returnable{% endif %}
-                        
+
                         </td>
                         <td class="text-center">{{ gatepass.date_created }}</td>
                         <td class="text-center">{{ gatepass.vehicle }}</td>
@@ -78,11 +78,22 @@ Gatepas {% endblock title %}
                           {{ gatepass_items_pro|get_item:gatepass.id }}
                         </td>
                         <td class="text-center">
+                        {% if perms.home.view_gatepass %}
                           <a class="btn btn-success" href="{% url 'print_gatepass' gatepass.id %}">Print</a>
+                          {% endif %}
+
+                          {% if perms.home.edit_gatepass %}
                           <a class="btn btn-warning" href="{% url 'edit_gatepass' gatepass.id %}">Edit</a>
+
+                          {% endif %}
+
+                          {% if perms.home.delete_gatepass %}
                           <button class="btn btn-danger delete-gatepass" data-gatepass-id="{{ gatepass.id }}">
                             Delete
                           </button>
+
+                          {% endif %}
+
                         </td>
                       </tr>
                       {% endfor %}

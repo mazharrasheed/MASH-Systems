@@ -10,10 +10,11 @@ from Inventry_management_System import settings
 
 
 urlpatterns = [
-    
+
 # Auth and Blog
     path('', views.index,name="index"),
     path('dashboard/', views.dashboard,name="dashboard"),
+    path('profile/', views.profile,name="profile"),
     path('postblog/', views.post_blog,name="postblog"),
     path('signup/', views.sign_up,name="signup"),
     path('signin/', views.sign_in,name="signin"),
@@ -92,7 +93,7 @@ urlpatterns = [
     path('deletecheque/<int:id>', cheques.delete_cheque , name="deletecheque"),
 
 # Gatepass
-    path('gatepass/', gatepass.gatepass , name="gatepass"),
+    # path('gatepass/', gatepass.gatepass , name="gatepass"),
     path('create-gatepass/', gatepass.create_gatepass, name='create_gatepass'),
     path('create-gatepass/<int:gatepass_id>/', gatepass.create_gatepass, name='create_gatepass'),
     path('edit-gatepass/<int:gatepass_id>/', gatepass.edit_gatepass, name='edit_gatepass'),

@@ -60,7 +60,7 @@ def salereceipt(request):
     form_salereceipt=Sales_ReceiptForm()
     return render(request, 'gatepass/create_gatepass.html', {
         'form': form,
-        'form_salereceipt':form_salereceipt,   
+        'form_salereceipt':form_salereceipt,
     })
 
 @login_required
@@ -134,8 +134,8 @@ def edit_salereceipt(request,id):
                     unit_price = float(unit_price_cust.price)
                     amount=unit_price*quantity
                     product, created = Sales_Receipt_Product.objects.update_or_create(
-                        salereceipt=salercpt, 
-                        product=product_instance, 
+                        salereceipt=salercpt,
+                        product=product_instance,
                         defaults={
                             'quantity': total_quantity,
                             'unit_price': float(unit_price),
@@ -224,14 +224,14 @@ def edit_cash_salereceipt(request,id):
                     return JsonResponse({'success': False, 'message': 'Invalid product data.'})
 
             for product_id, total_quantity in product_quantities.items():
-        
+
                 try:
                     product_id, quantity,unit_price,amount = product_info.split(':')
                     product_instance = Product.objects.get(id=product_id)
                     print("product id :",product_id, "qty:",total_quantity,unit_price,amount)
                     product, created = Sales_Receipt_Product.objects.update_or_create(
-                        salereceipt=salercpt, 
-                        product=product_instance, 
+                        salereceipt=salercpt,
+                        product=product_instance,
                         defaults={
                             'quantity': total_quantity,
                             'unit_price': float(unit_price),
@@ -261,12 +261,12 @@ def cancel_salereceipt(request,id):
     # salereceipt_id=(request.GET.get('salereceipt_id'))
     salereceipt=get_object_or_404(Sales_Receipt,id=id)
     salereceipt_products = Sales_Receipt_Product.objects.filter(salereceipt=salereceipt)
-    # 
+    #
     if salereceipt_products:
         for item in salereceipt_products:
             item.delete()
     salereceipt.delete()
-    messages.success(request, "Your sale receipt canceled !") 
+    messages.success(request, "Your sale receipt canceled !")
     return redirect('list_sales')
 
 @login_required
@@ -314,7 +314,7 @@ def print_salereceipt(request, salereceipt_id):
         'salereceipt': salereceipt,
         'salereceipt_products': salereceipt_products,
         'total_amount':total_amount
-        
+
     })
 
 def make_transaction(request,id):
@@ -346,9 +346,9 @@ def make_transaction(request,id):
     salereceipt.save()
     salereceipts = Sales_Receipt.objects.all()
     messages.success(request, "Transaction added successfully!")
-    
+
     return redirect('list_sales')
-    
+
     # return render(request, 'sale/list_sales.html', {
     #     'salereceipts': salereceipts,
     #     'salereceipt_items_pro': salereceipt_items_pro,
