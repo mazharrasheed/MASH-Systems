@@ -4,6 +4,15 @@
 {% block body %}
 
 
+<style>
+    .bg-image {
+        background-image: url("{% static 'assets/images/auth-img.png' %}");
+        background-size: cover;
+      
+    }
+</style>
+
+
 <body class="fix-menu">
 	<!-- Pre-loader start -->
 	<div class="theme-loader">
@@ -44,7 +53,8 @@
 	</div>
 	<!-- Pre-loader end -->
 
-	<section class=" p-fixed d-flex common-img-bg">
+
+	<section class=" p-fixed d-flex bg-image ">
 		<!-- Container-fluid starts -->
 		<div class="container">
 			<div class="row">
