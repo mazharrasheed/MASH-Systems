@@ -49,16 +49,6 @@ class Create_User_Form(UserCreationForm):
         )
 
 
-
-
-
-
-
-
-
-
-
-
 class ProjectForm(forms.ModelForm):
     
     class Meta:
@@ -112,27 +102,24 @@ class ProductForm(forms.ModelForm):
     category = forms.ModelChoiceField(queryset=Category.objects.filter(is_deleted=False), empty_label="Select Category")
     class Meta:
         model = Product
-        fields = ['category', 'productname','product_size','pro_img','unit']
-        labels={'productname':'Product Name','product_size':'Product Size',
-                'product_status':'Product_Status','pro_img':'Product Image'}
+        fields = [ 'productname','unit','category','final_product_group','default_store','stockable','rate','labour','weight','stock']
+        labels={'productname':'Product Name',
+                'product_status':'Product_Status'}
         
         widgets = {
 
-            # 'product_weight': forms.TextInput(attrs={'placeholder': 'Enter product weight'}),
-            # 'pro_img': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
-            # 'product_status': forms.CheckboxInput(),
+            'product_weight': forms.TextInput(attrs={'placeholder': 'Enter product weight'}),
             
         }
 
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
-        self.fields['pro_img'].required = False
-        # self.fields['product_quantity'].required = False
+        
+        
         placeholders = {
             'productname': 'Enter product name',
-            'product_size': 'Enter product size',
-          
-            
+            'unit':'Select Unit',
+            'weight':'Enter product weight',   
         }
         for field_name, placeholder in placeholders.items():
             self.fields[field_name].widget.attrs.update({'placeholder': placeholder})
@@ -143,7 +130,8 @@ class ProductForm(forms.ModelForm):
             self.fields[field_name].label_tag = lambda label, tag=None, attrs=None, *args, **kwargs: f'<label class="fs-5" for="{self[field_name].id_for_label}">{label}</label>'
             
         self.fields['category'].empty_label = "Select"
-        # self.fields['product_status'].choices = [('', 'Select')] + list(self.fields['product_status'].choices)
+        self.fields['final_product_group'].empty_label = "Select"
+        self.fields['default_store'].choices = [('', 'Select')] + list(self.fields['default_store'].choices)
 
 class Product_PriceForm(forms.ModelForm):
     product = forms.ModelChoiceField(queryset=Product.objects.filter(is_deleted=False), empty_label="Select Product")
@@ -566,7 +554,8 @@ class AccountForm(forms.ModelForm):
     
     class Meta:
         model = Account
-        fields = ['name','account_type']
+        fields = ['name','account_type','address','contact','mobile']
+        labels={'contact':'Contact #','mobile':'Mobile #'}
 
     def __init__(self, *args, **kwargs):
         super(AccountForm, self).__init__(*args, **kwargs)
@@ -576,7 +565,6 @@ class AccountForm(forms.ModelForm):
         choices = list(self.fields['account_type'].choices)
         # Remove the empty one if it exists
         choices = [(k, v) for k, v in choices if k != '']
-
         self.fields['account_type'].choices = [('', 'Select')] + choices
 
 class Employee_AccountForm(forms.ModelForm):

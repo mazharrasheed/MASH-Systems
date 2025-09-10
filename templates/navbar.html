@@ -48,9 +48,9 @@
   <div class="pcoded-container navbar-wrapper">
     <nav style="padding: 0 ; margin: 0 ;" class="navbar header-navbar pcoded-header">
       <div class="navbar-wrapper">
-        <div style="height: 100px" class="navbar-logo  ">
-          <a class="mobile-menu mt-3" id="mobile-collapse" href="#!">
-            <i class="ti-menu"></i>
+        <div style="height: 100px ;background-color: #ffffff " class="navbar-logo  ">
+          <a class="mobile-menu mt-2 text-dark fs-3" id="mobile-collapse" href="#!">
+            <i class="ti-menu text-dark"></i>
           </a>
           <a class="mobile-search morphsearch-search" href="#">
             <i class="ti-search"></i>
@@ -58,7 +58,8 @@
           <a href="/">
             <!-- <img style="height: 50px" class="img-fluid" src="{% static 'assets/default/img/' %}" alt="Theme-Logo" /> -->
           </a>
-          <a class=" fs-4  btn " href="/">MASH Systems</a>
+          <a class=" fs-4  btn " href="/"><img style="height: 90px" src="{% static 'assets/images/kainat.png' %}" alt=""></a>
+
           <a class="mobile-options">
             <i class="ti-more"></i>
           </a>
@@ -621,7 +622,7 @@
                   <li class="{% if request.path == '/accounts/' %} active {% endif %} ">
                     <a href="/accounts/">
                       <span class="pcoded-micon"><i class="ti-angle-right"></i></span>
-                      <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.alert">Accounts List</span>
+                      <span class="pcoded-mtext fs-5" data-i18n="nav.basic-components.alert">Accounts Dashboard</span>
                       <span class="pcoded-mcaret"></span>
                     </a>
                   </li>

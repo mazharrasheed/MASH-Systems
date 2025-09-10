@@ -18,6 +18,9 @@ Users {% endblock title %}
                     <div class="row">
                         <div class="col-12">
                             <h2 class="text-center alert alert-info">Users List</h2>
+                            {% if perms.auth.add_user %}
+              <a class="btn btn-primary mb-2 bg-gradient rounded" href="{% url 'createuser' %}"> Create User </a>
+              {% endif %}
                             <div class="card py">           
                               <div class="table-responsive py-2">
                                 {% if users %}

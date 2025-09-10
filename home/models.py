@@ -87,27 +87,37 @@ class Unit(models.Model):
 
 class Product(models.Model):
 
-    ACTIVE = 'Atcive'
-    INACTIVE = 'Inactive'
+    STORE1 = 'Store1'
+    STORE2 = 'Store2'
+    STORE3 = 'Store3'
 
-    STATUS_TYPE_CHOICES = [
-        (ACTIVE , 'Active'),
-        (INACTIVE ,'Inactive'),
+    STORE_TYPE_CHOICES = [
+        (STORE1 ,'Store1'),
+        (STORE2 ,'Store2'),
+        (STORE3 ,'Store3'),
     ]
 
-    category=models.ForeignKey(Category,on_delete=models.RESTRICT)
-    category=models.ForeignKey(Category,on_delete=models.RESTRICT)
+    KGS='Kgs'
+    NOS='Nos'
+
+    UNIT_CHOICES = [
+        (NOS ,'Nos'),
+        (KGS ,'Kgs'),
+       
+    ]
+
     productname=models.CharField(max_length=255,unique=True)
-    product_size=models.CharField(max_length=255)
-    # product_sale_price=models.CharField(max_length=255)
-    product_quantity=models.CharField(max_length=255,null=True,blank=True )
-    unit=models.CharField(max_length=255,default="Nos")
-    weight=models.FloatField(max_length=255,default=0,null=True,blank=True)
-    # product_status=models.CharField(max_length=50,choices=STATUS_TYPE_CHOICES)
+    unit=models.CharField(max_length=50,choices=UNIT_CHOICES,default=NOS)
+    category=models.ForeignKey(Category,on_delete=models.RESTRICT)
+    final_product_group=models.ForeignKey(Final_Product,on_delete=models.RESTRICT,null=True,blank=True)
+    default_store=models.CharField(max_length=50,choices=STORE_TYPE_CHOICES, )
+    stockable=models.BooleanField(default=False)
+    rate=models.FloatField(default=0,null=True,blank=True)
+    labour=models.FloatField(default=0,null=True,blank=True)
+    weight=models.FloatField(default=0,null=True,blank=True)
+    stock=models.PositiveIntegerField(default=0,null=True,blank=True)
     product_status=models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
-    pro_img=models.ImageField(upload_to="uploaded/products/",null=True,blank=True)
-    # product_slug=AutoSlugField(populate_from=lambda instance: f"{instance.productname}-{instance.category}-{instance.id}",unique=True,null=True,default=None)
     product_slug=AutoSlugField(populate_from=None,unique=True,null=True,default=None)
 
     def __str__(self):
@@ -359,6 +369,9 @@ class Account(models.Model):
     cheque=models.OneToOneField(Cheque, on_delete=models.RESTRICT,null=True,blank=True)
     balance = models.DecimalField(max_digits=10, decimal_places=2,default=0)
     account_type = models.CharField(max_length=50, choices=ACCOUNT_TYPE_CHOICES)
+    address=models.CharField(max_length=255,null=True,blank=True)
+    contact=models.CharField(max_length=11,null=True,unique=True,blank=True)
+    mobile=models.CharField(max_length=11,null=True , blank=True,unique=True)
     date = models.DateTimeField(default=datetime.now())
     is_deleted=models.BooleanField(default=False)
     def __str__(self):
