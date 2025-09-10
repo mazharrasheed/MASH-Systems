@@ -14,7 +14,7 @@ from django.db import IntegrityError
 
 
 @login_required
-@permission_required('home.view_sales_receipt', login_url='/login/')
+@permission_required('home.view_store_issue_note', login_url='/login/')
 def list_store_issue(request):
     store_issue_items_pro = {}
     issuereceipts = Store_Issue_Note.objects.all()
@@ -64,7 +64,7 @@ def create_store_issue_note(request):
     else:
         form = Store_Issue_ProductForm()
         form_store_issue = Store_issue_Form()
-    return render(request, 'store_issue/create_issue_note1.html', {
+    return render(request, 'store_issue/create_issue_note.html', {
         'form': form,
         'form_store_issue': form_store_issue,
     })
@@ -74,6 +74,7 @@ def create_store_issue_note(request):
 @permission_required('home.change_store_issue_note', login_url='/login/')
 
 def edit_store_issue_note(request, issue_note_id):
+    print("i m called")
     grn = get_object_or_404(Store_Issue_Note, id=issue_note_id)
     products = Store_Issue_Product.objects.filter(store_issue_note=grn.id)
     if request.method == 'POST':
@@ -114,7 +115,7 @@ def edit_store_issue_note(request, issue_note_id):
         'form': Store_issue_Form(instance=grn),
         'product_form': Store_Issue_ProductForm(),
     }
-    return render(request, 'store_issue/edit_issue_note1.html', context)
+    return render(request, 'store_issue/edit_issue_note.html', context)
 
 @login_required
 @permission_required('home.view_store_issue_note', login_url='/login/')
@@ -129,7 +130,7 @@ def print_store_issue(request, issue_note_id):
     })
 
 @login_required
-@permission_required('home.add_store_issue_note', login_url='/login/')
+# @permission_required('home.add_store_issue_note' , login_url='/login/')
 def get_stock(request,id):
     product=Product.objects.get(id=id)
     stock_qty=product.get_current_stock()
@@ -140,11 +141,16 @@ def get_stock(request,id):
 @login_required
 @permission_required('home.delete_store_issue_note', login_url='/login/')
 def delete_store_issue(request, id):
+    product_list=[]
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest' and request.method == 'POST':
         store_issue = get_object_or_404(Store_Issue_Note, id=id)
         store_issue_products = Store_Issue_Product.objects.filter(store_issue_note=store_issue)
         if store_issue_products:
+            for pro in store_issue_products:
+                product_list.append(pro.product)
             store_issue_products.delete()  # Bulk delete all related products
+            for pro in product_list:
+                pro.change_status()
         store_issue.delete()
         return JsonResponse({'success': True, 'message': 'Store issue note deleted successfully!'})
     
@@ -152,7 +158,11 @@ def delete_store_issue(request, id):
     store_issue = get_object_or_404(Store_Issue_Note, id=id)
     store_issue_products = Store_Issue_Product.objects.filter(store_isuue_note=store_issue)
     if store_issue_products:
+        for pro in store_issue_products:
+            product_list.append(pro.product)
         store_issue_products.delete()  # Bulk delete all related products
+        for pro in product_list:
+            pro.change_status()
     store_issue.delete()
     messages.success(request, "Store issue note deleted successfully!")
     return redirect('list_store_issue')

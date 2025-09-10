@@ -6,7 +6,11 @@ Projects
 {% endblock title %} 
 
 {% block context %}
-{% include 'store/navbar.html' %}
+{% if request.user.is_superuser %}
+{% include 'navbar.html' %} 
+{% else %}
+{% include 'accounts/navbar.html' %} 
+{% endif %}
 {% endblock context %}
 
 {% block body %}
@@ -17,8 +21,7 @@ Projects
       <div class="page-wrapper">
         <div class="page-body">
   <div class="row">
- 
-    <div class="col-3 ">
+    <div class="col-md-3 ">
       <h2 class="text-center alert alert-info">Add Project</h2>
       <form method="post">
         {% csrf_token %}

@@ -8,8 +8,14 @@
 {% endblock title %}
 
 {% block context %}
-{% include 'store/navbar.html' %}
+{% if request.user.is_superuser %}
+{% include 'navbar.html' %} 
+{% else %}
+{% include 'store/navbar.html' %} 
+{% endif %}
 {% endblock context %}
+
+
 
 {% block body %}
 
@@ -19,7 +25,7 @@
       <div class="page-wrapper">
         <div class="page-body">
   <div class="row">
-    <div class="col-12">
+    <div class="col-md-12">
       <h2 class="text-center alert alert-info">
         
         Goods Receipt Note List 
@@ -27,7 +33,7 @@
       </h2>
 
       {% if perms.home.add_store_purchase_note %}
-      <a class="btn btn-primary mb-2" href="{% url 'create_store_purchase' %}">Create Store Purchase Note</a>
+      <a class="btn btn-primary mb-2" href="{% url 'create_store_purchase' %}">Create Goods Receipt Note</a>
       {% endif %}
 
       <div class="card py">

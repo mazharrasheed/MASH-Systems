@@ -6,7 +6,11 @@
 Add Transaction {% endblock title %} 
 
 {% block context %}
+{% if request.user.is_superuser %}
+{% include 'navbar.html' %} 
+{% else %}
 {% include 'accounts/navbar.html' %} 
+{% endif %}
 {% endblock context %}
 
 {% block body %}
@@ -17,17 +21,38 @@ Add Transaction {% endblock title %}
         <div class="page-body">
   {{update}}
   <div class="row">
-
-    <div class="col-4"></div>
-    <div class="col-4 ">
+    <div class="col-md-8 offset-md-2  ">
       <h2 class="text-center alert alert-info">Add Transaction</h2>
       <form method="post" id="transactionForm">
         {% csrf_token %}
-        {{form|crispy}}
-        <button type="button" class="btn btn-success" id="reviewTransaction">
-          {% if update %} Update Transaction {% else %} Add Transaction {% endif %}
-        </button> 
-        <a  class ="btn btn-warning"href="/accounts/">Accounts</a>
+
+        <div class="row">
+          <div class="col-md-9">
+            <div class="row">
+          <div class="row">
+            {{ form.debit_account|as_crispy_field }}
+          </div>
+          <div class="row">
+            {{ form.credit_account|as_crispy_field }}
+          </div>
+          <div class="row">
+            {{ form.amount|as_crispy_field }}
+          </div>
+        </div>
+        </div>
+
+          <div class="col-md-3">
+            {{ form.description|as_crispy_field }}
+          </div>
+
+          <div class="col-md-5 mt-3">
+            <button type="button" class="btn btn-success" id="reviewTransaction">
+              {% if update %} Update Transaction {% else %} Add Transaction {% endif %}
+            </button> 
+            <a  class ="btn btn-warning"href="/accounts/">Accounts</a>
+          </div>
+        </div>
+
       </form>
 
     </div>
@@ -37,6 +62,8 @@ Add Transaction {% endblock title %}
    
     <div class="col-12 mt-5">
       <h2 class="text-center alert alert-info">Transaction Data</h2>
+      <div class="card py">
+        <div class="table-responsive py-2">
       {% if mydata %}
       <table class="table table-stripped table-bordered" id="petrol-table">
         <colgroup>
@@ -97,6 +124,8 @@ Add Transaction {% endblock title %}
           {% endif %}
         </tbody>
       </table>
+      </div>
+      </div>
       {% else %}
       <h4 class="text-center alert alert-warning">No Record Found</h4>
 

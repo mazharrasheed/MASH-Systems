@@ -5,9 +5,11 @@
 Gatepas {% endblock title %} 
 
 {% block context %}
-
-{% include 'store/navbar.html' %}
-
+{% if request.user.is_superuser %}
+{% include 'navbar.html' %} 
+{% else %}
+{% include 'store/navbar.html' %} 
+{% endif %}
 {% endblock context %}
 
 
@@ -21,7 +23,7 @@ Gatepas {% endblock title %}
         <div class="page-body">
   <div class="row">
  
-    <div class="col-3 ">
+    <div class="col-md-3 ">
       <h2 class="text-center alert alert-info">Add Category</h2>
       <form method="post">
         {% csrf_token %}
@@ -32,9 +34,10 @@ Gatepas {% endblock title %}
       </form>
   
     </div>
-    <div class="col-9  ">
+    <div class="col-md-9  ">
       <h2 class="text-center alert alert-info">Categories</h2>
-
+      <div class="card py">
+        <div class="table-responsive py-2">
       {% if mydata %}
       <table class="table table-stripped table-bordered" id="petrol-table">
         <colgroup>
@@ -79,9 +82,10 @@ Gatepas {% endblock title %}
       <h4 class="text-center alert alert-warning">No Record Found</h4>
       {% endif %}
     </div>
+    </div>
+    </div>
   </div>
 </div>
-
 
   <script>
      $(document).ready(function () {

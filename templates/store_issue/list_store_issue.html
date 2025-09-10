@@ -4,11 +4,15 @@
 {% load custom_filters %}
 
 {% block title %}
-  List Store Issue
+List Store Issue
 {% endblock title %}
 
 {% block context %}
-{% include 'store/navbar.html' %}
+{% if request.user.is_superuser %}
+{% include 'navbar.html' %} 
+{% else %}
+{% include 'store/navbar.html' %} 
+{% endif %}
 {% endblock context %}
 
 {% block body %}
@@ -21,12 +25,10 @@
   <div class="row">
     <div class="col-12">
       <h2 class="text-center alert alert-info">
-        
         Store Issue Note List 
-       
       </h2>
 
-      {% if perms.home.add_sale_receipt %}
+      {% if perms.home.add_store_issue_note %}
       <a class="btn btn-primary mb-2" href="{% url 'create_store_issue' %}">Create Store Issue Note</a>
       {% endif %}
 
@@ -46,12 +48,11 @@
                   Date
                 </th>
                 <th class="border-bottom fw-bolder text-center" scope="col">
-                  Project Name
+                  Created By
                 </th>
                 <th class="border-bottom fw-bolder text-center" scope="col">
-                  Products Qty
+                  Requested By
                 </th>
-               
                 <th class="border-bottom fw-bolder text-center" scope="col">
                   Action
                 </th>
@@ -64,20 +65,24 @@
                 <td class="text-center">{{ issuereceipt.id }}</td>
                 <td class="text-center">{{ issuereceipt.date_created }}</td>
                 <td class="text-center">
-                  {{ issuereceipt.project|title }}
+                  {{ issuereceipt.created_by }}
                 </td>
                 <td class="text-center">
-                  {{ issuereceipts_items_pro|get_item:issuereceipt.id }}
+                  <!-- {{ issuereceipts_items_pro|get_item:issuereceipt.id }} -->
+                  {{ issuereceipt.request.created_by}}
                 </td>
                 <td class="text-center">
+                  {% if perms.home.view_store_issue_note %}
                   <a class="btn btn-info" href="{% url 'print_store_issue' issuereceipt.id %}">Details</a>
-                  <a class="btn btn-success" href="{% url 'print_store_issue' issuereceipt.id %}">Print</a>
-                  {% if perms.home.change_sale_receipt %}
+                  {% endif %}
+                  {% if perms.home.change_store_issue_note %}
                   <a class="btn btn-warning" href="{% url 'edit_store_issue' issuereceipt.id %}">Edit</a>
                   {% endif %}
+                  {% if perms.home.delete_store_issue_note %}
                   <button class="btn btn-danger delete-salereceipt" data-salereceipt-id="{{ issuereceipt.id }}">
                     Delete
                   </button>
+                  {% endif %}
                 </td>
               </tr>
               {% endfor %}

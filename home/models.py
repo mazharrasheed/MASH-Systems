@@ -22,6 +22,7 @@ class CustomPermissions(models.Model):
             ('view_dashboard', 'Can view dashboard'),
             ("view_balance_sheet", "Can view balance sheet"),
             ("view_store", "Can view store"),
+            ("view_reports", "Can view reports"),
             ("view_inventory", "Can view inventory"),
             # Add more custom permissions here
         ]
@@ -103,7 +104,7 @@ class Product(models.Model):
     unit=models.CharField(max_length=255,default="Nos")
     weight=models.FloatField(max_length=255,default=0,null=True,blank=True)
     # product_status=models.CharField(max_length=50,choices=STATUS_TYPE_CHOICES)
-    product_status=models.BooleanField(default=True)
+    product_status=models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
     pro_img=models.ImageField(upload_to="uploaded/products/",null=True,blank=True)
     # product_slug=AutoSlugField(populate_from=lambda instance: f"{instance.productname}-{instance.category}-{instance.id}",unique=True,null=True,default=None)
@@ -139,14 +140,13 @@ class Product(models.Model):
         """Calculate the current stock of this product."""
         grn_total = Store_Purchase_Product.objects.filter(product_id=self.id).aggregate(total=Sum('quantity'))['total'] or 0
         issue_total = Store_Issue_Product.objects.filter(product_id=self.id).aggregate(total=Sum('quantity'))['total'] or 0
-        current_stock = grn_total - issue_total
+        sale_total = Sales_Receipt_Product.objects.filter(product_id=self.id).aggregate(total=Sum('quantity'))['total'] or 0
+        current_stock = grn_total - issue_total - sale_total
         return current_stock
     
     def change_status(self):
         """Calculate the current stock of this product."""
-        grn_total = Store_Purchase_Product.objects.filter(product_id=self.id).aggregate(total=Sum('quantity'))['total'] or 0
-        issue_total = Store_Issue_Product.objects.filter(product_id=self.id).aggregate(total=Sum('quantity'))['total'] or 0
-        current_stock = grn_total - issue_total
+        current_stock = self.get_current_stock()
         if current_stock <= 0:
             product=Product.objects.get(id=self.id)
             product.product_status=False
@@ -228,7 +228,29 @@ class Sales_Receipt_Product(models.Model):
     quantity = models.PositiveIntegerField()
     unit_price = models.FloatField()
     amount = models.FloatField()
+    def __str__(self):
+        return f"{self.product.productname} (Qty: {self.quantity})"
     
+# revised 
+class Store_Issue_Request(models.Model):
+    products = models.ManyToManyField(Product, through='Store_Issue_Request_Product')
+    date_created = models.DateTimeField(auto_now_add=True)
+    project = models.ForeignKey(Project, on_delete=models.PROTECT, null=True, related_name="issue_requests")
+    created_by = models.ForeignKey(User, on_delete=models.RESTRICT, null=True, related_name="requests_created")
+    issued_by = models.ForeignKey(User, on_delete=models.RESTRICT, null=True, related_name="requests_issued")
+    issue= models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Store Issue {self.id} - {self.date_created.strftime('%Y-%m-%d')}"
+
+class Store_Issue_Request_Product(models.Model):
+    store_issue_request = models.ForeignKey(Store_Issue_Request, on_delete=models.RESTRICT,related_name='store_issue_request_products')
+    product = models.ForeignKey(Product, on_delete=models.RESTRICT)
+    quantity = models.PositiveIntegerField()
+
+    class Meta:
+        unique_together = ('store_issue_request', 'product')
+
     def __str__(self):
         return f"{self.product.productname} (Qty: {self.quantity})"
     
@@ -236,19 +258,19 @@ class Sales_Receipt_Product(models.Model):
 class Store_Issue_Note(models.Model):
     products = models.ManyToManyField(Product, through='Store_Issue_Product')
     date_created = models.DateTimeField(auto_now_add=True)
-    project =  models.ForeignKey(Project,on_delete=models.PROTECT,null=True)
-    created_by = models.ForeignKey(User, on_delete=models.RESTRICT,null=True)
-
-    def __str__(self):
-        return f"Store Issue {self.id} - {self.date_created.strftime('%Y-%m-%d')}"
+    project = models.ForeignKey(Project, on_delete=models.PROTECT, null=True, related_name="store_issue_notes")
+    created_by = models.ForeignKey(User, on_delete=models.RESTRICT, null=True, related_name="created_issue_notes")
+    request = models.ForeignKey(Store_Issue_Request, on_delete=models.RESTRICT, null=True, related_name="requested_issue_notes")
 
 class Store_Issue_Product(models.Model):
-    store_issue_note = models.ForeignKey(Store_Issue_Note, on_delete=models.RESTRICT)
-    product = models.ForeignKey(Product, on_delete=models.RESTRICT)
+    store_issue_note = models.ForeignKey(Store_Issue_Note, on_delete=models.RESTRICT, related_name='store_issue_products')
+    product = models.ForeignKey(Product, on_delete=models.RESTRICT, related_name="issued_in_notes")
     quantity = models.PositiveIntegerField()
 
-    def __str__(self):
-        return f"{self.product.productname} (Qty: {self.quantity})"
+    class Meta:
+        unique_together = ('store_issue_note', 'product')
+    
+# end revised
     
 class Store_Purchase_Note(models.Model):
     products = models.ManyToManyField(Product, through='Store_Purchase_Product')
@@ -356,5 +378,23 @@ class Transaction(models.Model):
     credit_account = models.ForeignKey(Account, related_name='credit_transactions', on_delete=models.RESTRICT)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     is_deleted=models.BooleanField(default=False)
+    made_by=models.ForeignKey(User,on_delete=models.RESTRICT)
     def __str__(self):
         return f"{self.date} - {self.description}"
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['debit_account']),
+            models.Index(fields=['credit_account']),
+            models.Index(fields=['date']),
+        ]
+
+
+class UnderConstruction(models.Model):
+    is_under_construction=models.BooleanField(null=True ,blank=True,help_text="Note for Under Costruction")
+    uc_note=models.TextField(null=True, blank=True ,help_text="Note for under construction")
+    uc_duration=models.DateTimeField(null=True, blank=True, help_text="End date and time for under construction mode")
+    updated_at=models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"under construction:{self.is_under_construction}"

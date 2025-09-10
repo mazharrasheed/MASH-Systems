@@ -50,7 +50,9 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'home.middleware.underconstruction.UnderConstructionMiddleWare',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'Inventry_management_System.urls'
@@ -165,4 +167,4 @@ MEDIA_URL='/images/uploaded/'
 
 MEDIA_ROOT=BASE_DIR
 
-ALLOWED_HOSTS = ['192.168.2.11','192.168.0.106', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['192.168.2.13','192.168.0.105', 'localhost', '127.0.0.1','192.168.2.12','192.168.43.12']

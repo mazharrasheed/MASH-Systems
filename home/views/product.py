@@ -57,7 +57,7 @@ def add_product(request,id=''):
       mydata=Product.objects.filter(is_deleted=False,category=cat).order_by("-id")
       form = ProductForm(initial={'category': cat})
   data={'form': form, 'mydata':mydata,'categories':categories,'prod':True}
-  return render(request, 'stock/add_Product.html', data)
+  return render(request, 'stock/add_product.html', data)
 
 @login_required
 @permission_required('home.change_sales_product', login_url='/login/')
@@ -75,7 +75,7 @@ def edit_product(request,id):
     mydata=Product.objects.get(id=id) 
     form = ProductForm(instance=mydata)
   data={'form': form, 'mydata':mydata,'update':True,}
-  return render(request, 'stock/add_Product.html', data)
+  return render(request, 'stock/add_product.html', data)
 
 
 @login_required
@@ -116,5 +116,6 @@ def inventory(request):
     product_stock = []
     for product in products:
         current_stock = product.get_current_stock()
+        product.change_status()
         product_stock.append({'product': product, 'current_stock': current_stock})
     return render(request, 'stock/inventory.html', {'mydata': product_stock})

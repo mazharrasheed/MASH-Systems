@@ -35,7 +35,7 @@ def add_product_price(request,id=''):
         mydata=Product_Price.objects.filter(is_deleted=False,product__category_id=cat1).order_by("-id")
         form = Product_PriceForm(category=cat1)
     data={'form': form, 'mydata':mydata,'categories':cat,'prod':True,'category':cat1}
-    return render(request, 'stock/add_Product_Prices.html', data)
+    return render(request, 'stock/add_product_prices.html', data)
 
 @login_required
 @permission_required('home.change_product_price', login_url='/login/')
@@ -53,7 +53,7 @@ def edit_product_price(request,id):
         mydata=Product_Price.objects.get(id=id) 
         form = Product_PriceForm(instance=mydata)
     data={'form': form, 'mydata':mydata,'update':True,}
-    return render(request, 'stock/add_Product_Prices.html', data)
+    return render(request, 'stock/add_product_prices.html', data)
 
 @login_required
 @permission_required('home.delete_product_price', login_url='/login/')
@@ -85,7 +85,7 @@ def search_product_price(request,id=''):
             mydata=Product_Price.objects.filter(is_deleted=False,product=product,customer=customer)
             
         data={'form': form, 'mydata':mydata,'categories':cat,'prod':True,'category':cat1}
-        return render(request, 'stock/search_Product_Prices.html', data)
+        return render(request, 'stock/search_product_prices.html', data)
     else:
         
         if id:
@@ -98,4 +98,4 @@ def search_product_price(request,id=''):
         mydata=Product_Price.objects.filter(is_deleted=False,product__category_id=cat1).order_by("-id")
         form = search_Product_PriceForm(category=cat1)
     data={'form': form, 'mydata':mydata,'categories':cat,'prod':True,'category':cat1}
-    return render(request, 'stock/search_Product_Prices.html', data)
+    return render(request, 'stock/search_product_prices.html', data)

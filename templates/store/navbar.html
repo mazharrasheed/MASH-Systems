@@ -126,7 +126,6 @@
                 <ul>
                   <li class="more-details">
                     <a href="#"><i class="ti-user"></i>View Profile</a>
-                    <a href="#!"><i class="ti-settings"></i>Settings</a>
                     <a href="/logout/"><i class="ti-layout-sidebar-left"></i>Logout</a>
                   </li>
                 </ul>
@@ -151,19 +150,7 @@
                 </a>
               </li>
               {% endif %}
-
-              {% if perms.home.view_project %}
-              <li class=" {% if request.path == '/project/' %} color-info {% endif %}">
-                <a href="/project/">
-                  <span class="pcoded-micon"><i class="ti-layout"></i><b>D</b></span>
-                  <span class="pcoded-mtext fs-5" data-i18n="nav.dash.main">
-                    <h5>Projects</h5>
-                  </span>
-                  <span class="pcoded-mcaret"></span>
-                </a>
-              </li>
-              {% endif %}
-
+              
               {% if perms.home.view_product %}
                   <li class=" {% if request.path == '/product/' %} color-info {% endif %} ">
 
@@ -195,6 +182,18 @@
                       <span class="pcoded-micon"><i class="ti-layout-grid2"></i><b>D</b></span>
                       <span class="pcoded-mtext fs-5" data-i18n="nav.dash.main">
                         <h5>Goods Receipt Note</h5>
+                      </span>
+                      <span class="pcoded-mcaret"></span>
+                    </a>
+                  </li>
+                  {% endif %}
+
+              {% if perms.home.view_store_issue_request %}
+                  <li class=" {% if request.path == '/list-store-issue-request/' %} color-info {% endif %} ">
+                    <a href="/list-store-issue-request/">
+                      <span class="pcoded-micon"><i class="ti-layout-accordion-list"></i><b>D</b></span>
+                      <span class="pcoded-mtext fs-5" data-i18n="nav.dash.main">
+                        <h5>Issue Request</h5>
                       </span>
                       <span class="pcoded-mcaret"></span>
                     </a>

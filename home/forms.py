@@ -16,9 +16,10 @@ from crispy_forms.layout import Submit
 from .models import Category,Product,Account,Transaction,GatePassProduct,GatePass,Unit,Sales_Receipt,Inventory
 from .models import Customer,Sales_Receipt_Product,Suppliers,Cheque,Employee,Product_Price,Project,Final_Product
 from .models import Store_Issue_Note,Store_Issue_Product,Store_Purchase_Note,Store_Purchase_Product,Finish_Product_Category
+from .models import Store_Issue_Request,Store_Issue_Request_Product
+
 
 class Create_User_Form(UserCreationForm):
-
     username=UsernameField()
     group=forms.ModelChoiceField(queryset=Group.objects.all(), empty_label="Select Group")
     password1 = forms.CharField(
@@ -44,7 +45,7 @@ class Create_User_Form(UserCreationForm):
                 'Create User',   
             ),
             Field('username','group','password1','password2', css_class="mb-3", css_id="custom_field_id",),
-            Submit('submit', 'Submit', css_class='btn btn-info mt-3'), 
+            Submit('submit', 'Create User', css_class='btn btn-info mt-3'), 
         )
 
 
@@ -111,7 +112,7 @@ class ProductForm(forms.ModelForm):
     category = forms.ModelChoiceField(queryset=Category.objects.filter(is_deleted=False), empty_label="Select Category")
     class Meta:
         model = Product
-        fields = ['category', 'productname','product_size','product_status','pro_img','unit']
+        fields = ['category', 'productname','product_size','pro_img','unit']
         labels={'productname':'Product Name','product_size':'Product Size',
                 'product_status':'Product_Status','pro_img':'Product Image'}
         
@@ -217,6 +218,47 @@ class GatePassProductForm(forms.ModelForm):
         return cleaned_data
 
 
+class Store_Issue_Request_Form(forms.ModelForm):
+    project = forms.ModelChoiceField(
+        queryset=Project.objects.filter(is_deleted=False),
+        empty_label="Select Project"
+    )
+    class Meta:
+        model = Store_Issue_Request
+        fields = ['project']
+    def __init__(self, *args, **kwargs):
+        super(Store_Issue_Request_Form, self).__init__(*args, **kwargs)
+        # Check if an instance is passed
+        if self.instance and self.instance.pk:
+            # Set the initial value of customer_name
+            self.fields['project'].initial = self.instance.project
+
+
+
+class Store_Issue_Request_ProductForm(forms.ModelForm):
+    
+    # product = forms.ModelChoiceField(queryset=Product.objects.filter(inventory__quantity__gt=0).distinct(), empty_label="Select Product")
+    product = forms.ModelChoiceField(queryset=Product.objects.filter(is_deleted=False,product_status=True), empty_label="Select Product")
+    quantity = forms.IntegerField(min_value=1, initial=1, label='Quantity')
+    # unit_price = forms.FloatField( label='Unit Price',required=False)
+    
+    class Meta:
+        model = Store_Issue_Request_Product
+        fields = ['product', 'quantity']
+
+    def __init__(self, *args, **kwargs):
+        self.salereceipt = kwargs.pop('salereceipt', None)
+        super(Store_Issue_Request_ProductForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        product = cleaned_data.get('product')
+        if product and self.salereceipt:
+            if Store_Issue_Request_Product.objects.filter(store_issue_request=self.salereceipt, product=product).exists():
+                self.add_error('product', f'The product "{product}" has already been added to this gate pass.')
+        return cleaned_data
+    
+
 class Store_issue_Form(forms.ModelForm):
     project = forms.ModelChoiceField(
         queryset=Project.objects.filter(is_deleted=False),
@@ -253,10 +295,12 @@ class Store_Issue_ProductForm(forms.ModelForm):
         cleaned_data = super().clean()
         product = cleaned_data.get('product')
         if product and self.salereceipt:
-            if Store_Issue_Product.objects.filter(store_isuue_note=self.salereceipt, product=product).exists():
+            if Store_Issue_Product.objects.filter(store_issue_request=self.salereceipt, product=product).exists():
                 self.add_error('product', f'The product "{product}" has already been added to this gate pass.')
         return cleaned_data
     
+
+
 
 class Store_Purchase_Form(forms.ModelForm):
     project = forms.ModelChoiceField(
@@ -300,11 +344,11 @@ class Store_Purchase_ProductForm(forms.ModelForm):
 class Sales_ReceiptForm(forms.ModelForm):
     customer_name = forms.ModelChoiceField(
         queryset=Customer.objects.filter(is_deleted=False),
-        empty_label="Select Customer"
+        empty_label="Select Customer",required=True
     )
     class Meta:
         model = Sales_Receipt
-        fields = ['customer_name', 'phone_number']
+        fields = ['customer_name',]
     def __init__(self, *args, **kwargs):
         super(Sales_ReceiptForm, self).__init__(*args, **kwargs)
         # Check if an instance is passed
@@ -349,7 +393,7 @@ class Sales_Cash_ReceiptForm(forms.ModelForm):
             self.fields['customer'].initial = self.instance.customer
 
 class Sales_Cash_Receipt_ProductForm(forms.ModelForm):
-    product = forms.ModelChoiceField(queryset=Product.objects.filter(is_deleted=False), empty_label="Select Product")
+    product = forms.ModelChoiceField(queryset=Product.objects.filter(is_deleted=False,product_status=True), empty_label="Select Product")
     quantity = forms.IntegerField(min_value=1, initial=1, label='Quantity')
     unit_price = forms.FloatField( label='Unit Price',required=True)
     
@@ -398,7 +442,7 @@ class Sign_Up(UserCreationForm):
             ),
             Field('username','password1','password2', css_class="mb-3", css_id="custom_field_id",),
         
-            Submit('submit', 'Submit', css_class='btn btn-info mt-3'), 
+            Submit('submit', 'SignUp', css_class='btn btn-info mt-3'), 
         )
 
 class Add_Blog(forms.ModelForm):
@@ -629,3 +673,22 @@ class TransactionForm(forms.ModelForm):
         return amount
 
   
+
+class AccountStatementForm(forms.Form):
+    account = forms.ModelChoiceField(
+        queryset=Account.objects.all(),
+        required=True,
+        label="Account",
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        empty_label="Select Account"
+    )
+    from_date = forms.DateField(
+        required=True,
+        label="From Date",
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'})
+    )
+    to_date = forms.DateField(
+        required=True,
+        label="To Date",
+        widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'})
+    )

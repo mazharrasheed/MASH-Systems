@@ -33,21 +33,94 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6 col-xl-3">
+                            <div class="card widget-card-1">
+                                <div class="card-block-small">
+                                    <i class="icofont icofont-users-alt-6 bg-c-blue card1-icon"></i>
+                                    <span class="text-c-green f-w-600">Employee Count</span>
+                                    <h4>
+                                        {% if employees %}
+                                        {{employees}}
+                                        {% else %}
+                                        No record found
+                                        {% endif %}
+                                    </h4>
+                                    <div>
+                                        <a class="f-left btn btn-success text-light " href="/employees/">
+                                            <i class="icofont icofont-users-alt-4"></i>
+                                            All Employees
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-3">
+                            <div class="card widget-card-1">
+                                <div class="card-block-small">
+                                    <i class="icofont icofont-users-alt-6 bg-c-blue card1-icon"></i>
+                                    <span class="text-c-green f-w-600">Customer Count</span>
+                                    <h4>
+                                        {% if customers %}
+                                        {{customers}}
+                                        {% else %}
+                                        No record found
+                                        {% endif %}
+                                    </h4>
+                                    <div>
+                                        <a class="f-left btn btn-success text-light " href="/customers/">
+                                            <i class="icofont icofont-users-alt-4"></i>
+                                            All Customers
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-3">
+                            <div class="card widget-card-1">
+                                <div class="card-block-small">
+                                    <i class="icofont icofont-users-alt-6 bg-c-blue card1-icon"></i>
+                                    <span class="text-c-green f-w-600">Supplier Count</span>
+                                    <h4>
+                                        {% if suppliers %}
+                                        {{suppliers}}
+                                        {% else %}
+                                        No record found
+                                        {% endif %}
+                                    </h4>
+                                    <div>
+                                        <a class="f-left btn btn-success text-light " href="/suppliers/">
+                                            <i class="icofont icofont-users-alt-4"></i>
+                                            All Suppliers
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                     <div class="row">
                         <!-- card1 start -->
                         <div class="col-md-6 col-xl-3">
                             <div class="card widget-card-1">
                                 <div class="card-block-small">
-                                    <i class="icofont icofont-pie-chart bg-c-blue card1-icon"></i>
-                                    <span class="text-c-blue f-w-600">Use space</span>
-                                    <h4>49/50GB</h4>
+                                    <i class="icofont icofont-pie-chart bg-c-pink card1-icon"></i>
+                                    <span class="text-c-blue f-w-600">All Accounts</span>
+                                    
                                     <div>
-                                        <span class="f-left m-t-10 text-muted">
-                                            <i class="text-c-blue f-16 icofont icofont-warning m-r-10"></i>Get more
-                                            space
-                                        </span>
+                                       
+                                    <h4>
+                                        {% if accounts %}
+                                        {{accounts}}
+                                        {% else %}
+                                        No record found
+                                        {% endif %}
+                                    </h4>
                                     </div>
+                                    <a class="f-left btn btn-success text-light " href="/create_accounts/">
+                                        <i class="icofont icofont-users-alt-4"></i>
+                                        All Accounts
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -153,8 +226,8 @@
                                 <div class="card-header">
                                     <i class="icofont icofont-social-dribbble"></i>
                                     <div class="d-inline-block">
-                                        <h5 style="color: black;" >dribble</h5>
-                                        <span style="color: black;" >Product page analysis</span>
+                                        <h5 style="color: black;">dribble</h5>
+                                        <span style="color: black;">Product page analysis</span>
                                     </div>
                                 </div>
                                 <div class="card-block text-center">

@@ -17,10 +17,15 @@
       {% for category in categories %}
       {% if perms.home.add_product %}
       <h4 class="bg-primary bg-gradient rounded p-3 "><a class="text-light" href="/add_product?category={{category.id}}" class="list-group-item">Add Product</a></h4>  
-      
+      <h4 class="bg-primary bg-gradient rounded p-3">
+        <a class="text-light" href="{% url 'addproductprice' category.id %}" class="list-group-item">
+          Add Product Price
+        </a>
+      </h4>
+      <h4 class="bg-primary bg-gradient rounded p-3 "><a class="text-light"  href="{% url 'searchproductprice' category.id %}" class="list-group-item">Search Product Price</a></h4>
       {% endif %}
       {% endfor %}
-     
+    
       {% elif add_category or category_selected == False %}
       {% if perms.home.add_category %}
       <h4 class="bg-primary bg-gradient rounded p-3 "><a class="text-light" href="/category/" class="list-group-item">Add Category</a></h4>

@@ -1,22 +1,19 @@
-{% extends 'css-js-links.html' %} 
-{% load crispy_forms_tags %} 
+{% extends 'css-js-links.html' %} {% load crispy_forms_tags %} 
+{% block title %} Edit Store Issue Request {% endblock title %}
 
-{% block title %}
-Edit GRN 
-{% endblock title %} 
+{% block context %}
 
-{% block context %} 
-{% include 'store/navbar.html'%}
-{% endblock context %}
+{% if request.user.is_superuser %} {% include 'navbar.html' %} {% else %} 
+{% include 'store/navbar.html' %} {% endif %} {% endblock context %}
 
 {% block body %}
 
 <style>
-  body {
+body {
     font-family: Arial, sans-serif;
-  }
+}
 
-  .table-container {
+.table-container {
     width: 80%;
     margin: 0 auto;
     padding: 20px;
@@ -75,7 +72,7 @@ Edit GRN
         <div class="page-body">
           <div class="table-container">
             <h3 class="text-center bg-dark text-light p-3">
-              Edit Store Issue Note
+              Create Store Issue Note
             </h3>
             <form id="grn-form" method="POST">
               {% csrf_token %}
@@ -85,62 +82,70 @@ Edit GRN
                   <h6>Gujranwala</h6>
                   <h6>Phone: 0301-8742840</h6>
                 </div>
-                <div style="margin-right: 50px; width: 550px">
-                  <p>{{ form.project|as_crispy_field }}</p>
-                  <p><strong>Date:</strong> {{ grn.date }}</p>
+                <div style="margin-right: 50px; width: 350px">
+                 
+                <p ><strong>Project:</strong> Auto</p>
+            
+                <div style="width: 600px !important; display: none">
+                    {{ form.project|as_crispy_field }}
                 </div>
-              </div>
-              <table>
+                <p style="display: none;"><strong>Date:</strong> {{ sir.date_created }}</p>
+                <p ><strong>Date:</strong> Auto</p>
+                </div>
+            </div>
+            <table>
                 <thead>
-                  <tr>
+                <tr>
                     <td>{{ product_form.product|as_crispy_field }}</td>
                     <td id="in_stock"></td>
                     <td>{{ product_form.quantity|as_crispy_field }}</td>
                     <td>
-                      <button
+                    <button
                         id="add-product"
                         class="btn btn-primary"
                         type="button"
-                      >
+                    >
                         Add Product
-                      </button>
+                    </button>
                     </td>
-                  </tr>
-                  <tr>
+                </tr>
+                <tr>
                     <th>Product</th>
-                    <th >In Stock</th>
+                    <th>In Stock</th>
                     <th>Quantity</th>
                     <th>Actions</th>
-                  </tr>
+                </tr>
                 </thead>
                 <tbody id="product-list">
-                  {% for product in products %}
-                  <tr>
+                {% for product in products %}
+                <tr>
                     <td>{{ product.product }}</td>
                     <td>------</td>
                     <td>{{ product.quantity }}</td>
                     <td>
-                      <button
+                    <button
                         class="delete-product btn btn-danger"
                         data-product-id="{{ product.product.id }}"
-                      >
+                    >
                         Delete
-                      </button>
+                    </button>
                     </td>
-                  </tr>
-                  {% endfor %}
+                </tr>
+                {% endfor %}
                 </tbody>
-              </table>
-              <button id="update-grn" class="btn btn-success">
-                Update GRN
-              </button>
-              <a href="/list-store-issue/" class="btn btn-warning">Cancel Issue Note</a>
+            </table>
+            <button id="update-grn" class="btn btn-success">
+                Create Store Issue
+            </button>
+            <a href="/list-store-issue-request/" class="btn btn-warning"
+                >Cancel Store Issue</a
+            >
             </form>
-          </div>
         </div>
-      </div>
+        </div>
     </div>
-  </div>
+    </div>
+</div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -161,7 +166,7 @@ Edit GRN
         if (data.success) {
           console.log("response data",data)
           $('#in_stock').text(`${data.stock}`)
-        } 
+        }
         else {
           alert('Failed to get stock.');
         }

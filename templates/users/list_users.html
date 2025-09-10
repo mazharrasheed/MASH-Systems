@@ -17,7 +17,7 @@ Users {% endblock title %}
                 <div class="page-body">
                     <div class="row">
                         <div class="col-12">
-                            <h2 class="text-center alert alert-info">Customers List</h2>
+                            <h2 class="text-center alert alert-info">Users List</h2>
                             <div class="card py">           
                               <div class="table-responsive py-2">
                                 {% if users %}
@@ -42,6 +42,9 @@ Users {% endblock title %}
                                       <th class="border-bottom fw-bolder text-center fs-6" scope="col">
                                         Group
                                       </th>
+                                      <th class="border-bottom fw-bolder text-center fs-6" scope="col">
+                                        User Action Details
+                                      </th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -55,6 +58,12 @@ Users {% endblock title %}
                                       <td class="text-center">{% for group in user.groups.all %}
                                         {{ group.name }}{% if not forloop.last %}, {% endif %}
                                     {% endfor %}</td>
+                                    <td class="text-center">
+                                      
+                                      <a class="btn btn-info" href="{% url 'userdetail' id=user.id %}?Issue_Requests=True">Issue Requests</a>
+                                      <a class="btn btn-info" href="{% url 'userdetail' id=user.id %}?Issue_Notes=True">Issue Notes</a>
+                                      
+                                    </td>
                                     </tr>
                                     {% endfor %}
                                   </tbody>
