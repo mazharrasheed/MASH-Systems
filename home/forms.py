@@ -529,6 +529,11 @@ class AccountForm(forms.ModelForm):
         
         self.fields['account_type'].choices = [('', 'Select')] + list(self.fields['account_type'].choices)
         self.fields['name'].required = True
+        choices = list(self.fields['account_type'].choices)
+        # Remove the empty one if it exists
+        choices = [(k, v) for k, v in choices if k != '']
+
+        self.fields['account_type'].choices = [('', 'Select')] + choices
 
 class Employee_AccountForm(forms.ModelForm):
     
@@ -542,6 +547,11 @@ class Employee_AccountForm(forms.ModelForm):
         self.fields['account_type'].choices = [('', 'Select')] + list(self.fields['account_type'].choices)
         self.fields['employee'].empty_label = "Select"
         self.fields['employee'].required = True
+        choices = list(self.fields['account_type'].choices)
+        # Remove the empty one if it exists
+        choices = [(k, v) for k, v in choices if k != '']
+
+        self.fields['account_type'].choices = [('', 'Select')] + choices
 
 class Customer_AccountForm(forms.ModelForm):
     
@@ -555,6 +565,11 @@ class Customer_AccountForm(forms.ModelForm):
         self.fields['account_type'].choices = [('', 'Select')] + list(self.fields['account_type'].choices)
         self.fields['customer'].empty_label = "Select"
         self.fields['customer'].required = True
+        choices = list(self.fields['account_type'].choices)
+        # Remove the empty one if it exists
+        choices = [(k, v) for k, v in choices if k != '']
+
+        self.fields['account_type'].choices = [('', 'Select')] + choices
 
 class Supplier_AccountForm(forms.ModelForm):
     
@@ -568,6 +583,11 @@ class Supplier_AccountForm(forms.ModelForm):
         self.fields['account_type'].choices = [('', 'Select')] + list(self.fields['account_type'].choices)
         self.fields['supplier'].empty_label = "Select"
         self.fields['supplier'].required = True
+        choices = list(self.fields['account_type'].choices)
+        # Remove the empty one if it exists
+        choices = [(k, v) for k, v in choices if k != '']
+
+        self.fields['account_type'].choices = [('', 'Select')] + choices
 
 
 
@@ -583,6 +603,11 @@ class Cheque_AccountForm(forms.ModelForm):
         self.fields['account_type'].choices = [('', 'Select')] + list(self.fields['account_type'].choices)
         self.fields['cheque'].empty_label = "Select"
         self.fields['cheque'].required = True
+        choices = list(self.fields['account_type'].choices)
+        # Remove the empty one if it exists
+        choices = [(k, v) for k, v in choices if k != '']
+
+        self.fields['account_type'].choices = [('', 'Select')] + choices
         
 
 class TransactionForm(forms.ModelForm):
