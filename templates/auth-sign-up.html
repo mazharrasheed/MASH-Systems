@@ -8,11 +8,18 @@
 
 {% block body %}
 
+<style>
+    .bg-image {
+        background-image: url("{% static 'assets/images/auth-img.png' %}");
+        background-size: cover;
+    }
+</style>
+
 <body class="fix-menu">
     <!-- Pre-loader start -->
 
     <!-- Pre-loader end -->
-    <section class="common-img-bg">
+    <section class="bg-image">
         <!-- Container-fluid starts -->
         <div class="container-fluid">
             <div class="row">
@@ -31,29 +38,29 @@
                                 <form action="/signup/" method="POST" class=" mt-4">
                                     {% csrf_token %}
                                     {{form|crispy }}
-                                
+
                                     <input class="btn btn-success mt-3" type="submit" value="Sign Up">
                                     <span class="m-4" >Allready have an account!
                                         <a class=" " href="/signin/">  Sign In </a></span>
                                 </form>
-                                    
+
                                 {% if messages %} {% for message in messages %}
                                 <p id="msg" {% if message.tags %} class="{{message.tags}} mt-3" {% endif %}>
                                     {{message}}
                                 </p>
                                 {% endfor %} {% endif %}
                                 <hr />
-                                
+
                                 <div class="row ">
                                     <div class="col-md-10">
-                                        
-                                        <p class="text-inverse text-left m-b-0">Thank you and enjoy our website.</p> 
+
+                                        <p class="text-inverse text-left m-b-0">Thank you and enjoy our website.</p>
                                         <p class="text-inverse text-left"><b>Your Authentication Team</b></p>
                                     </div>
-                                
+
                                 </div>
                             </div>
-                    
+
                         <!-- end of form -->
                     </div>
                     <!-- Authentication card end -->

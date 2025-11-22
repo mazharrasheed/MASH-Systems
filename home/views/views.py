@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render,get_object_or_404
 from django.contrib.auth.decorators import login_required,permission_required
 from ..forms import Add_Blog, AdminUserPrifoleForm, EditUserPrifoleForm, GatePassProductForm,Sign_Up
-from ..models import Blog,GatePass, GatePassProduct,Employee,Customer,Suppliers,Account
+from ..models import Blog,GatePass, GatePassProduct,Employee,Customer,Suppliers,Account,Product,Sales_Receipt
 from django.core.exceptions import PermissionDenied
 # Create your views here.
 
@@ -18,10 +18,14 @@ def index(request):
     suppliers=Suppliers.objects.all().count()
     employees=Employee.objects.all().count()
     accounts=Account.objects.all().count()
+    items=Product.objects.all().count()
+    sales=Sales_Receipt.objects.all().count()
     # Check if the user has the required permission
     if not request.user.has_perm('home.view_dashboard'):
         # Custom redirect logic for users without permission
         if request.user.is_superuser:
+            return redirect('/')
+        elif request.user.groups.filter(name='checker').exists():
             return redirect('/')
         elif request.user.groups.filter(name='author').exists():
             return redirect('/dashboard/')
@@ -39,7 +43,9 @@ def index(request):
           'employees':employees,
           'customers':customers,
           'suppliers':suppliers,
-          'accounts':accounts}
+          'accounts':accounts,
+          'items':items,
+          'sales':sales,}
     return render(request, 'index.html',data)
 
 @login_required
@@ -169,6 +175,8 @@ def sign_in(request):
           #   return HttpResponseRedirect("/list-sales/")
           if user.is_superuser:
               return redirect("/")
+          elif user.groups.filter(name="checker").exists():
+            return redirect("/")
           elif user.groups.filter(name="author").exists():
             return redirect("/dashboard/")
           elif user.groups.filter(name="accountant").exists():

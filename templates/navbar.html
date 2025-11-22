@@ -755,6 +755,15 @@
                 </ul>
               </li>
               {% endif %}
+                <div class="mt-5">
+              {% if messages %} {% for message in messages %}
+                <small id="msg" {% if message.tags %} class="{{message.tags}}" {% endif %}>
+                  <h6 class="alert {% if message.tags == 'error' %} alert-warning {% else %} alert-{{message.tags}} {% endif %} ">{{message}}</h6>
+                </small>
+                {% endfor %} {% else %} &nbsp;
+                <!-- Prevent collapse when there are no messages -->
+                {% endif %}
+                 </div>
 
             </ul>
           </div>

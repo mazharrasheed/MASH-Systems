@@ -3,6 +3,13 @@
 {% load crispy_forms_tags %}
 {% block body %}
 
+<style>
+    .bg-image {
+        background-image: url("{% static 'assets/images/auth-img.png' %}");
+        background-size: cover;
+    }
+</style>
+
 
 <body class="fix-menu">
 	<!-- Pre-loader start -->
@@ -44,17 +51,19 @@
 	</div>
 	<!-- Pre-loader end -->
 
-	<section class=" p-fixed d-flex common-img-bg">
+	<section class=" p-fixed d-flex bg-image vh-100 ">
 		<!-- Container-fluid starts -->
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-12">
+		<div class="container ">
+			<div class="row pt-5">
+				<div class="col-sm-12 vh-100 pt-5">
 					<!-- Authentication card start -->
-					<div class="login-card card-block auth-body mr-auto ml-auto mt-5 mb-5">
-						<div class="auth-box mt-5 mb-5">
+					<div class="login-card card-block auth-body mr-auto ml-auto ">
+						<div class="auth-box ">
 							<div class="row m-b-20">
 								<div class="col-md-12">
 									<h3 class="text-left txt-primary">Sign In</h3>
+									<p class="text-inverse text-left"><b>Username : mashsystem</b></p>
+									<p class="text-inverse text-left"><b>Password : mash123456</b></p>
 								</div>
 							</div>
 							<hr />
@@ -78,6 +87,7 @@
 								<div class="col-md-10">
 									<p class="text-inverse text-left m-b-0">Thank you and enjoy our website.</p>
 									<p class="text-inverse text-left"><b>Your Authentication Team</b></p>
+
 								</div>
 								<div class="col-md-2">
 								</div>

@@ -52,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'home.middleware.bypass_auth.BypassAuthMiddleware',
 ]
 
 ROOT_URLCONF = 'Inventry_management_System.urls'
@@ -169,3 +170,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 ALLOWED_HOSTS = ['mashsystems.pythonanywhere.com']
+
+
+BYPASS_AUTH = True

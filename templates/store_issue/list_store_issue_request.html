@@ -9,9 +9,9 @@
 
 {% block context %}
 {% if request.user.is_superuser %}
-{% include 'navbar.html' %} 
+{% include 'navbar.html' %}
 {% else %}
-{% include 'store/navbar.html' %} 
+{% include 'store/navbar.html' %}
 {% endif %}
 {% endblock context %}
 
@@ -25,9 +25,9 @@
   <div class="row">
     <div class="col-12">
       <h2 class="text-center alert alert-info">
-      
-        Store Issue Request List 
-      
+
+        Store Issue Request List
+
       </h2>
 
       {% if perms.home.add_store_issue_request %}
@@ -87,7 +87,7 @@
                   {% if not issuerequest.issue  %}
 
                   {% if perms.home.add_store_issue_note %}
-                  <a class="btn btn-info" href="{% url 'store_issuerequest_issuenote' issuerequest.id %}">Issue</a>
+                  <a class="btn btn-success" href="{% url 'store_issuerequest_issuenote' issuerequest.id %}">Issue</a>
                   {% endif %}
                   {% if perms.home.change_store_issue_request %}
                   <a class="btn btn-warning" href="{% url 'edit_store_issue_request' issuerequest.id %}">Edit</a>
