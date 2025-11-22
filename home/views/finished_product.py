@@ -20,7 +20,7 @@ def products(request):
         categories=Finish_Product_Category.objects.filter(is_deleted=False)
         products=Final_Product.objects.filter(is_deleted=False).order_by('category')
     data={'products':products,'categories':categories,'category_selected':category_selected}
-    return render(request,"stock_finished_product/products_home.html",data)   
+    return render(request,"stock_finished_product/products_home.html",data)
 
 @login_required
 # @permission_required('home.add_sales_product', login_url='/login/')
@@ -41,7 +41,7 @@ def add_product(request,id=''):
         else:
           return redirect('addfinishedproduct1',categoryID)
   else:
-      
+
       if id:
         cat=Finish_Product_Category.objects.get(is_deleted=False,id=id)
       else:
@@ -49,7 +49,7 @@ def add_product(request,id=''):
       mydata=Final_Product.objects.filter(is_deleted=False,category=cat).order_by("-id")
       form = Finish_ProductForm(initial={'category': cat})
   data={'form': form, 'mydata':mydata,'categories':categories,'prod':True}
-  return render(request, 'stock_finished_product/add_Product.html', data)
+  return render(request, 'stock_finished_product/add_product.html', data)
 
 @login_required
 @permission_required('home.change_sales_product', login_url='/login/')
@@ -64,15 +64,15 @@ def edit_product(request,id):
       messages.success(request,"Product Updated successfully !!")
       return redirect('addfinishedproduct1',categoryID)
   else:
-    mydata=Final_Product.objects.get(id=id) 
+    mydata=Final_Product.objects.get(id=id)
     form = Finish_ProductForm(instance=mydata)
   data={'form': form, 'mydata':mydata,'update':True,}
-  return render(request, 'stock_finished_product/add_Product.html', data)
+  return render(request, 'stock_finished_product/add_product.html', data)
 
 @login_required
 @permission_required('home.delete_product', login_url='/login/')
 def delete_product(request,id):
-  
+
   mydata=Final_Product.objects.get(id=id)
   categoryID=mydata.category.id
   mydata.is_deleted=True
@@ -81,7 +81,7 @@ def delete_product(request,id):
   return redirect('addfinishedproduct1',categoryID)
 
 def delete_product1(request,id):
-  
+
   mydata=Final_Product.objects.get(id=id)
   categoryID=mydata.category.id
   mydata.is_deleted=True

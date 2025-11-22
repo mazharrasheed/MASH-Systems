@@ -95,7 +95,7 @@ urlpatterns = [
 # Gatepass
     # path('gatepass/', gatepass.gatepass , name="gatepass"),
     path('create-gatepass/', gatepass.create_gatepass, name='create_gatepass'),
-    path('create-gatepass/<int:gatepass_id>/', gatepass.create_gatepass, name='create_gatepass'),
+    path('create-gatepass/', gatepass.create_gatepass, name='create_gatepass'),
     path('edit-gatepass/<int:gatepass_id>/', gatepass.edit_gatepass, name='edit_gatepass'),
     path('cancel_gatepass/<int:id>/', gatepass.cancel_gatepass, name='cancel_gatepass'),
     path('delete_gatepass/<int:id>/', gatepass.delete_gatepass, name='delete_gatepass'),

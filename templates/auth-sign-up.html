@@ -26,7 +26,6 @@
                 <div class="col-sm-12">
                     <!-- Authentication card start -->
                     <div class="signup-card card-block auth-body mr-auto ml-auto mt-3 ">
-
                             <div class="auth-box">
                                 <div class="row ">
                                     <div class="col-md-12">
@@ -34,33 +33,47 @@
                                     </div>
                                 </div>
                                 <hr />
-
                                 <form action="/signup/" method="POST" class=" mt-4">
                                     {% csrf_token %}
                                     {{form|crispy }}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 072ddd56f9ea2d6618c3438373484e8b5c60d848
                                     <input class="btn btn-success mt-3" type="submit" value="Sign Up">
                                     <span class="m-4" >Allready have an account!
                                         <a class=" " href="/signin/">  Sign In </a></span>
                                 </form>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 072ddd56f9ea2d6618c3438373484e8b5c60d848
                                 {% if messages %} {% for message in messages %}
                                 <p id="msg" {% if message.tags %} class="{{message.tags}} mt-3" {% endif %}>
                                     {{message}}
                                 </p>
                                 {% endfor %} {% endif %}
                                 <hr />
+<<<<<<< HEAD
 
                                 <div class="row ">
                                     <div class="col-md-10">
 
                                         <p class="text-inverse text-left m-b-0">Thank you and enjoy our website.</p>
+=======
+                                <div class="row ">
+                                    <div class="col-md-10"> 
+                                        <p class="text-inverse text-left m-b-0">Thank you and enjoy our website.</p> 
+>>>>>>> 072ddd56f9ea2d6618c3438373484e8b5c60d848
                                         <p class="text-inverse text-left"><b>Your Authentication Team</b></p>
                                     </div>
 
                                 </div>
                             </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 072ddd56f9ea2d6618c3438373484e8b5c60d848
                         <!-- end of form -->
                     </div>
                     <!-- Authentication card end -->
