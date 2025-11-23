@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required,permission_required
 from ..forms import Add_Blog, AdminUserPrifoleForm, EditUserPrifoleForm, GatePassProductForm,Sign_Up
 from ..models import Blog,GatePass, GatePassProduct,Employee,Customer,Suppliers,Account,Product,Sales_Receipt
 from django.core.exceptions import PermissionDenied
+import json
 # Create your views here.
 
 @login_required
@@ -39,13 +40,22 @@ def index(request):
             return redirect("/list-store-issue-request/")
         else:
             raise PermissionDenied  # Show 403 Forbidden page
+
+
+    chart_data = {
+        "labels": ["Jan", "Feb", "Mar", "Apr","May","Jun","Jul","Aug","Se","Oct","Nov","Dec"],
+        "values": [10, 20, 15, 30,25,22,40,80,50,70,30,100]
+    }
+
+
     data={'users':users,
           'employees':employees,
           'customers':customers,
           'suppliers':suppliers,
           'accounts':accounts,
           'items':items,
-          'sales':sales,}
+          'sales':sales,
+          "chart_data_json": json.dumps(chart_data)}
     return render(request, 'index.html',data)
 
 @login_required

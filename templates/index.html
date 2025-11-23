@@ -6,6 +6,7 @@
 {% endblock context %}
 
 {% block body %}
+
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
         <div class="main-body">
@@ -152,7 +153,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="card-block">
+                            <div class="card-block" style="width:100%">
                                 <div id="statestics-chart" style="height:400px;"></div>
                             </div>
                         </div>
@@ -193,6 +194,26 @@
         </div>
     </div>
 </div>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const chartData = JSON.parse('{{ chart_data_json|safe }}');
+
+    setTimeout(() => {
+        var chartOptions = {
+            chart: { type: 'bar', height: 400 },
+            series: [{ name: 'Sales', data: chartData.values }],
+            xaxis: { categories: chartData.labels }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#statestics-chart"), chartOptions);
+        chart.render();
+    }, 600);   // wait for layout animation to finish
+});
+
+</script>
 
 
 {% endblock body %}
