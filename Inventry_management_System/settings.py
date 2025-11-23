@@ -169,7 +169,7 @@ LOGIN_REDIRECT_URL="/"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-ALLOWED_HOSTS = ['mashsystems.pythonanywhere.com']
+ALLOWED_HOSTS = ['mashsystems.pythonanywhere.com','127.0.0.1','localhost']
 
 
 BYPASS_AUTH = True

@@ -7,10 +7,93 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render,get_object_or_404
 from django.contrib.auth.decorators import login_required,permission_required
 from ..forms import Add_Blog, AdminUserPrifoleForm, EditUserPrifoleForm, GatePassProductForm,Sign_Up
-from ..models import Blog,GatePass, GatePassProduct,Employee,Customer,Suppliers,Account,Product,Sales_Receipt
+from ..models import Blog,GatePass, GatePassProduct,Employee,Customer,Suppliers,Account,Product,Sales_Receipt,Sales_Receipt_Product
 from django.core.exceptions import PermissionDenied
 import json
+from django.http import JsonResponse
 # Create your views here.
+
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth
+from django.utils.dateformat import DateFormat
+from django.utils.formats import get_format
+
+def list_sales(request):
+    salereceipt_items_pro = {}
+    total_amount = {}
+    salereceipts = []
+    monthly_sales = {}
+
+    if request.method == 'GET':
+        customer = request.GET.get('customer')
+        cash = request.GET.get('cash')
+        if customer:
+            salereceipts = Sales_Receipt.objects.filter(is_cash=False)
+        elif cash == "True":
+            salereceipts = Sales_Receipt.objects.filter(is_cash=True)
+        else:
+            salereceipts = Sales_Receipt.objects.all()
+    else:
+        salereceipts = Sales_Receipt.objects.all()
+
+    # Per receipt totals
+    for x in salereceipts:
+        salereceipt_items_pro[x.id] = Sales_Receipt_Product.objects.filter(salereceipt=x).count()
+        salereceipt_products = Sales_Receipt_Product.objects.filter(salereceipt=x)
+        total_amount[x.id] = salereceipt_products.aggregate(Sum('amount'))
+
+    total_sale = sum(item['amount__sum'] or 0 for item in total_amount.values())
+
+    # ✅ Monthly totals using TruncMonth
+    monthly_data = (
+        Sales_Receipt_Product.objects
+        .values('salereceipt__date_created')  # assuming Sales_Receipt has a 'date' field
+        .annotate(month=TruncMonth('salereceipt__date_created'))
+        .values('month')
+        .annotate(total=Sum('amount'))
+        .order_by('month')
+    )
+
+    # Convert to dict with month names
+    for entry in monthly_data:
+        month_name = DateFormat(entry['month']).format('M')  # e.g. Jan, Feb
+        monthly_sales[month_name] = entry['total']
+
+    # Prepare JSON response
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest' or request.content_type == 'application/json':
+        return JsonResponse({
+            'total_sale': total_sale,
+            'monthly_sales': monthly_sales,
+        })
+
+    # Return HTML response for standard requests
+    return render(request, 'sale/list_sales.html', {
+        'salereceipts': salereceipts,
+        'salereceipt_items_pro': salereceipt_items_pro,
+        'total_amount': total_amount,
+        'total_sale': total_sale,
+        'monthly_sales': monthly_sales,
+        'customer': customer,
+        'cash': cash,
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @login_required
 def index(request):
@@ -21,6 +104,41 @@ def index(request):
     accounts=Account.objects.all().count()
     items=Product.objects.all().count()
     sales=Sales_Receipt.objects.all().count()
+
+    salereceipts = Sales_Receipt.objects.all()
+    monthly_sales = {}
+    salereceipt_items_pro = {}
+    total_amount = {}
+
+    # ✅ Monthly totals using TruncMonth
+    monthly_data = (
+        Sales_Receipt_Product.objects
+        .values('salereceipt__date_created')  # assuming Sales_Receipt has a 'date' field
+        .annotate(month=TruncMonth('salereceipt__date_created'))
+        .values('month')
+        .annotate(total=Sum('amount'))
+        .order_by('month')
+    )
+
+    # Per receipt totals
+    for x in salereceipts:
+        salereceipt_items_pro[x.id] = Sales_Receipt_Product.objects.filter(salereceipt=x).count()
+        salereceipt_products = Sales_Receipt_Product.objects.filter(salereceipt=x)
+        total_amount[x.id] = salereceipt_products.aggregate(Sum('amount'))
+
+    total_sale = sum(item['amount__sum'] or 0 for item in total_amount.values())
+
+
+    # Convert to dict with month names
+    for entry in monthly_data:
+        month_name = DateFormat(entry['month']).format('M-Y')  # e.g. Jan, Feb
+        monthly_sales[month_name] = entry['total']
+        labels = list(monthly_sales.keys())
+        values = list(monthly_sales.values())
+
+    print(monthly_sales,labels,values)
+
+
     # Check if the user has the required permission
     if not request.user.has_perm('home.view_dashboard'):
         # Custom redirect logic for users without permission
@@ -43,8 +161,8 @@ def index(request):
 
 
     chart_data = {
-        "labels": ["Jan", "Feb", "Mar", "Apr","May","Jun","Jul","Aug","Se","Oct","Nov","Dec"],
-        "values": [10, 20, 15, 30,25,22,40,80,50,70,30,100]
+        "labels": labels,
+        "values": values
     }
 
 
@@ -55,6 +173,7 @@ def index(request):
           'accounts':accounts,
           'items':items,
           'sales':sales,
+          'total_sale':total_sale,
           "chart_data_json": json.dumps(chart_data)}
     return render(request, 'index.html',data)
 
